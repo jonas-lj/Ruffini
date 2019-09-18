@@ -14,6 +14,7 @@ import dk.jonaslindstrom.math.algebra.algorithms.IntegerRingEmbedding;
 import dk.jonaslindstrom.math.algebra.algorithms.InverseDiscreteFourierTransform;
 import dk.jonaslindstrom.math.algebra.algorithms.LagrangePolynomial;
 import dk.jonaslindstrom.math.algebra.algorithms.MatrixMultiplication;
+import dk.jonaslindstrom.math.algebra.algorithms.MultivariatePolynomialDivision;
 import dk.jonaslindstrom.math.algebra.algorithms.Power;
 import dk.jonaslindstrom.math.algebra.algorithms.ReducedRowEchelonForm;
 import dk.jonaslindstrom.math.algebra.algorithms.StrassenMultiplication;
@@ -22,6 +23,7 @@ import dk.jonaslindstrom.math.algebra.concretisations.FiniteField;
 import dk.jonaslindstrom.math.algebra.concretisations.Integers;
 import dk.jonaslindstrom.math.algebra.concretisations.IntegersModuloN;
 import dk.jonaslindstrom.math.algebra.concretisations.MatrixRing;
+import dk.jonaslindstrom.math.algebra.concretisations.MultivariatePolynomialRing;
 import dk.jonaslindstrom.math.algebra.concretisations.PolynomialRing;
 import dk.jonaslindstrom.math.algebra.concretisations.PolynomialRingOverRing;
 import dk.jonaslindstrom.math.algebra.concretisations.PrimeField;
@@ -31,7 +33,7 @@ import dk.jonaslindstrom.math.algebra.concretisations.SymmetricGroup;
 import dk.jonaslindstrom.math.algebra.elements.ComplexNumber;
 import dk.jonaslindstrom.math.algebra.elements.Fraction;
 import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial;
-import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial.PolynomialBuilder;
+import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial.Builder;
 import dk.jonaslindstrom.math.algebra.elements.Permutation;
 import dk.jonaslindstrom.math.algebra.elements.Polynomial;
 import dk.jonaslindstrom.math.algebra.elements.matrix.Matrix;
@@ -515,11 +517,11 @@ public class TestAlgebra {
   @Test
   public void testMultivariatePolynomial() {
 
-    MultivariatePolynomial.PolynomialBuilder<Integer> builder = new PolynomialBuilder<>();
+    MultivariatePolynomial.Builder<Integer> builder = new Builder<>(3, Integers.getInstance());
 
-    builder.add(7, 3, 1, 1, 0);
-    builder.add(-3, 3, 1, 2, 1);
-    builder.add(11, 2, 11, 0, 0);
+    builder.add(7, 3, 1, 1);
+    builder.add(-3, 3, 1, 2);
+    builder.add(11, 2, 11, 0);
 
     MultivariatePolynomial<Integer> p = builder.build();
 
@@ -542,5 +544,34 @@ public class TestAlgebra {
       Assert.assertEquals((int) a.get(i), Math.floorMod(x, m.get(i)));
     }
 
+  }
+  
+  @Test
+  public void testMultivariatePolynomialDivision() {
+
+    MultivariatePolynomial.DEFAULT_ORDERING =
+        new MultivariatePolynomial.GradedLexicographicalOrdering();
+    
+    Field<Integer> gf2 = new PrimeField(2);
+    MultivariatePolynomialRing<Integer> ring = new MultivariatePolynomialRing<Integer>(gf2, 2);
+
+    Vector<MultivariatePolynomial<Integer>> f = Vector.of(
+        new MultivariatePolynomial.Builder<>(2, gf2).add(1, 1, 1).add(1, 0, 0).build(),
+        new MultivariatePolynomial.Builder<>(2, gf2).add(1, 0, 2).add(1, 0, 0).build());
+    
+    MultivariatePolynomialDivision<Integer> division =
+        new MultivariatePolynomialDivision<Integer>(ring);
+
+    MultivariatePolynomial<Integer> g =
+        new MultivariatePolynomial.Builder<>(2, gf2).add(1, 2, 1).add(1, 1, 2).add(1, 0, 2).build();
+
+    Pair<Vector<MultivariatePolynomial<Integer>>, MultivariatePolynomial<Integer>> result =
+        division.apply(g, f);
+
+    // Compute the linear combination of the result and the dividends
+
+    MultivariatePolynomial<Integer> sum = new DotProduct<>(ring).apply(f, result.first);    
+    sum = ring.add(sum, result.second);
+    Assert.assertTrue(ring.equals(sum, g));
   }
 }

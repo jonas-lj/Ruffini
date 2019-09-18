@@ -25,5 +25,9 @@ public interface AdditiveGroup<E> extends Set<E> {
    * @return <i>0</i>
    */
   public E getZero();
+  
+  public default E subtract(E a, E b) {
+    return add(a, negate(b));
+  }
 
 }

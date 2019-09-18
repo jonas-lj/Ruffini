@@ -16,4 +16,9 @@ public interface Group<E> extends Monoid<E> {
    * @return
    */
   public E invert(E a);
+
+  public default E divide(E a, E b) {
+    return multiply(a, invert(b));
+  }
+
 }

@@ -3,6 +3,7 @@ package dk.jonaslindstrom.math.algebra.elements;
 import java.util.Collections;
 import java.util.Map;
 import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -25,14 +26,14 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
     private Ring<S> ring;
 
     public Builder(Ring<S> ring) {
-      this.ring = ring;     
+      this.ring = ring;
     }
-    
-    private final SortedMap<Integer, S> terms = new ConcurrentSkipListMap<>();
+
+    private final SortedMap<Integer, S> terms = new TreeMap<>();
 
     /**
-     * Set the <i>i</i>'th coefficient of the polynomial being built. If this coefficient has been set
-     * before, it will be overwritten.
+     * Set the <i>i</i>'th coefficient of the polynomial being built. If this coefficient has been
+     * set before, it will be overwritten.
      * 
      * @param i
      * @param a
@@ -40,7 +41,7 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
     public void set(int i, S a) {
       terms.put(i, a);
     }
-    
+
     /**
      * Add a value to the <i>i</i>'th coefficient of the polynomial being built.
      * 
@@ -62,11 +63,7 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
      * @param ring
      */
     private void reduce() {
-      for (Integer i : terms.keySet()) {
-        if (ring.equals(terms.get(i), ring.getZero())) {
-          terms.remove(i);
-        }
-      }
+      terms.entrySet().removeIf(e -> ring.equals(e.getValue(), ring.getZero()));
       if (terms.isEmpty()) {
         set(0, ring.getZero());
       }
@@ -85,7 +82,7 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
   private Polynomial(Map<Integer, E> terms) {
     this.terms = Collections.unmodifiableSortedMap(new ConcurrentSkipListMap<>(terms));
   }
-  
+
   public static <T> Polynomial<T> constant(T constant) {
     return Polynomial.monomial(constant, 0);
   }
@@ -147,7 +144,7 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
 
     return p.build();
   }
-  
+
   public void forEach(BiConsumer<Integer, E> consumer) {
     for (Integer i : terms.keySet()) {
       consumer.accept(i, terms.get(i));
@@ -205,10 +202,24 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
     return terms.lastKey();
   }
 
+  /**
+   * Get the <i>i</i>'th coefficient or, if it is not present, <code>null</code>.
+   * 
+   * @param i
+   * @return
+   */
   public E getCoefficient(int i) {
     return terms.get(i);
   }
 
+  /**
+   * Return the coefficients of this polynomial as a vector. The the coefficients (of degree less
+   * than the degree of the polynomial) that are not present will be replaced by the given zero
+   * value.
+   * 
+   * @param zero
+   * @return
+   */
   public Vector<E> vector(E zero) {
     return new ConstructiveVector<>(degree() + 1, i -> {
       E e = getCoefficient(i);
@@ -223,7 +234,7 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
   public String toString(Ring<E> ring) {
     return toString(e -> ring.equals(e, ring.getIdentity()), "x");
   }
-  
+
   public String toString(String variable) {
     return toString(e -> false, variable);
   }
@@ -232,7 +243,7 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
   public String toString() {
     return toString("x");
   }
-  
+
   public String toString(Predicate<E> isIdentity, String variable) {
 
     if (terms.size() == 0) {
@@ -245,16 +256,16 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
       if (!isIdentity.test(terms.get(i))) {
         sb.append(terms.get(i).toString());
       }
-      
+
       if (i == 1) {
         sb.append(variable);
       } else if (i > 1) {
         sb.append(variable + StringUtils.superscript(Integer.toString(i)));
       }
-      
+
       if (i != terms.lastKey()) {
         sb.append(" + ");
-      }      
+      }
     }
     return sb.toString();
   }

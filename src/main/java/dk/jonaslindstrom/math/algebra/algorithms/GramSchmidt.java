@@ -33,7 +33,7 @@ public class GramSchmidt<Vector, Scalar> implements Function<List<Vector>, List<
       Vector v = V.poll();
       for (Vector u : U) {
         Vector p = proj.apply(v, u);
-        v = vectorSpace.add(v, vectorSpace.negate(p));
+        v = vectorSpace.subtract(v, p);
       }
       U.add(v);
     }

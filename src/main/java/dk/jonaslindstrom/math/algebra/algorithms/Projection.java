@@ -30,8 +30,7 @@ public class Projection<Vector, Scalar> implements BiFunction<Vector, Vector, Ve
 
   @Override
   public Vector apply(Vector v, Vector u) {
-    Scalar s = vectorSpace.getScalars().multiply(innerProduct.apply(u, v),
-        vectorSpace.getScalars().invert(innerProduct.apply(u, u)));
+    Scalar s = vectorSpace.getScalars().divide(innerProduct.apply(u, v), innerProduct.apply(u, u));
     return vectorSpace.scale(s, u);
   }
 

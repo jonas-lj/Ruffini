@@ -91,7 +91,7 @@ public class DiscreteFourierTransform<E> implements UnaryOperator<Vector<E>> {
       for (int k = 0; k < n / 2; k++) {
         F ak = ring.multiply(power.apply(a, k), odd.get(k));
         Y.set(k, ring.add(even.get(k), ak));
-        Y.set(k + n / 2, ring.add(even.get(k), ring.negate(ak)));
+        Y.set(k + n / 2, ring.subtract(even.get(k), ak));
       }
       return new ConcreteVector<>(Y);
     }
