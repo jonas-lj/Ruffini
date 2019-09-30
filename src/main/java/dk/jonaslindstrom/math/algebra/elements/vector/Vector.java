@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.IntFunction;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public interface Vector<E> extends Iterable<E> {
@@ -33,7 +34,7 @@ public interface Vector<E> extends Iterable<E> {
     return new ConcreteVector<>(e);
   }
 
-  public static <F> Vector<F> of(ArrayList<F> e) {
+  public static <F> Vector<F> ofList(ArrayList<F> e) {
     return new ConcreteVector<>(e);
   }
 
@@ -43,6 +44,10 @@ public interface Vector<E> extends Iterable<E> {
 
   public static <F> Vector<F> view(int d, IntFunction<F> f) {
     return new ConstructiveVector<>(d, f);
+  }
+  
+  default boolean anyMatch(Predicate<E> predicate) {
+    return stream().anyMatch(predicate);
   }
 
 }

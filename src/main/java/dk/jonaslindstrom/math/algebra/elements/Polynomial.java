@@ -236,7 +236,7 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
   }
 
   public String toString(String variable) {
-    return toString(e -> false, variable);
+    return toString(e -> e.toString().equals("1"), variable);
   }
 
   @Override

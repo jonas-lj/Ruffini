@@ -95,7 +95,7 @@ class ConcreteMatrix<E> extends BaseMatrix<E> {
 
   @Override
   public Iterable<Vector<E>> rows() {
-    return () -> rows.stream().map(Vector::of).iterator();
+    return () -> rows.stream().map(Vector::ofList).iterator();
   }
 
   @Override

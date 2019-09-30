@@ -5,6 +5,7 @@ import java.util.Objects;
 import dk.jonaslindstrom.math.algebra.abstractions.EuclideanDomain;
 import dk.jonaslindstrom.math.algebra.abstractions.Field;
 import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial;
+import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial.Monomial;
 import dk.jonaslindstrom.math.util.Pair;
 
 /**
@@ -25,7 +26,7 @@ public class MultivariatePolynomialRing<E>
     this.variables = variables;
   }
 
-  public Field<E> getBaseField() {
+  public Field<E> getField() {
     return field;
   }
 
@@ -52,7 +53,7 @@ public class MultivariatePolynomialRing<E>
 
   @Override
   public boolean equals(MultivariatePolynomial<E> a, MultivariatePolynomial<E> b) {
-    for (Pair<int[], E> ai : a.coefficients()) {
+    for (Pair<Monomial, E> ai : a.coefficients()) {
       E bi = b.getCoefficient(ai.first);
       if (Objects.isNull(bi)) {
         if (field.equals(ai.second, field.getZero())) {
@@ -67,7 +68,7 @@ public class MultivariatePolynomialRing<E>
       }
     }
 
-    for (Pair<int[], E> bi : b.coefficients()) {
+    for (Pair<Monomial, E> bi : b.coefficients()) {
       E ai = b.getCoefficient(bi.first);
       if (Objects.isNull(ai)) {
         if (field.equals(bi.second, field.getZero())) {
@@ -103,6 +104,7 @@ public class MultivariatePolynomialRing<E>
   @Override
   public Pair<MultivariatePolynomial<E>, MultivariatePolynomial<E>> divisionWithRemainder(
       MultivariatePolynomial<E> a, MultivariatePolynomial<E> b) {
+    
     
     
     // TODO Auto-generated method stub
