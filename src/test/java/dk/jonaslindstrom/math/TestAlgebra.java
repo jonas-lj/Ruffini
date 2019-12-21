@@ -20,6 +20,7 @@ import dk.jonaslindstrom.math.algebra.algorithms.Power;
 import dk.jonaslindstrom.math.algebra.algorithms.ReducedRowEchelonForm;
 import dk.jonaslindstrom.math.algebra.algorithms.StrassenMultiplication;
 import dk.jonaslindstrom.math.algebra.concretisations.ComplexNumbers;
+import dk.jonaslindstrom.math.algebra.concretisations.EllipticCurve;
 import dk.jonaslindstrom.math.algebra.concretisations.FiniteField;
 import dk.jonaslindstrom.math.algebra.concretisations.Integers;
 import dk.jonaslindstrom.math.algebra.concretisations.IntegersModuloN;
@@ -31,7 +32,9 @@ import dk.jonaslindstrom.math.algebra.concretisations.PrimeField;
 import dk.jonaslindstrom.math.algebra.concretisations.Rationals;
 import dk.jonaslindstrom.math.algebra.concretisations.RealNumbers;
 import dk.jonaslindstrom.math.algebra.concretisations.SymmetricGroup;
+import dk.jonaslindstrom.math.algebra.concretisations.WeierstrassForm;
 import dk.jonaslindstrom.math.algebra.elements.ComplexNumber;
+import dk.jonaslindstrom.math.algebra.elements.ECPoint;
 import dk.jonaslindstrom.math.algebra.elements.Fraction;
 import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial;
 import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial.Builder;
@@ -596,5 +599,21 @@ public class TestAlgebra {
         ĝ.anyMatch(e -> ring.equals(e, new MultivariatePolynomial.Builder<>(3, gf2, ordering)
             .add(1, 0, 1, 2).add(1, 0, 1, 1).build())));
     System.out.println(ĝ);
+  }
+  
+  @Test
+  public void testEllipticCurve() {
+    int p = 13;
+    PrimeField Fp = new PrimeField(p);
+    
+    EllipticCurve<Integer> E = new WeierstrassForm<Integer>(Fp, 1, 1);
+    System.out.println(E);
+    
+    ECPoint<Integer> P = new ECPoint<>(0,1);
+    ECPoint<Integer> Q = new ECPoint<>(1,4);
+    
+    Assert.assertTrue(E.equals(E.add(P, Q), new ECPoint<>(8, 1)));
+    Assert.assertTrue(E.equals(E.add(P, P), new ECPoint<>(10, 7)));    
+    Assert.assertTrue(E.equals(E.subtract(P, Q), new ECPoint<>(11, 2)));
   }
 }

@@ -79,5 +79,4 @@ public class QuotientRing<E> implements Ring<E> {
 
     return ring + "/" + ideal;
   }
-
 }

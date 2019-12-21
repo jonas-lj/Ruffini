@@ -1,6 +1,7 @@
 package dk.jonaslindstrom.math.algebra.algorithms;
 
-import dk.jonaslindstrom.math.algebra.abstractions.Ring;
+import dk.jonaslindstrom.math.algebra.abstractions.Monoid;
+
 import java.util.function.BiFunction;
 
 /**
@@ -12,25 +13,25 @@ import java.util.function.BiFunction;
  */
 public class Power<E> implements BiFunction<E, Integer, E> {
 
-  private Ring<E> ring;
+  private Monoid<E> group;
 
-  public Power(Ring<E> ring) {
-    this.ring = ring;
+  public Power(Monoid<E> group) {
+    this.group = group;
   }
 
   @Override
   public E apply(E a, Integer e) {
     if (e == 0) {
-      return ring.getIdentity();
+      return group.getIdentity();
     } else if (e == 1) {
       return a;
     }
 
     int f = e;
     if (f % 2 == 1) {
-      return ring.multiply(a, apply(ring.multiply(a, a), (e - 1) / 2));
+      return group.multiply(a, apply(group.multiply(a, a), (e - 1) / 2));
     } else {
-      return apply(ring.multiply(a, a), e / 2);
+      return apply(group.multiply(a, a), e / 2);
     }
   }
 

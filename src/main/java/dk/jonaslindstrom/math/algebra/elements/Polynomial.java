@@ -8,7 +8,6 @@ import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import dk.jonaslindstrom.math.algebra.abstractions.Ring;
@@ -231,20 +230,12 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
     });
   }
 
-  public String toString(Ring<E> ring) {
-    return toString(e -> ring.equals(e, ring.getIdentity()), "x");
-  }
-
-  public String toString(String variable) {
-    return toString(e -> e.toString().equals("1"), variable);
-  }
-
   @Override
   public String toString() {
     return toString("x");
   }
 
-  public String toString(Predicate<E> isIdentity, String variable) {
+  public String toString(String variable) {
 
     if (terms.size() == 0) {
       return "";
@@ -253,8 +244,24 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
     StringBuilder sb = new StringBuilder();
 
     for (Integer i : terms.keySet()) {
-      if (!isIdentity.test(terms.get(i))) {
-        sb.append(terms.get(i).toString());
+      boolean negative = false;
+      if (i != terms.firstKey()) {
+          
+          if (terms.get(i).toString().startsWith("-")) {
+            sb.append(" - ");
+            negative = true;
+          } else {
+            sb.append(" + ");
+          }
+      }
+      
+      String c = terms.get(i).toString();
+      if (negative) {
+        c = c.substring(1);
+      }
+      
+      if (!c.equals("1") | i == 0) {
+        sb.append(c);
       }
 
       if (i == 1) {
@@ -263,9 +270,6 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
         sb.append(variable + StringUtils.superscript(Integer.toString(i)));
       }
 
-      if (i != terms.lastKey()) {
-        sb.append(" + ");
-      }
     }
     return sb.toString();
   }
