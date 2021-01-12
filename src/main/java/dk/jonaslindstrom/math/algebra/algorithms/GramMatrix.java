@@ -9,16 +9,11 @@ import java.util.function.BinaryOperator;
 import java.util.function.UnaryOperator;
 
 /**
- * Compute the Gram matrix for a given matrix. If the input is not square, Strassen multiplication
- * is used to reduce the number of multiplications.
- * 
- * @author jonas
- *
- * @param <E>
+ * Compute the Gram matrix for a given matrix.
  */
 public class GramMatrix<E> implements UnaryOperator<Matrix<E>> {
 
-  private Ring<E> ring;
+  private final Ring<E> ring;
 
   public GramMatrix(Ring<E> ring) {
     this.ring = ring;
@@ -30,7 +25,7 @@ public class GramMatrix<E> implements UnaryOperator<Matrix<E>> {
     if (a.isSquare()) {
       MutableMatrix<E> C = new MutableMatrix<>(a.getHeight(), a.getHeight(), null);
       NullSafeRing<E> ops = new NullSafeRing<>(ring);
-      DotProduct<E> dot = new DotProduct<>(ops::add, ops::multiply);
+      DotProduct<E> dot = new DotProduct<>(ops);
       for (int i = 0; i < a.getHeight(); i++) {
         for (int j = 0; j <= i; j++) {
           E c = dot.apply(a.getRow(i), a.getRow(j));
@@ -39,7 +34,7 @@ public class GramMatrix<E> implements UnaryOperator<Matrix<E>> {
             C.set(j, i, c);
           }
         }
-      } 
+      }
       return C;
     }
 
@@ -69,8 +64,7 @@ public class GramMatrix<E> implements UnaryOperator<Matrix<E>> {
       }
     }
 
-    Matrix<E> D = Matrix.fromBlocks(C).submatrix(0, m, 0, m);
-    return D;
+    return Matrix.fromBlocks(C).submatrix(0, m, 0, m);
   }
 
 }

@@ -17,37 +17,37 @@ import dk.jonaslindstrom.math.util.Pair;
 import dk.jonaslindstrom.math.util.StringUtils;
 
 public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>, E> {
-  
+
   public static MonomialOrdering DEFAULT_ORDERING = new LexicographicalOrdering();
 
-  private SortedMap<Monomial, E> terms;
-  private int variables;
-  
+  private final SortedMap<Monomial, E> terms;
+  private final int variables;
+
   private MultivariatePolynomial(int variables, SortedMap<Monomial, E> terms) {
     this.variables = variables;
-    this.terms = terms;    
+    this.terms = terms;
   }
 
   public static class Monomial implements Iterable<Integer> {
-    
+
     private final int[] degree;
-    
+
     private Monomial(int[] degree) {
       this.degree = degree;
     }
-    
+
     public static Monomial of(int ... n) {
       return new Monomial(n);
     }
-    
+
     public int variables() {
       return degree.length;
     }
-    
+
     public int degree(int i) {
       return degree[i];
     }
-    
+
     public Monomial multiply(Monomial other) {
       assert (this.variables() == other.variables());
       int n = this.variables();
@@ -57,7 +57,7 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
       }
       return Monomial.of(c);
     }
-    
+
     public Monomial divideBy(Monomial other) {
       assert (this.variables() == other.variables());
       assert (other.divides(this));
@@ -69,7 +69,7 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
       }
       return Monomial.of(result);
     }
-    
+
     public boolean divides(Monomial other) {
       assert (this.variables() == other.variables());
       int k = this.variables();
@@ -90,7 +90,7 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
       }
       return Monomial.of(c);
     }
-    
+
     @Override
     public int hashCode() {
       final int prime = 31;
@@ -108,15 +108,13 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
       if (getClass() != obj.getClass())
         return false;
       Monomial other = (Monomial) obj;
-      if (!Arrays.equals(degree, other.degree))
-        return false;
-      return true;
+      return Arrays.equals(degree, other.degree);
     }
 
     @Override
     public Iterator<Integer> iterator() {
       return IntStream.of(degree).iterator();
-    }    
+    }
 
     private String getVariable(int i) {
       if (degree.length < 4) {
@@ -127,10 +125,10 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
         } else if (i == 2) {
           return "z";
         }
-      } 
+      }
       return "x" + StringUtils.subscript(Integer.toString(i));
     }
-    
+
     public String toString() {
       StringBuilder sb = new StringBuilder();
       for (int i = 0; i < degree.length; i++) {
@@ -143,7 +141,7 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
       }
       return sb.toString();
     }
-    
+
     private <S> S applyTerm(Vector<S> a, Ring<S> ring) {
       assert (a.getDimension() == degree.length);
       Power<S> power = new Power<>(ring);
@@ -154,11 +152,11 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
       return result;
     }
   }
-  
+
   public interface MonomialOrdering extends Comparator<Monomial> {
-    
+
   }
-  
+
   public static class LexicographicalOrdering implements MonomialOrdering {
 
     @Override
@@ -176,34 +174,34 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
     }
 
   }
-  
+
   public static class GradedLexicographicalOrdering implements MonomialOrdering {
-    
-    private LexicographicalOrdering lex;
+
+    private final LexicographicalOrdering lex;
 
     public GradedLexicographicalOrdering() {
       lex = new LexicographicalOrdering();
     }
-   
+
     private int sum(int[] a) {
       int c = 0;
       for (int ai : a) {
-        c += ai;        
+        c += ai;
       }
       return c;
     }
-    
+
     @Override
     public int compare(Monomial o1, Monomial o2) {
       assert (o1.variables() == o2.variables());
-      
+
       int sum1 = sum(o1.degree);
       int sum2 = sum(o2.degree);
-      
+
       if (sum1 != sum2) {
         return Integer.compare(sum1, sum2);
       }
-      
+
       return lex.compare(o1, o2);
     }
   }
@@ -211,17 +209,17 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
   public static class Builder<S> {
 
     private final SortedMap<Monomial, S> terms;
-    private Ring<S> ring;
-    private int variables;
+    private final Ring<S> ring;
+    private final int variables;
 
     public Builder(int variables, Ring<S> ring) {
       this(variables, ring, DEFAULT_ORDERING);
     }
-    
+
     public Builder(int variables, Ring<S> ring, MonomialOrdering ordering) {
       this.variables = variables;
       this.ring = ring;
-      terms = new TreeMap<Monomial, S>(ordering);
+      terms = new TreeMap<>(ordering);
     }
 
     public Builder<S> add(S c, Monomial degree) {
@@ -237,10 +235,10 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
     public Builder<S> add(S c, int... degree) {
       return add(c, Monomial.of(degree));
     }
-    
+
     private void reduce() {
       terms.entrySet().removeIf(e -> ring.equals(e.getValue(), ring.getZero()));
-     
+
       if (terms.isEmpty()) {
         add(ring.getZero(), new int[variables]);
       }
@@ -250,13 +248,13 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
       reduce();
       return new MultivariatePolynomial<>(variables, terms);
     }
-    
+
     public String toString() {
       return terms.toString();
     }
 
   }
-  
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -285,7 +283,7 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
     }
     return result;
   }
-  
+
   public int variables() {
     return variables;
   }
@@ -305,22 +303,22 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
   public E getCoefficient(int ... degree) {
     return terms.get(Monomial.of(degree));
   }
-  
+
   public E getCoefficient(Monomial degree) {
     return terms.get(degree);
   }
-  
+
   public Monomial leadingMonomial() {
     return terms.lastKey();
   }
-  
+
   public Monomial leadingMonomial(Comparator<Monomial> ordering) {
     if (ordering.equals(terms.comparator())) {
       return terms.lastKey();
     }
     return Collections.max(terms.keySet(), ordering);
   }
-  
+
   public E leadingCoefficient(Comparator<Monomial> ordering) {
     return getCoefficient(leadingMonomial(ordering));
   }
@@ -328,7 +326,7 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
   public E leadingCoefficient() {
     return terms.get(terms.firstKey());
   }
-  
+
   public Iterable<Pair<Monomial, E>> coefficients() {
     return () -> terms.keySet().stream().map(d -> new Pair<>(d, getCoefficient(d))).iterator();
   }
@@ -346,11 +344,11 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
     }
     return builder.build();
   }
-  
+
   public Iterable<Monomial> monomials() {
     return Collections.unmodifiableSet(terms.keySet());
   }
-  
+
   public static <T> MultivariatePolynomial<T> monomial(T coefficient, int ... degree) {
     return monomial(coefficient, Monomial.of(degree));
   }
@@ -360,11 +358,11 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
     terms.put(degree, coefficient);
     return new MultivariatePolynomial<T>(degree.variables(),terms);
   }
-  
+
   public static <T> MultivariatePolynomial<T> constant(T coefficient, int variables) {
     return monomial(coefficient, new int[variables]);
   }
-  
+
   public <F> MultivariatePolynomial<F> mapCoefficients(Function<E, F> converter) {
     SortedMap<Monomial, F> newTerms = new TreeMap<>(DEFAULT_ORDERING);
     for (Monomial degree : terms.keySet()) {

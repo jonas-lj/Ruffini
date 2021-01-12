@@ -1,33 +1,23 @@
 package dk.jonaslindstrom.math.algebra.algorithms;
 
+import com.google.common.collect.Streams;
 import dk.jonaslindstrom.math.algebra.abstractions.Ring;
 import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
 import java.util.function.BiFunction;
-import java.util.function.BinaryOperator;
 
 public class DotProduct<E> implements BiFunction<Vector<E>, Vector<E>, E> {
 
-  private BinaryOperator<E> add;
-  private BinaryOperator<E> multiply;
-  
+  private final Ring<E> ring;
+
   public DotProduct(Ring<E> ring) {
-    this.add = ring::add;
-    this.multiply = ring::multiply;
+    this.ring = ring;
   }
 
-  public DotProduct(BinaryOperator<E> add, BinaryOperator<E> multiplication) {
-    this.add = add;
-    this.multiply = multiplication;
-  }
-  
   @Override
   public E apply(Vector<E> a, Vector<E> b) {
     assert (a.getDimension() == b.getDimension());
-    E c = multiply.apply(a.get(0), b.get(0));
-    for (int i = 1; i < a.getDimension(); i++) {
-      c = add.apply(c, multiply.apply(a.get(i), b.get(i)));
-    }
-    return c;
+
+    return Streams.zip(a.stream(), b.stream(), ring::multiply).reduce(ring.getZero(), ring::add);
   }
 
 }

@@ -36,7 +36,7 @@ public class ArrayUtils {
   /**
    * Return a new array which is a copy of the original one except that the element with index i is
    * excluded.
-   * 
+   *
    * @param list
    * @param i
    * @return
@@ -53,7 +53,7 @@ public class ArrayUtils {
    * Return a new list where a list of elements are not included. It is assumes that both the list
    * and the list of elements to be removed are sorted and that all the elements to be removed are
    * in the original list.
-   * 
+   *
    * @param list
    * @param elements
    * @return
@@ -88,7 +88,7 @@ public class ArrayUtils {
    * Returns a new array which contains all elements from the original array except for a given set
    * of indices. It is assumed that the list and list of indices are sorted and that all indices are
    * in the range.
-   * 
+   *
    * @param list
    * @param indices
    * @return
@@ -106,7 +106,7 @@ public class ArrayUtils {
     }
     return out;
   }
-  
+
   public static <E> ArrayList<E> populate(int n, IntFunction<E> populator) {
     return IntStream.range(0, n).mapToObj(populator)
         .collect(Collectors.toCollection(ArrayList::new));
@@ -118,7 +118,7 @@ public class ArrayUtils {
 
   /**
    * Return all subsets of the array in lexicographical order of the indices.
-   * 
+   *
    * @param set
    * @return
    */
@@ -128,8 +128,8 @@ public class ArrayUtils {
 
   /**
    * Return all subsets of {0,1,2,...,r-1} lexicographical order.
-   * 
-   * @param set
+   *
+   * @param r
    * @return
    */
   public static Stream<int[]> subsets(int r) {
@@ -147,7 +147,7 @@ public class ArrayUtils {
 
   /**
    * Return a stream of all k-subsets of {0,1,2,...,r-1} in lexicographical order
-   * 
+   *
    * @param k
    * @param r
    * @return
@@ -184,7 +184,7 @@ public class ArrayUtils {
   /**
    * Return a list with all the elements of a and b occuring exactly once. Assumes that both arrays
    * are sorted.
-   * 
+   *
    * @param I
    * @param J
    * @return

@@ -4,16 +4,10 @@ import java.util.Objects;
 
 import dk.jonaslindstrom.math.algebra.abstractions.Ring;
 
-/**
- * This class wraps a ring but operations will treat null operands as if they were zero.
- * 
- * @author Jonas Lindstrøm (jonas.lindstrom@alexandra.dk)
- *
- * @param <E>
- */
+/** This class wraps a ring but operations will treat null operands as if they were zero. */
 public class NullSafeRing<E> implements Ring<E> {
 
-  private Ring<E> ring;
+  private final Ring<E> ring;
 
   public NullSafeRing(Ring<E> ring) {
     this.ring = ring;
@@ -31,7 +25,7 @@ public class NullSafeRing<E> implements Ring<E> {
       return b;
     } else if (a != null && b == null) {
       return a;
-    } else if (a == null && b == null) {
+    } else if (a == null) {
       return ring.getZero();
     } else {
       return ring.add(a, b);
@@ -80,4 +74,8 @@ public class NullSafeRing<E> implements Ring<E> {
     return ring.getZero();
   }
 
+  @Override
+  public int getCharacteristics() {
+    return ring.getCharacteristics();
+  }
 }

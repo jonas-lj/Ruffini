@@ -9,16 +9,12 @@ import java.util.function.UnaryOperator;
 
 /**
  * Compute the Discrete Fourier Transform over a ring.
- * 
- * @author Jonas Lindstrøm (jonas.lindstrom@alexandra.dk)
- *
- * @param <E>
  */
 public class DiscreteFourierTransform<E> implements UnaryOperator<Vector<E>> {
 
-  private Ring<E> ring;
-  private E a;
-  private int n;
+  private final Ring<E> ring;
+  private final E a;
+  private final int n;
 
   public DiscreteFourierTransform(Ring<E> ring, E nThPrincipalRootOfUnity, int n) {
     this.ring = ring;
@@ -33,9 +29,9 @@ public class DiscreteFourierTransform<E> implements UnaryOperator<Vector<E>> {
 
   private static class DFT<F> implements UnaryOperator<Vector<F>> {
 
-    private Ring<F> ring;
-    private F a;
-    private int n;
+    private final Ring<F> ring;
+    private final F a;
+    private final int n;
 
     public DFT(Ring<F> ring, F a, int n) {
       this.ring = ring;
@@ -56,9 +52,9 @@ public class DiscreteFourierTransform<E> implements UnaryOperator<Vector<E>> {
 
   private static class FDFT<F> implements UnaryOperator<Vector<F>> {
 
-    private Ring<F> ring;
-    private F a;
-    private int n;
+    private final Ring<F> ring;
+    private final F a;
+    private final int n;
 
     public FDFT(Ring<F> ring, F a, int n) {
       this.ring = ring;

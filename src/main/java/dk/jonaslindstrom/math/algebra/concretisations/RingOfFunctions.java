@@ -6,12 +6,12 @@ import java.util.function.Function;
 
 public class RingOfFunctions<S, R> implements Ring<Function<S, R>> {
 
-  private Ring<R> ring;
+  private final Ring<R> ring;
 
   public RingOfFunctions(Ring<R> ring) {
     this.ring = ring;
   }
-  
+
   @Override
   public Function<S, R> getIdentity() {
     return s -> ring.getIdentity();
@@ -47,4 +47,8 @@ public class RingOfFunctions<S, R> implements Ring<Function<S, R>> {
     return s -> ring.getZero();
   }
 
+  @Override
+  public int getCharacteristics() {
+    return ring.getCharacteristics();
+  }
 }

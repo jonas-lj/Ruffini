@@ -1,36 +1,32 @@
 package dk.jonaslindstrom.math.algebra.algorithms;
 
-import dk.jonaslindstrom.math.algebra.abstractions.HilbertSpace;
+import dk.jonaslindstrom.math.algebra.abstractions.Field;
+import dk.jonaslindstrom.math.algebra.abstractions.InnerProductSpace;
 import dk.jonaslindstrom.math.algebra.abstractions.VectorSpace;
 import java.util.function.BiFunction;
 
 /**
  * Compute the projection of a vector <i>v</i> onto another vector <i>u</i> in the given vector
  * space.
- * 
- * @author Jonas Lindstrøm (jonas.lindstrom@alexandra.dk)
- *
- * @param <Vector>
- * @param <Scalar>
  */
-public class Projection<Vector, Scalar> implements BiFunction<Vector, Vector, Vector> {
+public class Projection<V, S, F extends Field<S>> implements BiFunction<V, V, V> {
 
-  private VectorSpace<Vector, Scalar> vectorSpace;
-  private BiFunction<Vector, Vector, Scalar> innerProduct;
+  private final VectorSpace<V, S, F> vectorSpace;
+  private final BiFunction<V, V, S> innerProduct;
 
-  public Projection(HilbertSpace<Vector, Scalar> hilbertSpace) {
-    this(hilbertSpace, hilbertSpace::innerProduct);
+  public Projection(InnerProductSpace<V, S, F> innerProductSpace) {
+    this(innerProductSpace, innerProductSpace::innerProduct);
   }
 
-  public Projection(VectorSpace<Vector, Scalar> vectorSpace,
-      BiFunction<Vector, Vector, Scalar> innerProduct) {
+  public Projection(VectorSpace<V, S, F> vectorSpace,
+      BiFunction<V, V, S> innerProduct) {
     this.vectorSpace = vectorSpace;
     this.innerProduct = innerProduct;
   }
 
   @Override
-  public Vector apply(Vector v, Vector u) {
-    Scalar s = vectorSpace.getScalars().divide(innerProduct.apply(u, v), innerProduct.apply(u, u));
+  public V apply(V v, V u) {
+    S s = vectorSpace.getScalars().divide(innerProduct.apply(u, v), innerProduct.apply(u, u));
     return vectorSpace.scale(s, u);
   }
 

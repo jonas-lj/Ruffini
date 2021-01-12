@@ -2,7 +2,9 @@ package dk.jonaslindstrom.math.algebra.concretisations;
 
 import dk.jonaslindstrom.math.algebra.abstractions.Field;
 import dk.jonaslindstrom.math.algebra.algorithms.EuclideanAlgorithm;
+import dk.jonaslindstrom.math.algebra.elements.Polynomial;
 import dk.jonaslindstrom.math.util.StringUtils;
+import dk.jonaslindstrom.math.util.Triple;
 
 public class PrimeField extends IntegersModuloN implements Field<Integer> {
 
@@ -12,14 +14,21 @@ public class PrimeField extends IntegersModuloN implements Field<Integer> {
 
   @Override
   public Integer invert(Integer a) {
-    Integer m = new EuclideanAlgorithm<>(Integers.getInstance()).extendedGcd(a, super.mod).getSecond();
-    Integer modM = Math.floorMod(m, super.mod);
-    return modM;
+    Triple<Integer, Integer, Integer> gcd = new EuclideanAlgorithm<>(Integers.getInstance()).extendedGcd(a, super.mod);
+    if (gcd.first != 1) {
+      throw new IllegalArgumentException("The value " + a + " is not invertible mod " + super.mod + ".");
+    }
+    Integer m = gcd.getSecond();
+    return Math.floorMod(m, super.mod);
   }
 
   @Override
   public String toString() {
     return "𝔽" + StringUtils.subscript(super.mod.toString());
+  }
+
+  public FiniteField asFiniteField() {
+    return new FiniteField(this, Polynomial.monomial(1, 1));
   }
 
 }

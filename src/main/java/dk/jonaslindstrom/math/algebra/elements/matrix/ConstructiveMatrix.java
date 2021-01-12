@@ -5,9 +5,9 @@ import java.util.function.Function;
 
 class ConstructiveMatrix<E> extends BaseMatrix<E> {
 
-  private int m;
-  private int n;
-  private IntBinaryFunction<E> entries;
+  private final int m;
+  private final int n;
+  private final IntBinaryFunction<E> entries;
 
   public ConstructiveMatrix(int m, int n, IntBinaryFunction<E> entries) {
     this.m = m;

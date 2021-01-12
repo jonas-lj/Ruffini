@@ -14,13 +14,13 @@ import dk.jonaslindstrom.math.util.Pair;
 public class MultivariatePolynomialDivision<E> implements
     BiFunction<MultivariatePolynomial<E>, Vector<MultivariatePolynomial<E>>, Pair<Vector<MultivariatePolynomial<E>>, MultivariatePolynomial<E>>> {
 
-  private MultivariatePolynomialRing<E> R;
-  private Comparator<Monomial> ordering;
+  private final MultivariatePolynomialRing<E> R;
+  private final Comparator<Monomial> ordering;
 
   public MultivariatePolynomialDivision(Field<E> field, int variables) {
     this(field, variables, MultivariatePolynomial.DEFAULT_ORDERING);
   }
-  
+
   public MultivariatePolynomialDivision(Field<E> field, int variables, Comparator<Monomial> ordering) {
     this(new MultivariatePolynomialRing<>(field, variables), ordering);
   }
@@ -28,7 +28,7 @@ public class MultivariatePolynomialDivision<E> implements
   public MultivariatePolynomialDivision(MultivariatePolynomialRing<E> ring) {
     this(ring, MultivariatePolynomial.DEFAULT_ORDERING);
   }
-  
+
   public MultivariatePolynomialDivision(MultivariatePolynomialRing<E> ring, Comparator<Monomial> ordering) {
     this.R = ring;
     this.ordering = ordering;
@@ -44,7 +44,7 @@ public class MultivariatePolynomialDivision<E> implements
     int n = f.getDimension();
 
     Vector<MultivariatePolynomial.Builder<E>> h =
-        Vector.of(n, i -> new MultivariatePolynomial.Builder<E>(g.variables(), R.getField()));
+        Vector.of(n, i -> new MultivariatePolynomial.Builder<>(g.variables(), R.getField()));
 
     Field<E> K = R.getField();
 

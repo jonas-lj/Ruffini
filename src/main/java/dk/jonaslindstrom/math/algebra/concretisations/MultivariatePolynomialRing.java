@@ -1,5 +1,7 @@
 package dk.jonaslindstrom.math.algebra.concretisations;
 
+import dk.jonaslindstrom.math.algebra.algorithms.MultivariatePolynomialDivision;
+import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
 import java.util.Objects;
 
 import dk.jonaslindstrom.math.algebra.abstractions.EuclideanDomain;
@@ -10,16 +12,16 @@ import dk.jonaslindstrom.math.util.Pair;
 
 /**
  * This class implements the ring of polynomials <i>K[x]</i> over a field <i>K</i>.
- * 
+ *
  * @author jonas
  *
  * @param <E>
  */
-public class MultivariatePolynomialRing<E> 
+public class MultivariatePolynomialRing<E>
     implements EuclideanDomain<MultivariatePolynomial<E>> {
 
-  private Field<E> field;
-  private int variables;
+  private final Field<E> field;
+  private final int variables;
 
   public MultivariatePolynomialRing(Field<E> field, int variables) {
     this.field = field;
@@ -62,7 +64,7 @@ public class MultivariatePolynomialRing<E>
           return false;
         }
       }
-      
+
       if (!field.equals(ai.second, b.getCoefficient(ai.first))) {
         return false;
       }
@@ -77,12 +79,12 @@ public class MultivariatePolynomialRing<E>
           return false;
         }
       }
-      
+
       if (!field.equals(bi.second, a.getCoefficient(bi.first))) {
         return false;
       }
     }
-    
+
     return true;
   }
 
@@ -93,7 +95,7 @@ public class MultivariatePolynomialRing<E>
 
   @Override
   public MultivariatePolynomial<E> negate(MultivariatePolynomial<E> a) {
-    return a.mapCoefficients(e -> field.negate(e));
+    return a.mapCoefficients(field::negate);
   }
 
   @Override
@@ -104,10 +106,6 @@ public class MultivariatePolynomialRing<E>
   @Override
   public Pair<MultivariatePolynomial<E>, MultivariatePolynomial<E>> divisionWithRemainder(
       MultivariatePolynomial<E> a, MultivariatePolynomial<E> b) {
-    
-    
-    
-    // TODO Auto-generated method stub
     return null;
   }
 
@@ -117,4 +115,8 @@ public class MultivariatePolynomialRing<E>
     return null;
   }
 
+  @Override
+  public int getCharacteristics() {
+    return field.getCharacteristics();
+  }
 }

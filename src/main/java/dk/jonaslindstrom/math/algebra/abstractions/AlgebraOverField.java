@@ -1,11 +1,7 @@
 package dk.jonaslindstrom.math.algebra.abstractions;
 
-public abstract class AlgebraOverField<V, S> extends VectorSpace<V, S> {
+public interface AlgebraOverField<V, S, F extends Field<S>> extends VectorSpace<V, S, F> {
 
-  public AlgebraOverField(AdditiveGroup<V> vectors, Field<S> scalars) {
-    super(vectors, scalars);
-  }
-  
-  public abstract V product(V v, V u);
+  V product(V v, V u);
 
 }

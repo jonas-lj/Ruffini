@@ -5,11 +5,11 @@ import dk.jonaslindstrom.math.algebra.elements.matrix.Matrix;
 import dk.jonaslindstrom.math.algebra.elements.matrix.MutableMatrix;
 import java.util.function.UnaryOperator;
 
-public class ReducedRowEchelonForm<E> implements UnaryOperator<Matrix<E>> {
+public class GaussianElimination<E> implements UnaryOperator<Matrix<E>> {
 
-  private Field<E> field;
+  private final Field<E> field;
 
-  public ReducedRowEchelonForm(Field<E> field) {
+  public GaussianElimination(Field<E> field) {
     this.field = field;
   }
 

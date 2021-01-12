@@ -1,18 +1,26 @@
 package dk.jonaslindstrom.math.algebra.concretisations;
 
 import dk.jonaslindstrom.math.algebra.abstractions.Field;
-import dk.jonaslindstrom.math.algebra.abstractions.VectorSpace;
 import java.util.function.Function;
 
-public class DualSpace<V, S> extends VectorSpace<Function<V, S>, S> {
-  
-  public DualSpace(Field<S> scalars) {
-    super(new RingOfFunctions<V, S>(scalars), scalars);
+public class DualSpace<V, S, F extends Field<S>> extends AbstractVectorSpace<Function<V, S>, S, F> {
+
+  public DualSpace(F scalars) {
+    super(new RingOfFunctions<>(scalars), scalars);
   }
 
   @Override
-  public Function<V, S> scale(S s, Function<V, S> v) {    
-    return x -> scalars.multiply(s, v.apply(x));
+  public Function<V, S> scale(S s, Function<V, S> v) {
+    return x -> getScalars().multiply(s, v.apply(x));
   }
 
+  @Override
+  public String toString(Function<V, S> a) {
+    return "N/A"; //TODO
+  }
+
+  @Override
+  public boolean equals(Function<V, S> a, Function<V, S> b) {
+    return false; //TODO
+  }
 }

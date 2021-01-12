@@ -5,12 +5,11 @@ import dk.jonaslindstrom.math.algebra.elements.Polynomial;
 import dk.jonaslindstrom.math.algebra.elements.Polynomial.Builder;
 import dk.jonaslindstrom.math.util.Pair;
 import java.util.Objects;
-import java.util.stream.IntStream;
 
 public class PolynomialRingOverRing<E> implements Ring<Polynomial<E>>, Cloneable {
 
-  private Ring<E> ring;
-  private String variable;
+  private final Ring<E> ring;
+  private final String variable;
 
   public PolynomialRingOverRing(Ring<E> ring) {
     this(ring, "x");
@@ -25,27 +24,15 @@ public class PolynomialRingOverRing<E> implements Ring<Polynomial<E>>, Cloneable
     return ring;
   }
 
-  public Polynomial<E> element(@SuppressWarnings("unchecked") E ... coefficients) {
-    return Polynomial.of(ring, coefficients);    
+  @SafeVarargs
+  public final Polynomial<E> element(E... coefficients) {
+    return Polynomial.of(ring, coefficients);
   }
-  
+
   @Override
   public Polynomial<E> multiply(Polynomial<E> a, Polynomial<E> b) {
-
-    int d = a.degree() + b.degree();
-    
     Polynomial.Builder<E> result = new Builder<>(ring);
-
-      IntStream.range(0, d+1).forEach(k -> {
-        a.forEach((i, ai) -> {
-          b.forEach((j, bj) -> {
-            if (i + j == k) {
-              result.addTo(k, ring.multiply(ai, bj));
-            }
-          });
-        });
-      });
-
+    a.forEachInParallel((i, ai) -> b.forEachInParallel((j, bj) -> result.addTo(i + j, ring.multiply(ai, bj))));
     return result.build();
   }
 
@@ -61,18 +48,15 @@ public class PolynomialRingOverRing<E> implements Ring<Polynomial<E>>, Cloneable
 
   @Override
   public Polynomial<E> add(Polynomial<E> a, Polynomial<E> b) {
-
     Polynomial.Builder<E> builder = new Builder<>(ring);
-    
-    a.forEach((i, ai) -> builder.set(i, ai));
-    b.forEach((i, bi) -> builder.addTo(i,  bi));
-    
+    a.forEachInParallel(builder::addTo);
+    b.forEachInParallel(builder::addTo);
     return builder.build();
   }
 
   @Override
   public Polynomial<E> negate(Polynomial<E> a) {
-    return a.mapCoefficients(e -> ring.negate(e));
+    return a.mapCoefficients(ring::negate);
   }
 
   @Override
@@ -86,41 +70,39 @@ public class PolynomialRingOverRing<E> implements Ring<Polynomial<E>>, Cloneable
     if (a.degree() != b.degree()) {
       return false;
     }
-    
+
     for (int i = 0; i <= a.degree(); i++) {
       if (Objects.isNull(a.getCoefficient(i))) {
         if (Objects.nonNull(b.getCoefficient(i))) {
           if (ring.equals(b.getCoefficient(i), ring.getZero())) {
-            return false;            
+            return false;
           }
         }
         continue;
       }
-      
+
       if (Objects.isNull(b.getCoefficient(i))) {
         if (ring.equals(a.getCoefficient(i), ring.getZero())) {
           return false;
         }
         continue;
       }
-      
+
       if (!ring.equals(a.getCoefficient(i), b.getCoefficient(i))) {
         return false;
       }
     }
-    
+
     return true;
   }
 
   /**
    * Perform polynomial division, eg. finding a quotient <i>q</i> and a remainder <i>r</i> with
    * degree smaller than the divisor <i>b</i> s.t. <i>a = qb + r</i>.
-   * 
+   *
    * @param a The dividend.
    * @param b The divisor. It is assumed that this is a monic polynomial.
-   * @return
    */
-  // @Override
   public Pair<Polynomial<E>, Polynomial<E>> divisionWithRemainder(Polynomial<E> a,
       Polynomial<E> b) {
     if (!ring.equals(b.getCoefficient(b.degree()), ring.getIdentity())) {
@@ -132,11 +114,10 @@ public class PolynomialRingOverRing<E> implements Ring<Polynomial<E>>, Cloneable
   /**
    * Perform polynomial division, eg. finding a quotient <i>q</i> and a remainder <i>r</i> with
    * degree smaller than <i>b</i> s.t. <i>a = qb + r</i>.
-   * 
+   *
    * @param a The dividend.
    * @param b The divisor.
    * @param bLeadInverse An inverse of the leading coefficient of <i>b</i>.
-   * @return
    */
   public Pair<Polynomial<E>, Polynomial<E>> divisionWithRemainder(Polynomial<E> a, Polynomial<E> b,
       E bLeadInverse) {
@@ -170,4 +151,8 @@ public class PolynomialRingOverRing<E> implements Ring<Polynomial<E>>, Cloneable
     return ring.toString() + "[x]";
   }
 
+  @Override
+  public int getCharacteristics() {
+    return ring.getCharacteristics();
+  }
 }

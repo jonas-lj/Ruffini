@@ -4,16 +4,14 @@ import dk.jonaslindstrom.math.algebra.abstractions.Field;
 
 public class RealNumbers implements Field<Double> {
 
-  private static RealNumbers instance = new RealNumbers();
-  
+  private static final RealNumbers instance = new RealNumbers();
+
   public static RealNumbers getInstance() {
     return instance;
   }
-  
-  private RealNumbers() {
 
-  }
-  
+  private RealNumbers() {}
+
   @Override
   public String toString() {
     return "ℝ";
@@ -59,4 +57,8 @@ public class RealNumbers implements Field<Double> {
     return 0.0;
   }
 
+  @Override
+  public int getCharacteristics() {
+    return 0;
+  }
 }

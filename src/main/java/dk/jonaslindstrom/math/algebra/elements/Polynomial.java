@@ -1,5 +1,6 @@
 package dk.jonaslindstrom.math.algebra.elements;
 
+import dk.jonaslindstrom.math.algebra.algorithms.Power;
 import java.util.Collections;
 import java.util.Map;
 import java.util.SortedMap;
@@ -22,7 +23,7 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
 
   public static class Builder<S> {
 
-    private Ring<S> ring;
+    private final Ring<S> ring;
 
     public Builder(Ring<S> ring) {
       this.ring = ring;
@@ -33,39 +34,33 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
     /**
      * Set the <i>i</i>'th coefficient of the polynomial being built. If this coefficient has been
      * set before, it will be overwritten.
-     * 
-     * @param i
-     * @param a
      */
-    public void set(int i, S a) {
+    public Builder<S> set(int i, S a) {
       terms.put(i, a);
+      return this;
     }
 
     /**
      * Add a value to the <i>i</i>'th coefficient of the polynomial being built.
-     * 
-     * @param i
-     * @param a
-     * @param ring
      */
-    public void addTo(int i, S a) {
+    public synchronized Builder<S> addTo(int i, S a) {
       if (terms.containsKey(i)) {
         set(i, ring.add(terms.get(i), a));
       } else {
         terms.put(i, a);
       }
+      return this;
     }
 
     /**
      * Remove zero terms.
-     * 
-     * @param ring
      */
-    private void reduce() {
+    private Builder<S> reduce() {
       terms.entrySet().removeIf(e -> ring.equals(e.getValue(), ring.getZero()));
       if (terms.isEmpty()) {
         set(0, ring.getZero());
       }
+      return this;
     }
 
     public Polynomial<S> build() {
@@ -87,15 +82,12 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
   }
 
   public static <T> Polynomial<T> monomial(T coefficient, int degree) {
-    return new Polynomial<T>(Collections.singletonMap(degree, coefficient));
+    return new Polynomial<>(Collections.singletonMap(degree, coefficient));
   }
 
   /**
    * Construct a new polynomial with the given coefficients. The constant coefficient is first, the
    * linear is second etc.
-   * 
-   * @param ring
-   * @param c
    */
   @SafeVarargs
   public static <T> Polynomial<T> of(Ring<T> ring, T... coefficients) {
@@ -106,8 +98,12 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
     return p.build();
   }
 
+  public static Polynomial<Integer> of(Integer... coefficients) {
+    return of(Integers.getInstance(), coefficients);
+  }
+
   private static Polynomial<Integer> parsePolynomial(String string, String variable) {
-    String[] terms = string.replaceAll("\\-", "+-").replace(" ", "").split("\\+");
+    String[] terms = string.replaceAll("-", "+-").replace(" ", "").split("\\+");
 
     Builder<Integer> p = new Builder<>(Integers.getInstance());
 
@@ -115,7 +111,7 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
       String[] s = term.split(variable);
 
       int power = -1;
-      Integer coefficient = null;
+      int coefficient;
 
       if (s.length == 0) {
         // A term of just "x"
@@ -150,8 +146,16 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
     }
   }
 
+  public void forEachInParallel(BiConsumer<Integer, E> consumer) {
+    terms.keySet().stream().parallel().forEach(i -> consumer.accept(i, terms.get(i)));
+  }
+
   public static Polynomial<Integer> parse(String polynomial, String variable) {
     return parsePolynomial(polynomial, variable);
+  }
+
+  public static Polynomial<Integer> parse(String polynomial) {
+    return parsePolynomial(polynomial, "x");
   }
 
   public <X> Polynomial<X> mapCoefficients(Function<E, X> converter) {
@@ -166,33 +170,15 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
 
   @Override
   public E apply(E input, Ring<E> ring) {
+    Power<E> repeatedSquaring = new Power<>(ring);
+
     E result = ring.getZero();
     E variable = ring.getIdentity();
-
-    int power = 0;
-    for (Integer i : terms.keySet()) {
-      while (power < i) {
-        // TODO: Use repeated squaring?
-        variable = ring.multiply(variable, input);
-        power++;
-      }
-      result = ring.add(result, ring.multiply(terms.get(i), variable));
-    }
-    return result;
-  }
-
-  public <F> F apply(F input, Ring<F> vectors, BiFunction<E, F, F> scaling) {
-    F result = vectors.getZero();
-    F variable = vectors.getIdentity();
-    int power = 0;
-    for (Integer i : terms.keySet()) {
-      while (power < i) {
-        // TODO: Use repeated squaring?
-        variable = vectors.multiply(variable, input);
-        power++;
-      }
-      result = vectors.add(result, scaling.apply(terms.get(i), variable));
-      variable = vectors.multiply(variable, input);
+    int previous = 0;
+    for (Integer current : terms.keySet()) {
+      variable = ring.multiply(variable, repeatedSquaring.apply(input, current - previous));
+      previous = current;
+      result = ring.add(result, ring.multiply(terms.get(current), variable));
     }
     return result;
   }
@@ -203,21 +189,15 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
 
   /**
    * Get the <i>i</i>'th coefficient or, if it is not present, <code>null</code>.
-   * 
-   * @param i
-   * @return
    */
   public E getCoefficient(int i) {
     return terms.get(i);
   }
 
   /**
-   * Return the coefficients of this polynomial as a vector. The the coefficients (of degree less
+   * Return the coefficients of this polynomial as a vector. The coefficients (of degree less
    * than the degree of the polynomial) that are not present will be replaced by the given zero
    * value.
-   * 
-   * @param zero
-   * @return
    */
   public Vector<E> vector(E zero) {
     return new ConstructiveVector<>(degree() + 1, i -> {
@@ -235,7 +215,7 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
     return toString("x");
   }
 
-  public String toString(String variable) {
+  public String toString(String variable, Function<E, String> stringRepresentation) {
 
     if (terms.size() == 0) {
       return "";
@@ -245,21 +225,21 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
 
     for (Integer i : terms.keySet()) {
       boolean negative = false;
-      if (i != terms.firstKey()) {
-          
-          if (terms.get(i).toString().startsWith("-")) {
-            sb.append(" - ");
-            negative = true;
-          } else {
-            sb.append(" + ");
-          }
+      if (!i.equals(terms.firstKey())) {
+
+        if (stringRepresentation.apply(terms.get(i)).startsWith("-")) {
+          sb.append(" - ");
+          negative = true;
+        } else {
+          sb.append(" + ");
+        }
       }
-      
-      String c = terms.get(i).toString();
+
+      String c = stringRepresentation.apply(terms.get(i));
       if (negative) {
         c = c.substring(1);
       }
-      
+
       if (!c.equals("1") | i == 0) {
         sb.append(c);
       }
@@ -267,11 +247,15 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
       if (i == 1) {
         sb.append(variable);
       } else if (i > 1) {
-        sb.append(variable + StringUtils.superscript(Integer.toString(i)));
+        sb.append(variable).append(StringUtils.superscript(Integer.toString(i)));
       }
 
     }
     return sb.toString();
+  }
+
+  public String toString(String variable) {
+    return toString(variable, E::toString);
   }
 
 }

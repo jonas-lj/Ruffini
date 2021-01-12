@@ -6,7 +6,7 @@ import java.util.function.Function;
 
 public class Determinant<E> implements Function<Matrix<E>, E> {
 
-  private Ring<E> ring;
+  private final Ring<E> ring;
 
   public Determinant(Ring<E> ring) {
     this.ring = ring;

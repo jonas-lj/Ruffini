@@ -37,10 +37,7 @@ public class MatrixIndex {
     if (i != other.i) {
       return false;
     }
-    if (j != other.j) {
-      return false;
-    }
-    return true;
+    return j == other.j;
   }
   
   

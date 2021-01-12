@@ -10,20 +10,20 @@ import java.util.stream.Stream;
 
 public class ConcreteVector<E> extends BaseVector<E> {
 
-  private ArrayList<E> coordinates;
-  
+  private final ArrayList<E> coordinates;
+
   public ConcreteVector(int n, Supplier<E> supplier) {
     this(n, i -> supplier.get());
   }
-  
+
   public ConcreteVector(@SuppressWarnings("unchecked") E ... values) {
     this(values.length, i -> values[i]);
   }
 
   public ConcreteVector(int n, IntFunction<E> populator) {
-    this.coordinates = IntStream.range(0, n).mapToObj(populator).collect(Collectors.toCollection(ArrayList::new));
+    this.coordinates = IntStream.range(0, n).parallel().mapToObj(populator).collect(Collectors.toCollection(ArrayList::new));
   }
-  
+
   public ConcreteVector(ArrayList<E> coordinates) {
     this.coordinates = coordinates;
   }
@@ -36,17 +36,17 @@ public class ConcreteVector<E> extends BaseVector<E> {
   @Override
   public E get(int i) {
     return coordinates.get(i);
-  }  
+  }
 
   @Override
   public Iterator<E> iterator() {
     return coordinates.iterator();
   }
-  
+
   @Override
   public Stream<E> stream() {
     return coordinates.stream();
   }
 
-  
+
 }

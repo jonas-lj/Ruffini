@@ -7,8 +7,8 @@ import java.util.List;
 
 public class ProductGroup<E, F> implements Group<Pair<E, F>> {
 
-  private Group<E> g;
-  private Group<F> h;
+  private final Group<E> g;
+  private final Group<F> h;
 
   public static ProductGroup<?, ?> of(List<Group<?>> groups) {
     return new ProductGroup<>(groups.get(0), of(groups.subList(1, groups.size())));

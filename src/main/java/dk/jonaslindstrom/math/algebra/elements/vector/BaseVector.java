@@ -9,7 +9,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public abstract class BaseVector<E> implements Vector<E> {
-  
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -43,9 +43,9 @@ public abstract class BaseVector<E> implements Vector<E> {
     }
     return sb.toString();
   }
-  
+
   @Override
-  public boolean equals(ConcreteVector<E> other, BiPredicate<E, E> equality) {
+  public boolean equals(Vector<E> other, BiPredicate<E, E> equality) {
     for (int i = 0; i < getDimension(); i++) {
       if (!equality.test(this.get(i), other.get(i))) {
         return false;
@@ -53,18 +53,18 @@ public abstract class BaseVector<E> implements Vector<E> {
     }
     return true;
   }
-  
+
 
   @Override
   public Iterator<E> iterator() {
     return stream().iterator();
   }
-  
+
   @Override
   public Stream<E> stream() {
     return IntStream.range(0, this.getDimension()).mapToObj(i -> get(i));
   }
-    
+
   @Override
   public <F> Vector<F> map(Function<E, F> map) {
     return new ConcreteVector<>(this.getDimension(), i -> map.apply(get(i)));

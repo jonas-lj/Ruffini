@@ -7,14 +7,15 @@ import dk.jonaslindstrom.math.algebra.algorithms.Power;
 import dk.jonaslindstrom.math.algebra.elements.ECPoint;
 import dk.jonaslindstrom.math.algebra.elements.Polynomial;
 
-public class WeierstrassForm<E> implements EllipticCurve<E> {
+public class WeierstrassForm<E> implements EllipticCurve<ECPoint<E>> {
 
   private final E a, b;
   private final Field<E> field;
+  private final IntegerRingEmbedding<E> embedding;
 
   /**
-   * Curve on Weierstrass form. Field should have characteristics not 2 nor 3.
-   * 
+   * Curve on Weierstrass form. Field should have characteristics not equal to 2 or 3.
+   *
    * @param field
    * @param a
    * @param b
@@ -24,6 +25,7 @@ public class WeierstrassForm<E> implements EllipticCurve<E> {
     this.a = a;
     this.b = b;
     assert(!field.equals(discriminant(), field.getZero()));
+    this.embedding = new IntegerRingEmbedding<>(field);
   }
 
   public E discriminant() {
@@ -60,25 +62,21 @@ public class WeierstrassForm<E> implements EllipticCurve<E> {
     if (q.isPointAtInfinity()) {
       return p;
     }
-    
+
     if (field.equals(p.x, q.x)) {
       if (field.equals(p.y, field.negate(q.y))) {
         return ECPoint.pointAtInfinity();
       }
-      IntegerRingEmbedding<E> embedding = new IntegerRingEmbedding<>(field);
-      E s = field.divide(field.add(field.multiply(embedding.apply(3), field.multiply(p.x, p.x)), a),
-          field.multiply(embedding.apply(2), p.y));
+      E s = field.divide(field.add(field.multiply(embedding.apply(3), p.x, p.x), a),
+          field.add(p.y, p.y));
       E x = field.subtract(field.multiply(s, s), field.multiply(embedding.apply(2), p.x));
-      E y = field.add(p.y, field.multiply(s, field.subtract(x, p.x)));
-      y = field.negate(y);
+      E y = field.negate(field.add(p.y, field.multiply(s, field.subtract(x, p.x))));
       return new ECPoint<>(x, y);
     }
-    
+
     E s = field.divide(field.subtract(p.y, q.y), field.subtract(p.x, q.x));
     E x = field.subtract(field.multiply(s, s), field.add(p.x, p.y));
-    E y = field.add(p.y, field.multiply(s, field.subtract(x, p.x)));
-    y = field.negate(y);
-    
+    E y = field.negate(field.add(p.y, field.multiply(s, field.subtract(x, p.x))));
     return new ECPoint<>(x, y);
   }
 
@@ -91,7 +89,7 @@ public class WeierstrassForm<E> implements EllipticCurve<E> {
   public ECPoint<E> getZero() {
     return ECPoint.pointAtInfinity();
   }
-  
+
   public String toString() {
     Polynomial<E> rhs = Polynomial.of(field, b, a, field.getZero(), field.getIdentity());
     return "E: y² = " + rhs.toString("x");

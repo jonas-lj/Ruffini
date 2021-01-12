@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 
 public class GramSchmidtOverRing<E> implements UnaryOperator<List<Vector<E>>> {
 
-  private EuclideanDomain<E> ring;
-  private EuclideanAlgorithm<E> euclideanAlgorithm;
+  private final EuclideanDomain<E> ring;
+  private final EuclideanAlgorithm<E> euclideanAlgorithm;
 
   public GramSchmidtOverRing(EuclideanDomain<E> ring) {
     this.ring = ring;
@@ -26,11 +26,11 @@ public class GramSchmidtOverRing<E> implements UnaryOperator<List<Vector<E>>> {
   private Vector<E> sub(Vector<E> v, Vector<E> u) {
     return new ConcreteVector<>(v.getDimension(), i -> ring.add(v.get(i), ring.negate(u.get(i))));
   }
-  
+
   private E gcd(E a, E b) {
     return euclideanAlgorithm.extendedGcd(a, b).getFirst();
   }
-  
+
   private Vector<E> normalize(Vector<E> v) {
     E g = v.stream().reduce(this::gcd).get();
     return v.map(e -> ring.divisionWithRemainder(e, g).first);

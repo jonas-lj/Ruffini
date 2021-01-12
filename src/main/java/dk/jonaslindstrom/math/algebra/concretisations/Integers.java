@@ -5,16 +5,16 @@ import dk.jonaslindstrom.math.util.Pair;
 
 public class Integers implements EuclideanDomain<Integer> {
 
-  private static Integers instance = new Integers();
-  
+  private static final Integers instance = new Integers();
+
   public static Integers getInstance() {
     return instance;
   }
-  
+
   private Integers() {
-    
+
   }
-  
+
   @Override
   public Integer multiply(Integer a, Integer b) {
     return a * b;
@@ -67,4 +67,8 @@ public class Integers implements EuclideanDomain<Integer> {
     return Math.abs(a);
   }
 
+  @Override
+  public int getCharacteristics() {
+    return 0;
+  }
 }

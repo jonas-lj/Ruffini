@@ -23,9 +23,7 @@ public abstract class BaseMatrix<E> implements Matrix<E> {
     }
 
     DotProduct<E> innerProduct = new DotProduct<>(ring);
-    ConcreteVector<E> v = new ConcreteVector<>(getHeight(), i -> {
-      return innerProduct.apply(getRow(i), b);
-    });
+    ConcreteVector<E> v = new ConcreteVector<>(getHeight(), i -> innerProduct.apply(getRow(i), b));
 
     return v;
   }

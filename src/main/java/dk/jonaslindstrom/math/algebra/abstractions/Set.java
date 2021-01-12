@@ -1,29 +1,15 @@
 package dk.jonaslindstrom.math.algebra.abstractions;
 
-/**
- * 
- * 
- * @author Jonas Lindstrøm (jonas.lindstrom@alexandra.dk)
- *
- * @param <E>
- */
 public interface Set<E> {
 
   /**
-   * Return a human readable string representation of an element in this set.
-   * 
-   * @param a
-   * @return
+   * Returns a human readable string representation of an element in this set.
    */
-  public String toString(E a);
+  String toString(E a);
 
   /**
-   * Return <code>true</code> if and only if <i>a = b</i> as elements of this set.
-   * 
-   * @param a
-   * @param b
-   * @return
+   * Returns <code>true</code> if and only if <i>a = b</i> as elements of this set.
    */
-  public boolean equals(E a, E b);
+  boolean equals(E a, E b);
 
 }

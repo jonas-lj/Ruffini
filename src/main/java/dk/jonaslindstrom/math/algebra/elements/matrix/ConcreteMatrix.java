@@ -14,11 +14,11 @@ class ConcreteMatrix<E> extends BaseMatrix<E> {
   protected ArrayList<ArrayList<E>> rows;
 
   ConcreteMatrix(int m, int n, IntBinaryFunction<E> populator) {
-    this(m, i -> IntStream.range(0, n).mapToObj(j -> populator.apply(i, j)).collect(Collectors.toCollection(ArrayList::new)));
+    this(m, i -> IntStream.range(0, n).parallel().mapToObj(j -> populator.apply(i, j)).collect(Collectors.toCollection(ArrayList::new)));
   }
 
   ConcreteMatrix(int m, IntFunction<ArrayList<E>> rowPopulator) {
-    this(IntStream.range(0, m).mapToObj(rowPopulator).collect(Collectors.toCollection(ArrayList::new)));
+    this(IntStream.range(0, m).parallel().mapToObj(rowPopulator).collect(Collectors.toCollection(ArrayList::new)));
   }
 
   ConcreteMatrix(ArrayList<ArrayList<E>> rows) {
@@ -28,12 +28,6 @@ class ConcreteMatrix<E> extends BaseMatrix<E> {
   /**
    * Return a submatrix of this matrix containing row <i>r0,...,r1-1</i> and column
    * <i>c0,...,c1-1</i>.
-   * 
-   * @param r0
-   * @param r1
-   * @param c0
-   * @param c1
-   * @return
    */
   @Override
   public Matrix<E> submatrix(int r0, int r1, int c0, int c1) {
@@ -54,10 +48,9 @@ class ConcreteMatrix<E> extends BaseMatrix<E> {
 
   /**
    * Return a submatrix of this matrix with the given rows and columns.
-   * 
+   *
    * @param rows Rows to include in submatrix.
    * @param columns Columns to include in submatrix.
-   * @return
    */
   @Override
   public Matrix<E> submatrix(int[] rows, int[] columns) {
@@ -68,7 +61,7 @@ class ConcreteMatrix<E> extends BaseMatrix<E> {
   public E get(int i, int j) {
     return rows.get(i).get(j);
   }
-  
+
   void set(int i, int j, E e) {
     rows.get(i).set(j, e);
   }
@@ -102,7 +95,7 @@ class ConcreteMatrix<E> extends BaseMatrix<E> {
   public Matrix<E> view() {
     return new MatrixView<>(this);
   }
-  
+
   @Override
   public Matrix<E> extend(int m, int n, E padding) {
     assert (m >= getHeight() && n >= getWidth());

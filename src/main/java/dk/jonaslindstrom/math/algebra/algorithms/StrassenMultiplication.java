@@ -9,15 +9,11 @@ import java.util.function.BinaryOperator;
 
 /**
  * This function computes the product of two square matrices using the Strassen algorithm.
- * 
- * @author Jonas Lindstrøm (jonas.lindstrom@alexandra.dk)
- *
- * @param <E>
  */
 public class StrassenMultiplication<E> implements BinaryOperator<Matrix<E>> {
 
-  private Ring<E> ring;
-  private int bound;
+  private final Ring<E> ring;
+  private final int bound;
 
   public StrassenMultiplication(Ring<E> ring, int bound) {
     this.ring = ring;
@@ -50,13 +46,9 @@ public class StrassenMultiplication<E> implements BinaryOperator<Matrix<E>> {
 
     int m = n / 2;
 
-    Matrix<Matrix<E>> A = Matrix.of(2, 2, (i, j) -> {
-      return a.view().submatrix(i * m, (i + 1) * m, j * m, (j + 1) * m);
-    });
+    Matrix<Matrix<E>> A = Matrix.of(2, 2, (i, j) -> a.view().submatrix(i * m, (i + 1) * m, j * m, (j + 1) * m));
 
-    Matrix<Matrix<E>> B = Matrix.of(2, 2, (i, j) -> {
-      return b.view().submatrix(i * m, (i + 1) * m, j * m, (j + 1) * m);
-    });
+    Matrix<Matrix<E>> B = Matrix.of(2, 2, (i, j) -> b.view().submatrix(i * m, (i + 1) * m, j * m, (j + 1) * m));
 
     Matrix<E> m1 = apply(plus(A.get(0, 0), A.get(1, 1)), plus(B.get(0, 0), B.get(1, 1)));
     Matrix<E> m2 = apply(plus(A.get(1, 0), A.get(1, 1)), B.get(0, 0));

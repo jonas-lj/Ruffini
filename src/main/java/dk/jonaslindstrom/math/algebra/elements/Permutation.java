@@ -8,7 +8,7 @@ import java.util.function.UnaryOperator;
 
 public class Permutation implements UnaryOperator<Integer> {
 
-  private int[] p;
+  private final int[] p;
 
   public Permutation(Integer n) {
     // Identity permutation
@@ -53,7 +53,7 @@ public class Permutation implements UnaryOperator<Integer> {
     sb.append("⎠");
     return sb.toString();
   }
-  
+
   @Override
   public Integer apply(Integer x) {
     if (x < 0 || x >= p.length) {
@@ -61,7 +61,7 @@ public class Permutation implements UnaryOperator<Integer> {
     }
     return p[x];
   }
-  
+
   public Matrix<Integer> getMatrixRepresentation() {
     SparseMatrix.Builder<Integer> builder = new Builder<>(p.length, p.length, 0);
     for (int i = 0; i < p.length; i++) {

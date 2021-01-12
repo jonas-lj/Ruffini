@@ -7,8 +7,8 @@ import dk.jonaslindstrom.math.algebra.elements.Fraction;
 
 public class FieldOfFractions<E> implements Field<Fraction<E>> {
 
-  private EuclideanDomain<E> baseRing;
-  private EuclideanAlgorithm<E> euclideanAlgorithm;
+  private final EuclideanDomain<E> baseRing;
+  private final EuclideanAlgorithm<E> euclideanAlgorithm;
 
   public FieldOfFractions(EuclideanDomain<E> baseRing) {
     this.baseRing = baseRing;
@@ -73,4 +73,8 @@ public class FieldOfFractions<E> implements Field<Fraction<E>> {
     return "Frac(" + baseRing + ")";
   }
 
+  @Override
+  public int getCharacteristics() {
+    return baseRing.getCharacteristics();
+  }
 }

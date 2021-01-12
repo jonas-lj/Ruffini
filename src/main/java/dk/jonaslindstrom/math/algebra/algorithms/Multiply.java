@@ -3,16 +3,10 @@ package dk.jonaslindstrom.math.algebra.algorithms;
 import dk.jonaslindstrom.math.algebra.abstractions.AdditiveGroup;
 import java.util.function.BiFunction;
 
-/**
- * Compute <i>e a</i>.
- * 
- * @author Jonas Lindstrøm (jonas.lindstrom@alexandra.dk)
- *
- * @param <E>
- */
+/** Compute <i>e a</i> for and integer <i>e</i> and an element from an additive group, <i>a</i>. */
 public class Multiply<E> implements BiFunction<Integer, E, E> {
 
-  private AdditiveGroup<E> group;
+  private final AdditiveGroup<E> group;
 
   public Multiply(AdditiveGroup<E> group) {
     this.group = group;

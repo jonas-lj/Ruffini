@@ -13,10 +13,19 @@ public class BigIntegersModuloN extends QuotientRing<BigInteger> {
 
   public BigIntegersModuloN(BigInteger n) {
     super(BigIntegers.getInstance(), new BarrettReduction(n));
+    this.mod = n;
   }
 
   public BigIntegersModuloN(int n) {
     this(BigInteger.valueOf(n));
   }
-  
+
+  public BigInteger getModulus() {
+    return mod;
+  }
+
+  @Override
+  public int getCharacteristics() {
+    return 0;
+  }
 }

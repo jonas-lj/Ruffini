@@ -2,12 +2,14 @@ package dk.jonaslindstrom.math;
 
 import dk.jonaslindstrom.math.algebra.abstractions.Field;
 import dk.jonaslindstrom.math.algebra.abstractions.Ring;
+import dk.jonaslindstrom.math.algebra.algorithms.BerlekampRabinAlgorithm;
 import dk.jonaslindstrom.math.algebra.algorithms.CharacteristicPolynomial;
 import dk.jonaslindstrom.math.algebra.algorithms.ChineseRemainderTheorem;
 import dk.jonaslindstrom.math.algebra.algorithms.Determinant;
 import dk.jonaslindstrom.math.algebra.algorithms.DiscreteFourierTransform;
 import dk.jonaslindstrom.math.algebra.algorithms.DotProduct;
 import dk.jonaslindstrom.math.algebra.algorithms.EuclideanAlgorithm;
+import dk.jonaslindstrom.math.algebra.algorithms.GaussianElimination;
 import dk.jonaslindstrom.math.algebra.algorithms.GramMatrix;
 import dk.jonaslindstrom.math.algebra.algorithms.GramSchmidtOverRing;
 import dk.jonaslindstrom.math.algebra.algorithms.GröbnerBasis;
@@ -17,8 +19,10 @@ import dk.jonaslindstrom.math.algebra.algorithms.LagrangePolynomial;
 import dk.jonaslindstrom.math.algebra.algorithms.MatrixMultiplication;
 import dk.jonaslindstrom.math.algebra.algorithms.MultivariatePolynomialDivision;
 import dk.jonaslindstrom.math.algebra.algorithms.Power;
-import dk.jonaslindstrom.math.algebra.algorithms.ReducedRowEchelonForm;
+import dk.jonaslindstrom.math.algebra.algorithms.QuadraticEquation;
 import dk.jonaslindstrom.math.algebra.algorithms.StrassenMultiplication;
+import dk.jonaslindstrom.math.algebra.algorithms.TonelliShanks;
+import dk.jonaslindstrom.math.algebra.concretisations.AlgebraicFieldExtension;
 import dk.jonaslindstrom.math.algebra.concretisations.ComplexNumbers;
 import dk.jonaslindstrom.math.algebra.concretisations.EllipticCurve;
 import dk.jonaslindstrom.math.algebra.concretisations.FiniteField;
@@ -29,6 +33,7 @@ import dk.jonaslindstrom.math.algebra.concretisations.MultivariatePolynomialRing
 import dk.jonaslindstrom.math.algebra.concretisations.PolynomialRing;
 import dk.jonaslindstrom.math.algebra.concretisations.PolynomialRingOverRing;
 import dk.jonaslindstrom.math.algebra.concretisations.PrimeField;
+import dk.jonaslindstrom.math.algebra.concretisations.QuadraticField;
 import dk.jonaslindstrom.math.algebra.concretisations.Rationals;
 import dk.jonaslindstrom.math.algebra.concretisations.RealNumbers;
 import dk.jonaslindstrom.math.algebra.concretisations.SymmetricGroup;
@@ -44,7 +49,7 @@ import dk.jonaslindstrom.math.algebra.elements.Polynomial;
 import dk.jonaslindstrom.math.algebra.elements.matrix.Matrix;
 import dk.jonaslindstrom.math.algebra.elements.matrix.SparseMatrix;
 import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
-import dk.jonaslindstrom.math.algebra.exceptions.InvalidParametersException;
+import dk.jonaslindstrom.math.algebra.helpers.JacobiSymbol;
 import dk.jonaslindstrom.math.util.Pair;
 import dk.jonaslindstrom.math.util.Parser;
 import dk.jonaslindstrom.math.util.Triple;
@@ -75,10 +80,10 @@ public class TestAlgebra {
   @Test
   public void testPolynomialDivision() {
     Integers ℤ = Integers.getInstance();
-    PolynomialRingOverRing<Integer> ℤx = new PolynomialRingOverRing<Integer>(ℤ);
+    PolynomialRingOverRing<Integer> ℤx = new PolynomialRingOverRing<>(ℤ);
 
-    Polynomial<Integer> a = Polynomial.of(ℤ, -4, 0, -2, 1);
-    Polynomial<Integer> b = Polynomial.of(ℤ, -3, 1);
+    Polynomial<Integer> a = Polynomial.of(-4, 0, -2, 1);
+    Polynomial<Integer> b = Polynomial.of(-3, 1);
 
     Pair<Polynomial<Integer>, Polynomial<Integer>> result = ℤx.divisionWithRemainder(a, b);
 
@@ -116,11 +121,6 @@ public class TestAlgebra {
   /**
    * Test the given field. It's assumed that <i>a</i> times <i>b</i> should be the parameter
    * <i>ab</i> in the field.
-   * 
-   * @param field
-   * @param a
-   * @param b
-   * @param ab
    */
   private static <E> void testField(Field<E> field, E a, E b, E ab) {
     E actualAb = field.multiply(a, b);
@@ -140,7 +140,7 @@ public class TestAlgebra {
 
     testField(GF256, a, b, ab);
   }
-  
+
   @Test
   public void testFiniteField32() {
 
@@ -154,7 +154,7 @@ public class TestAlgebra {
   }
 
   @Test
-  public void testZn() throws InvalidParametersException {
+  public void testZn() {
 
     int n = 13;
     IntegersModuloN ℤ13 = new IntegersModuloN(n);
@@ -168,7 +168,7 @@ public class TestAlgebra {
   }
 
   @Test
-  public void testRationals() throws InvalidParametersException {
+  public void testRationals() {
     Rationals ℚ = Rationals.getInstance();
 
     Fraction<Integer> a = Parser.parseFraction("4 / 3");
@@ -178,7 +178,7 @@ public class TestAlgebra {
   }
 
   @Test
-  public void testComplexNumbers() throws InvalidParametersException {
+  public void testComplexNumbers() {
     ComplexNumbers ℂ = ComplexNumbers.getInstance();
 
     ComplexNumber a = new ComplexNumber(1, 3);
@@ -191,8 +191,8 @@ public class TestAlgebra {
   public void testMatrix() {
 
     Integers ℤ = Integers.getInstance();
-    Matrix<Integer> a = Matrix.of(7, 
-        1, 2, 3, 4, 5, 6, 7, 
+    Matrix<Integer> a = Matrix.of(7,
+        1, 2, 3, 4, 5, 6, 7,
         2, 3, 4, 5, 6, 7, 8,
         3, 4, 5, 6, 7, 8, 9,
         4, 5, 6, 7, 8, 9, 1,
@@ -213,8 +213,8 @@ public class TestAlgebra {
 
   @Test
   public void testMatrixView() {
-    Matrix<Integer> a = Matrix.of(7, 
-        1, 2, 3, 4, 5, 6, 7, 
+    Matrix<Integer> a = Matrix.of(7,
+        1, 2, 3, 4, 5, 6, 7,
         2, 3, 4, 5, 6, 7, 8,
         3, 4, 5, 6, 7, 8, 9,
         4, 5, 6, 7, 8, 9, 1,
@@ -223,8 +223,8 @@ public class TestAlgebra {
         7, 8, 9, 1, 2, 3, 4);
 
     Matrix<Integer> b = a.view().submatrix(1, 3, 2, 4);
-    Assert.assertTrue(b.get(0, 0) == a.get(1, 2));
-    Assert.assertTrue(b.get(1, 1) == a.get(2, 3));
+    Assert.assertSame(b.get(0, 0), a.get(1, 2));
+    Assert.assertSame(b.get(1, 1), a.get(2, 3));
   }
 
   @Test
@@ -238,26 +238,26 @@ public class TestAlgebra {
 
     System.out.println(a);
 
-    Assert.assertTrue(a.get(0, 2) == 0);
-    Assert.assertTrue(a.get(1, 7) == 1);
+    Assert.assertEquals(0, (int) a.get(0, 2));
+    Assert.assertEquals(1, (int) a.get(1, 7));
   }
 
   @Test
   public void testPolynomialParser() {
     Polynomial<Integer> p = Polynomial.parse("1 +2x^2- 3x", "x");
 
-    Assert.assertTrue(p.getCoefficient(0) == 1);
-    Assert.assertTrue(p.getCoefficient(1) == -3);
-    Assert.assertTrue(p.getCoefficient(2) == 2);
+    Assert.assertEquals(1, (int) p.getCoefficient(0));
+    Assert.assertEquals((int) p.getCoefficient(1), -3);
+    Assert.assertEquals(2, (int) p.getCoefficient(2));
   }
 
   @Test
   public void testLA() {
     PrimeField field = new PrimeField(7);
-    Matrix<Integer> a = Matrix.of(4, 
-        1, 2, 3, 1, 
-        4, 1, 2, 2, 
-        3, 4, 4, 0, 
+    Matrix<Integer> a = Matrix.of(4,
+        1, 2, 3, 1,
+        4, 1, 2, 2,
+        3, 4, 4, 0,
         3, 1, 4, 4);
 
     MatrixRing<Integer> M = new MatrixRing<>(field, 3);
@@ -265,7 +265,7 @@ public class TestAlgebra {
     Matrix<Integer> b = M.multiply(a, a);
     System.out.println(b);
 
-    ReducedRowEchelonForm<Integer> ero = new ReducedRowEchelonForm<>(field);
+    GaussianElimination<Integer> ero = new GaussianElimination<>(field);
     Matrix<Integer> c = ero.apply(a);
 
     System.out.println(c);
@@ -297,9 +297,9 @@ public class TestAlgebra {
 
     System.out.println("(" + p + ")+(" + q + ") = " + r);
 
-    Assert.assertTrue(r.getCoefficient(1) == 1);
+    Assert.assertEquals(1, (int) r.getCoefficient(1));
 
-    Assert.assertTrue(r.getCoefficient(3) == 3);
+    Assert.assertEquals(3, (int) r.getCoefficient(3));
   }
 
   @Test
@@ -313,10 +313,10 @@ public class TestAlgebra {
 
     System.out.println("(" + p + ")*(" + q + ") = " + r);
 
-    Assert.assertTrue(r.getCoefficient(0) == 30);
-    Assert.assertTrue(r.getCoefficient(1) == -39);
-    Assert.assertTrue(r.getCoefficient(2) == 2);
-    Assert.assertTrue(r.getCoefficient(3) == 8);
+    Assert.assertEquals(30, (int) r.getCoefficient(0));
+    Assert.assertEquals((int) r.getCoefficient(1), -39);
+    Assert.assertEquals(2, (int) r.getCoefficient(2));
+    Assert.assertEquals(8, (int) r.getCoefficient(3));
   }
 
   @Test
@@ -345,26 +345,21 @@ public class TestAlgebra {
   @Test
   public void testDeterminant() {
     Integers ℤ = Integers.getInstance();
-    Matrix<Integer> a = Matrix.of(3, 
-        -2, 2, -3, 
-        -1, 1, 3, 
+    Matrix<Integer> a = Matrix.of(3,
+        -2, 2, -3,
+        -1, 1, 3,
         2, 0, -1);
 
-    Matrix<Integer> b = Matrix.of(4, 
-        1, 3, 5, 9, 
-        1, 3, 1, 7, 
-        4, 3, 9, 7, 
+    Matrix<Integer> b = Matrix.of(4,
+        1, 3, 5, 9,
+        1, 3, 1, 7,
+        4, 3, 9, 7,
         5, 2, 0, 9);
 
     Function<Matrix<Integer>, Integer> determinant = new Determinant<>(ℤ);
 
-    Integer d = determinant.apply(a);
-    Integer expected = 18;
-    Assert.assertEquals(expected, d);
-
-    d = determinant.apply(b);
-    expected = -376;
-    Assert.assertEquals(expected, d);
+    Assert.assertEquals(18, (int) determinant.apply(a));
+    Assert.assertEquals(-376, (int) determinant.apply(b));
   }
 
   @Test
@@ -437,7 +432,7 @@ public class TestAlgebra {
     for (Vector<Integer> u : U) {
       for (Vector<Integer> v : U) {
         if (u != v) {
-          Assert.assertTrue(0 == dot.apply(u, v));
+          Assert.assertEquals(0, (int) dot.apply(u, v));
         }
       }
     }
@@ -456,7 +451,7 @@ public class TestAlgebra {
     int x = 3;
     int e = 7;
     Power<Integer> power = new Power<>(Integers.getInstance());
-    Assert.assertTrue(power.apply(x, e) == Math.pow(x, e));
+    Assert.assertEquals(power.apply(x, e).intValue(), 2187);
   }
 
   @Test
@@ -470,14 +465,14 @@ public class TestAlgebra {
     Vector<Integer> x = Vector.of(6, 0, 10, 7, 2, 3, 4, 2);
     Vector<Integer> X = ntt.apply(x);
 
-    Assert.assertTrue(X.get(0) == 0);
-    Assert.assertTrue(X.get(1) == 11);
-    Assert.assertTrue(X.get(2) == 1);
-    Assert.assertTrue(X.get(3) == 11);
-    Assert.assertTrue(X.get(4) == 10);
-    Assert.assertTrue(X.get(5) == 0);
-    Assert.assertTrue(X.get(6) == 4);
-    Assert.assertTrue(X.get(7) == 11);
+    Assert.assertEquals(0, (int) X.get(0));
+    Assert.assertEquals(11, (int) X.get(1));
+    Assert.assertEquals(1, (int) X.get(2));
+    Assert.assertEquals(11, (int) X.get(3));
+    Assert.assertEquals(10, (int) X.get(4));
+    Assert.assertEquals(0, (int) X.get(5));
+    Assert.assertEquals(4, (int) X.get(6));
+    Assert.assertEquals(11, (int) X.get(7));
 
     InverseDiscreteFourierTransform<Integer> inv =
         new InverseDiscreteFourierTransform<>(ring, a, n);
@@ -512,7 +507,7 @@ public class TestAlgebra {
 
     for (int i = 0; i <= r.degree(); i++) {
       if (Objects.isNull(r.getCoefficient(i))) {
-        Assert.assertTrue(0 == w.get(i));
+        Assert.assertEquals(0, (int) w.get(i));
         continue;
       }
       Assert.assertEquals(w.get(i), r.getCoefficient(i));
@@ -550,22 +545,22 @@ public class TestAlgebra {
     }
 
   }
-  
+
   @Test
   public void testMultivariatePolynomialDivision() {
 
     MultivariatePolynomial.DEFAULT_ORDERING =
         new MultivariatePolynomial.GradedLexicographicalOrdering();
-    
+
     Field<Integer> gf2 = new PrimeField(2);
-    MultivariatePolynomialRing<Integer> ring = new MultivariatePolynomialRing<Integer>(gf2, 2);
+    MultivariatePolynomialRing<Integer> ring = new MultivariatePolynomialRing<>(gf2, 2);
 
     Vector<MultivariatePolynomial<Integer>> f = Vector.of(
         new MultivariatePolynomial.Builder<>(2, gf2).add(1, 1, 1).add(1, 0, 0).build(),
         new MultivariatePolynomial.Builder<>(2, gf2).add(1, 0, 2).add(1, 0, 0).build());
-    
+
     MultivariatePolynomialDivision<Integer> division =
-        new MultivariatePolynomialDivision<Integer>(ring);
+        new MultivariatePolynomialDivision<>(ring);
 
     MultivariatePolynomial<Integer> g =
         new MultivariatePolynomial.Builder<>(2, gf2).add(1, 2, 1).add(1, 1, 2).add(1, 0, 2).build();
@@ -575,45 +570,132 @@ public class TestAlgebra {
 
     // Compute the linear combination of the result and the dividends
 
-    MultivariatePolynomial<Integer> sum = new DotProduct<>(ring).apply(f, result.first);    
+    MultivariatePolynomial<Integer> sum = new DotProduct<>(ring).apply(f, result.first);
     sum = ring.add(sum, result.second);
     Assert.assertTrue(ring.equals(sum, g));
   }
-  
+
   @Test
   public void testGröbnerBasis() {
     MonomialOrdering ordering =
         new MultivariatePolynomial.GradedLexicographicalOrdering();
-    
+
     Field<Integer> gf2 = new PrimeField(2);
-    MultivariatePolynomialRing<Integer> ring = new MultivariatePolynomialRing<Integer>(gf2, 3);
-    
+    MultivariatePolynomialRing<Integer> ring = new MultivariatePolynomialRing<>(gf2, 3);
+
     Vector<MultivariatePolynomial<Integer>> g = Vector.of(
         new MultivariatePolynomial.Builder<>(3, gf2, ordering).add(1, 1, 1, 1).add(1, 1, 1, 0).build(),
         new MultivariatePolynomial.Builder<>(3, gf2, ordering).add(1, 2, 1, 0).add(1, 0, 1, 1).build());
 
     GröbnerBasis<Integer> gröbner = new GröbnerBasis<>(ring, ordering);
     Vector<MultivariatePolynomial<Integer>> ĝ = gröbner.apply(g);
-    
+
     Assert.assertTrue(
         ĝ.anyMatch(e -> ring.equals(e, new MultivariatePolynomial.Builder<>(3, gf2, ordering)
             .add(1, 0, 1, 2).add(1, 0, 1, 1).build())));
     System.out.println(ĝ);
   }
-  
+
   @Test
   public void testEllipticCurve() {
     int p = 13;
     PrimeField Fp = new PrimeField(p);
-    
-    EllipticCurve<Integer> E = new WeierstrassForm<Integer>(Fp, 1, 1);
+
+    EllipticCurve<ECPoint<Integer>> E = new WeierstrassForm<>(Fp, 1, 1);
     System.out.println(E);
-    
+
     ECPoint<Integer> P = new ECPoint<>(0,1);
     ECPoint<Integer> Q = new ECPoint<>(1,4);
-    
+
     Assert.assertTrue(E.equals(E.add(P, Q), new ECPoint<>(8, 1)));
-    Assert.assertTrue(E.equals(E.add(P, P), new ECPoint<>(10, 7)));    
+    Assert.assertTrue(E.equals(E.add(P, P), new ECPoint<>(10, 7)));
     Assert.assertTrue(E.equals(E.subtract(P, Q), new ECPoint<>(11, 2)));
   }
+
+  @Test
+  public void testFieldExtension() {
+    Rationals ℚ = Rationals.getInstance();
+
+    AlgebraicFieldExtension<Fraction<Integer>> K = new QuadraticField(-5);
+
+    Polynomial<Fraction<Integer>> r = Polynomial.of(ℚ, ℚ.integer(2), ℚ.integer(1));
+    Polynomial<Fraction<Integer>> q = K.invert(r);
+    testField(K, r, q, K.getIdentity());
+
+  }
+
+  @Test
+  public void testJacobiSymbol() {
+    JacobiSymbol jacobiSymbol = new JacobiSymbol();
+
+    Assert.assertEquals(-1, jacobiSymbol.applyAsInt(7, 3));
+    Assert.assertEquals(-1, jacobiSymbol.applyAsInt(11, 2));
+    Assert.assertEquals(0, jacobiSymbol.applyAsInt(7, 0));
+    Assert.assertEquals(1, jacobiSymbol.applyAsInt(9, 4));
+    Assert.assertEquals(-1, jacobiSymbol.applyAsInt(59, 30));
+  }
+
+  @Test
+  public void testTonelliShanks() {
+
+    FiniteField field = new FiniteField(3, 4);
+    TonelliShanks tonelliShanks = new TonelliShanks(field);
+
+    Polynomial<Integer> a = Polynomial.of(Integers.getInstance(), 0, 2, 1, 1);
+    Polynomial<Integer> x = tonelliShanks.apply(a);
+
+    Assert.assertTrue(field.equals(a, field.multiply(x, x)));
+
+    Polynomial<Integer> b = Polynomial.of(Integers.getInstance(), 1, 1, 1, 1);
+    try {
+      tonelliShanks.apply(b);
+      Assert.fail();
+    } catch (IllegalArgumentException e) {
+      // Should fail
+    }
+  }
+
+  @Test
+  public void testQuadraticEquationPrimeField() {
+
+    PrimeField field = new PrimeField(23);
+
+    int a = 4;
+    int b = 2;
+    int c = 6;
+
+    QuadraticEquation<Integer, PrimeField> equation = QuadraticEquation.create(a, b, c, field);
+    int x = equation.solve();
+
+    Polynomial<Integer> polynomial = Polynomial.of(c, b, a);
+    Assert.assertEquals(0, (int) polynomial.apply(x, field));
+  }
+
+  @Test
+  public void testQuadraticEquationFiniteField() {
+
+    FiniteField field = new FiniteField(3, 4);
+
+    Polynomial<Integer> a = Polynomial.of(1, 2, 1, 1, 1);
+    Polynomial<Integer> b = Polynomial.of(1, 1, 1, 0, 2);
+    Polynomial<Integer> c = Polynomial.of(2, 2, 0, 1, 1);
+
+    QuadraticEquation<Polynomial<Integer>, FiniteField> equation = QuadraticEquation.create(a, b, c, field);
+    Polynomial<Integer> x = equation.solve();
+    System.out.println(x);
+
+    Polynomial<Polynomial<Integer>> polynomial = Polynomial.of(field, c, b, a);
+    Polynomial<Integer> p = polynomial.apply(x, field);
+    Assert.assertTrue(field.equals(field.getZero(), p));
+  }
+
+  @Test
+  public void testBerlekampRabin() {
+    Polynomial<Integer> f = Polynomial.of(4, 3, 2, 1);
+    int p = 13;
+    BerlekampRabinAlgorithm berlekampRabinAlgorithm = new BerlekampRabinAlgorithm(p);
+    int x = berlekampRabinAlgorithm.apply(f);
+    Assert.assertEquals(0, f.apply(x, new PrimeField(p)).intValue());
+  }
+
 }

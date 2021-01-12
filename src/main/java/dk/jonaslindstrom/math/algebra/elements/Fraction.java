@@ -16,13 +16,16 @@ public class Fraction<E> {
   public E getDenominator() {
     return denominator;
   }
-  
+
   public static <F> Fraction<F> of(F nominator, F denominator) {
     return new Fraction<>(nominator, denominator);
   }
 
   @Override
   public String toString() {
+    if (denominator.toString().equals("1")) {
+      return nominator.toString();
+    }
     return nominator + "/" + denominator;
   }
 }

@@ -3,10 +3,11 @@ package dk.jonaslindstrom.math.algebra.concretisations;
 import dk.jonaslindstrom.math.algebra.abstractions.Group;
 import dk.jonaslindstrom.math.algebra.elements.Permutation;
 import dk.jonaslindstrom.math.util.StringUtils;
+import java.util.Objects;
 
 public class SymmetricGroup implements Group<Permutation> {
 
-  private int n;
+  private final int n;
 
   public SymmetricGroup(int n) {
     this.n = n;
@@ -34,7 +35,7 @@ public class SymmetricGroup implements Group<Permutation> {
   @Override
   public boolean equals(Permutation a, Permutation b) {
     for (int i = 0; i < n; i++) {
-      if (a.apply(i) != b.apply(i)) {
+      if (!Objects.equals(a.apply(i), b.apply(i))) {
         return false;
       }
     }

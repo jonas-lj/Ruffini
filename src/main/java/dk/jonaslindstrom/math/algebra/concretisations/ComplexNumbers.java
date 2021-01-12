@@ -5,16 +5,16 @@ import dk.jonaslindstrom.math.algebra.elements.ComplexNumber;
 
 public class ComplexNumbers implements Field<ComplexNumber> {
 
-  private static ComplexNumbers instance = new ComplexNumbers();
-  
+  private static final ComplexNumbers instance = new ComplexNumbers();
+
   private ComplexNumbers() {
-    
+
   }
-  
+
   public static ComplexNumbers getInstance() {
     return instance;
   }
-  
+
   @Override
   public ComplexNumber invert(ComplexNumber a) {
     double n = a.x * a.x + a.y * a.y;
@@ -55,9 +55,13 @@ public class ComplexNumbers implements Field<ComplexNumber> {
   public ComplexNumber getZero() {
     return new ComplexNumber(0, 0);
   }
-  
+
   public String toString() {
-    return "ℂ";    
+    return "ℂ";
   }
 
+  @Override
+  public int getCharacteristics() {
+    return 0;
+  }
 }

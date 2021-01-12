@@ -7,14 +7,14 @@ import dk.jonaslindstrom.math.util.Pair;
 
 public class BigIntegers implements EuclideanDomain<BigInteger> {
 
-  private static BigIntegers instance = new BigIntegers();
-  
+  private static final BigIntegers instance = new BigIntegers();
+
   public static BigIntegers getInstance() {
     return instance;
   }
-  
+
   private BigIntegers() {
-    
+
   }
 
   @Override
@@ -63,4 +63,8 @@ public class BigIntegers implements EuclideanDomain<BigInteger> {
     return a.abs().intValue();
   }
 
+  @Override
+  public int getCharacteristics() {
+    return 0;
+  }
 }

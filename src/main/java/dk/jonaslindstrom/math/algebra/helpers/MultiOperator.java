@@ -5,14 +5,14 @@ import java.util.function.BinaryOperator;
 /**
  * Instances of this class allows for easy repeated application of a binary operator on many
  * operands.
- * 
+ *
  * @author Jonas Lindstrøm (jonas.lindstrom@alexandra.dk)
  *
  * @param <E>
  */
 public class MultiOperator<E> {
 
-  private BinaryOperator<E> operator;
+  private final BinaryOperator<E> operator;
 
   public MultiOperator(BinaryOperator<E> operator) {
     this.operator = operator;
