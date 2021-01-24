@@ -11,6 +11,17 @@
 		<maven.compiler.source>13</maven.compiler.source>
 		<maven.compiler.target>13</maven.compiler.target>
 	</properties>
+<build>
+	<plugins>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-javadoc-plugin</artifactId>
+			<configuration>
+				<additionalOptions>-Xdoclint:none</additionalOptions>
+			</configuration>
+		</plugin>
+	</plugins>
+</build>
 
 	<dependencies>
 		<dependency>
