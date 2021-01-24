@@ -10,7 +10,7 @@
   <h3 align="center">Ruffini</h3>
 
   <p align="center">
-    Computations over algebraic structures made easy
+    Computations over algebraic structures in Java made easy
   </p>
 </p>
 
@@ -25,7 +25,6 @@
     <li><a href="#usage">Usage</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
 
@@ -34,11 +33,14 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-The Ruffini library is developed to make it easy to implement algorithms in Java involving various algebraic structures such as finite field, polynomials, elliptic curves etc. The library includes an extensive library of already implemented algorithms such as the Euclidean algorithm, polynomial division etc. to make implementation even easier.
+The Ruffini library is developed to make it easy to implement algorithms in Java involving various 
+algebraic structures such as finite fields, polynomial rings, field extensions etc. The library includes 
+an extensive library of already implemented algorithms such as the Euclidean algorithm, polynomial 
+division etc. to make implementation even easier.
 
 
 ## Built With
-The project is build using maven,
+The project may be build using maven,
 ```
 mvn clean install
 ```
@@ -85,15 +87,14 @@ public class GramSchmidt<V, S, F extends Field<S>> implements Function<List<V>, 
   }
 
 }
-
 ```
 
-There are a few demo applications showing some of the capabilities of the library. They are found in `src/main/java/dk/jonaslindstrom/math/demo`.
+There are a few demo applications showing some capabilities of the library. They are found in `src/main/java/dk/jonaslindstrom/math/demo`.
 
 <!-- CONTRIBUTING -->
 ## Contributing
 
-If you want to help out developing new features for Ruffini or fix a bug you've stumbleb upon, it may be done as follows:
+If you want to help out developing new features for Ruffini or fix a bug you've stumbled upon, it may be done as follows:
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/MyFeature`)
@@ -107,11 +108,3 @@ If you want to help out developing new features for Ruffini or fix a bug you've 
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
-
-
-<!-- CONTACT -->
-## Contact
-
-Jonas Lindstrøm - [@lindstrom_dk](https://twitter.com/lindstrom_dk) - mail@jonaslindstrom.dk
-
-Project Link: [https://github.com/jonas-lj/Ruffini](https://github.com/jonas-lj/Ruffini)](https://github.com/jonas-lj/Ruffini)
