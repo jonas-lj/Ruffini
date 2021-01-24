@@ -1,10 +1,11 @@
 package dk.jonaslindstrom.math.algebra.helpers;
 
+import dk.jonaslindstrom.math.algebra.abstractions.Ring;
 import java.util.Objects;
 
-import dk.jonaslindstrom.math.algebra.abstractions.Ring;
-
-/** This class wraps a ring but operations will treat null operands as if they were zero. */
+/**
+ * This class wraps a ring but operations will treat null operands as if they were zero.
+ */
 public class NullSafeRing<E> implements Ring<E> {
 
   private final Ring<E> ring;
@@ -74,8 +75,4 @@ public class NullSafeRing<E> implements Ring<E> {
     return ring.getZero();
   }
 
-  @Override
-  public int getCharacteristics() {
-    return ring.getCharacteristics();
-  }
 }

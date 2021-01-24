@@ -27,7 +27,8 @@ public class MatrixMultiplication<E> implements BinaryOperator<Matrix<E>> {
       throw new IllegalArgumentException("Matrix sizes does allow multiplication.");
     }
 
-    return Matrix.of(a.getHeight(), b.getWidth(), (i, j) -> dotProduct.apply(a.getRow(i), b.getColumn(j)));
+    return Matrix
+        .of(a.getHeight(), b.getWidth(), (i, j) -> dotProduct.apply(a.getRow(i), b.getColumn(j)));
   }
 
 }

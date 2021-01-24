@@ -11,12 +11,14 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class QRDecomposition<E, F extends Field<E>> implements Function<Matrix<E>, Pair<Matrix<E>, Matrix<E>>> {
+public class QRDecomposition<E, F extends Field<E>> implements
+    Function<Matrix<E>, Pair<Matrix<E>, Matrix<E>>> {
 
   private final InnerProductSpace<Vector<E>, E, F> V;
   private final UnaryOperator<Vector<E>> normalize;
 
-  public QRDecomposition(InnerProductSpace<Vector<E>, E, F> vectorSpace, UnaryOperator<Vector<E>> normalize) {
+  public QRDecomposition(InnerProductSpace<Vector<E>, E, F> vectorSpace,
+      UnaryOperator<Vector<E>> normalize) {
     this.V = vectorSpace;
     this.normalize = normalize;
   }
@@ -31,9 +33,9 @@ public class QRDecomposition<E, F extends Field<E>> implements Function<Matrix<E
     List<Vector<E>> u = gramSchmidt.apply(columns);
     List<Vector<E>> e = u.parallelStream().map(normalize).collect(Collectors.toList());
 
-    Matrix<E> Q = Matrix.of(A.getHeight(), A.getHeight(), (i,j) -> e.get(j).get(i));
-    Matrix<E> R = Matrix.of(A.getHeight(), A.getWidth(), (i,j) ->
-      i <= j ? V.innerProduct(e.get(i), A.getColumn(j)) : V.getScalars().getZero()
+    Matrix<E> Q = Matrix.of(A.getHeight(), A.getHeight(), (i, j) -> e.get(j).get(i));
+    Matrix<E> R = Matrix.of(A.getHeight(), A.getWidth(), (i, j) ->
+        i <= j ? V.innerProduct(e.get(i), A.getColumn(j)) : V.getScalars().getZero()
     );
 
     return new Pair<>(Q, R);

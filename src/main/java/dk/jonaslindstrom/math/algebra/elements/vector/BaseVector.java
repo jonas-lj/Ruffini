@@ -15,7 +15,8 @@ public abstract class BaseVector<E> implements Vector<E> {
     StringBuilder sb = new StringBuilder();
     int maxLength = 0;
     for (int j = 0; j < getDimension(); j++) {
-      maxLength = Math.max(maxLength, (Objects.nonNull(get(j)) ? get(j).toString() : "N/A").length());
+      maxLength = Math
+          .max(maxLength, (Objects.nonNull(get(j)) ? get(j).toString() : "N/A").length());
     }
     maxLength += 2; // Ensure space on both sides of values
 
@@ -62,7 +63,7 @@ public abstract class BaseVector<E> implements Vector<E> {
 
   @Override
   public Stream<E> stream() {
-    return IntStream.range(0, this.getDimension()).mapToObj(i -> get(i));
+    return IntStream.range(0, this.getDimension()).mapToObj(this::get);
   }
 
   @Override

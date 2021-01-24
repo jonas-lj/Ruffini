@@ -3,7 +3,7 @@ package dk.jonaslindstrom.math.algebra.elements.matrix;
 public class MutableMatrix<E> extends ConcreteMatrix<E> {
 
   public MutableMatrix(int m, int n, E defaultValue) {
-    super(m, n, (i,j) -> defaultValue);
+    super(m, n, (i, j) -> defaultValue);
   }
 
   MutableMatrix(Matrix<E> matrix) {

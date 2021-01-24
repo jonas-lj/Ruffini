@@ -16,12 +16,14 @@ public class ConcreteVector<E> extends BaseVector<E> {
     this(n, i -> supplier.get());
   }
 
-  public ConcreteVector(@SuppressWarnings("unchecked") E ... values) {
+  @SafeVarargs
+  public ConcreteVector(E... values) {
     this(values.length, i -> values[i]);
   }
 
   public ConcreteVector(int n, IntFunction<E> populator) {
-    this.coordinates = IntStream.range(0, n).parallel().mapToObj(populator).collect(Collectors.toCollection(ArrayList::new));
+    this.coordinates = IntStream.range(0, n).parallel().mapToObj(populator)
+        .collect(Collectors.toCollection(ArrayList::new));
   }
 
   public ConcreteVector(ArrayList<E> coordinates) {

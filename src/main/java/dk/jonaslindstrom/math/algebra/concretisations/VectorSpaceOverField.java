@@ -5,7 +5,8 @@ import dk.jonaslindstrom.math.algebra.abstractions.InnerProductSpace;
 import dk.jonaslindstrom.math.algebra.algorithms.DotProduct;
 import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
 
-public class VectorSpaceOverField<E, F extends Field<E>> extends AbstractVectorSpace<Vector<E>, E, F>
+public class VectorSpaceOverField<E, F extends Field<E>> extends
+    AbstractVectorSpace<Vector<E>, E, F>
     implements InnerProductSpace<Vector<E>, E, F> {
 
   public VectorSpaceOverField(F field, int n) {
@@ -19,7 +20,7 @@ public class VectorSpaceOverField<E, F extends Field<E>> extends AbstractVectorS
 
   @Override
   public E innerProduct(Vector<E> v, Vector<E> u) {
-    return new DotProduct<>(getScalars()).apply(v,u);
+    return new DotProduct<>(getScalars()).apply(v, u);
   }
 
   @Override

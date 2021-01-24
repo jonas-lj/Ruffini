@@ -1,31 +1,35 @@
 package dk.jonaslindstrom.math.algebra.concretisations;
 
-import dk.jonaslindstrom.math.algebra.algorithms.MultivariatePolynomialDivision;
-import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
-import java.util.Objects;
-
 import dk.jonaslindstrom.math.algebra.abstractions.EuclideanDomain;
 import dk.jonaslindstrom.math.algebra.abstractions.Field;
+import dk.jonaslindstrom.math.algebra.algorithms.MultivariatePolynomialDivision;
 import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial;
 import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial.Monomial;
+import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
 import dk.jonaslindstrom.math.util.Pair;
+import java.util.Comparator;
+import java.util.Objects;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * This class implements the ring of polynomials <i>K[x]</i> over a field <i>K</i>.
- *
- * @author jonas
- *
- * @param <E>
  */
 public class MultivariatePolynomialRing<E>
     implements EuclideanDomain<MultivariatePolynomial<E>> {
 
   private final Field<E> field;
   private final int variables;
+  private final Comparator<Monomial> ordering;
 
-  public MultivariatePolynomialRing(Field<E> field, int variables) {
+  public MultivariatePolynomialRing(Field<E> field, int variables, Comparator<Monomial> ordering) {
     this.field = field;
     this.variables = variables;
+    this.ordering = ordering;
+  }
+
+  public MultivariatePolynomialRing(Field<E> field, int variables) {
+    this(field, variables, MultivariatePolynomial.DEFAULT_ORDERING);
   }
 
   public Field<E> getField() {
@@ -106,17 +110,14 @@ public class MultivariatePolynomialRing<E>
   @Override
   public Pair<MultivariatePolynomial<E>, MultivariatePolynomial<E>> divisionWithRemainder(
       MultivariatePolynomial<E> a, MultivariatePolynomial<E> b) {
-    return null;
+    Pair<Vector<MultivariatePolynomial<E>>, MultivariatePolynomial<E>> result = new MultivariatePolynomialDivision<>(
+        this, ordering).apply(a, Vector.of(b));
+    return new Pair<>(result.first.get(0), result.second);
   }
 
   @Override
   public Integer norm(MultivariatePolynomial<E> a) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public int getCharacteristics() {
-    return field.getCharacteristics();
+    Stream<Monomial> monomials = StreamSupport.stream(a.monomials().spliterator(), true);
+    return monomials.mapToInt(Monomial::degree).max().orElse(0);
   }
 }

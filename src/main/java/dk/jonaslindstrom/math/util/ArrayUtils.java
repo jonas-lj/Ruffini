@@ -156,7 +156,7 @@ public class ArrayUtils {
     if (k == 0) {
       return Stream.of(new int[0]);
     } else if (k == 1) {
-      return IntStream.range(0, r).mapToObj(i -> new int[] {i});
+      return IntStream.range(0, r).mapToObj(i -> new int[]{i});
     }
 
     return IntStream.range(0, r).boxed()

@@ -1,9 +1,8 @@
 package dk.jonaslindstrom.math.algebra.concretisations.big;
 
-import java.math.BigInteger;
-
 import dk.jonaslindstrom.math.algebra.concretisations.QuotientRing;
 import dk.jonaslindstrom.math.algebra.helpers.BarrettReduction;
+import java.math.BigInteger;
 
 /**
  * This class is an implementation of <i>ℤ / nℤ</i>, eg. the integers <i>ℤ</i> modulo the principal
@@ -24,8 +23,4 @@ public class BigIntegersModuloN extends QuotientRing<BigInteger> {
     return mod;
   }
 
-  @Override
-  public int getCharacteristics() {
-    return 0;
-  }
 }

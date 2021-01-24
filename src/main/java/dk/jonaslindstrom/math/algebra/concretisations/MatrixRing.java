@@ -9,10 +9,6 @@ import java.util.function.BinaryOperator;
 
 /**
  * This class represents a ring of matrices over a base ring.
- *
- * @author Jonas Lindstrøm (jonas.lindstrom@alexandra.dk)
- *
- * @param <E>
  */
 public class MatrixRing<E> implements Ring<Matrix<E>> {
 
@@ -30,7 +26,7 @@ public class MatrixRing<E> implements Ring<Matrix<E>> {
 
   @Override
   public Matrix<E> multiply(Matrix<E> a, Matrix<E> b) {
-    return multiplication.apply(a,b);
+    return multiplication.apply(a, b);
   }
 
   @Override
@@ -67,10 +63,5 @@ public class MatrixRing<E> implements Ring<Matrix<E>> {
   @Override
   public String toString() {
     return "M" + StringUtils.subscript(String.valueOf(dimension)) + "(" + baseRing + ")";
-  }
-
-  @Override
-  public int getCharacteristics() {
-    return baseRing.getCharacteristics();
   }
 }

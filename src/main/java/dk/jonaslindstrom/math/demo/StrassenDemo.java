@@ -16,11 +16,10 @@ public class StrassenDemo {
 
   public static void main(String[] arguments) {
 
-
     Random random = new Random(1234);
 
-    Matrix<Integer> a = Matrix.of(8, 8, (i,j) -> random.nextInt(10));
-    Matrix<Integer> b = Matrix.of(8, 8, (i,j) -> random.nextInt(10));
+    Matrix<Integer> a = Matrix.of(8, 8, (i, j) -> random.nextInt(10));
+    Matrix<Integer> b = Matrix.of(8, 8, (i, j) -> random.nextInt(10));
 
     PerformanceLoggingRing<Integer> logger = new PerformanceLoggingRing<>(Integers.getInstance());
 

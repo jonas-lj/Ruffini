@@ -20,7 +20,7 @@ public class ConstructiveVector<E> extends BaseVector<E> {
 
   @Override
   public E get(int i) {
-    assert(i >= 0 && i < d);
+    assert (i >= 0 && i < d);
     return builder.apply(i);
   }
 

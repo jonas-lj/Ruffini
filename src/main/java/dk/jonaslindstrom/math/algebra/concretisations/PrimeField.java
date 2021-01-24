@@ -3,6 +3,7 @@ package dk.jonaslindstrom.math.algebra.concretisations;
 import dk.jonaslindstrom.math.algebra.abstractions.Field;
 import dk.jonaslindstrom.math.algebra.algorithms.EuclideanAlgorithm;
 import dk.jonaslindstrom.math.algebra.elements.Polynomial;
+import dk.jonaslindstrom.math.algebra.exceptions.NotInvertibleException;
 import dk.jonaslindstrom.math.util.StringUtils;
 import dk.jonaslindstrom.math.util.Triple;
 
@@ -14,9 +15,10 @@ public class PrimeField extends IntegersModuloN implements Field<Integer> {
 
   @Override
   public Integer invert(Integer a) {
-    Triple<Integer, Integer, Integer> gcd = new EuclideanAlgorithm<>(Integers.getInstance()).extendedGcd(a, super.mod);
+    Triple<Integer, Integer, Integer> gcd = new EuclideanAlgorithm<>(Integers.getInstance())
+        .extendedGcd(a, super.mod);
     if (gcd.first != 1) {
-      throw new IllegalArgumentException("The value " + a + " is not invertible mod " + super.mod + ".");
+      throw new NotInvertibleException(super.mod);
     }
     Integer m = gcd.getSecond();
     return Math.floorMod(m, super.mod);

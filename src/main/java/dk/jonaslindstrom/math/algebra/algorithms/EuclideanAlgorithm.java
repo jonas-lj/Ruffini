@@ -19,30 +19,30 @@ public class EuclideanAlgorithm<E> {
    * @return The triple <i>(d, x, y)</i>.
    */
   public Triple<E, E, E> extendedGcd(E a, E b) {
-    E s = ring.getZero();
-    E oldS = ring.getIdentity();
-    E t = ring.getIdentity();
-    E oldT = ring.getZero();
-    E r = b;
-    E oldR = a;
+    E s_1 = ring.getZero();
+    E s_0 = ring.getIdentity();
+    E t_1 = ring.getIdentity();
+    E t_0 = ring.getZero();
+    E r_1 = b;
+    E r_0 = a;
 
-    while (!ring.equals(r, ring.getZero())) {
-      Pair<E, E> division = ring.divisionWithRemainder(oldR, r);
+    while (!ring.equals(r_1, ring.getZero())) {
+      Pair<E, E> division = ring.divisionWithRemainder(r_0, r_1);
       E q = division.getFirst();
 
-      oldR = r;
-      r = division.getSecond();
+      r_0 = r_1;
+      r_1 = division.getSecond();
 
-      E tmpS = s;
-      s = ring.add(oldS, ring.negate(ring.multiply(q, tmpS)));
-      oldS = tmpS;
+      E tmpS = s_1;
+      s_1 = ring.add(s_0, ring.negate(ring.multiply(q, tmpS)));
+      s_0 = tmpS;
 
-      E tmpT = t;
-      t = ring.add(oldT, ring.negate(ring.multiply(q, tmpT)));
-      oldT = tmpT;
+      E tmpT = t_1;
+      t_1 = ring.add(t_0, ring.negate(ring.multiply(q, tmpT)));
+      t_0 = tmpT;
 
     }
-    return new Triple<>(oldR, oldS, oldT);
+    return new Triple<>(r_0, s_0, t_0);
   }
 
 }

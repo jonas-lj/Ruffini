@@ -2,6 +2,7 @@ package dk.jonaslindstrom.math;
 
 import dk.jonaslindstrom.math.algebra.abstractions.Field;
 import dk.jonaslindstrom.math.algebra.abstractions.Ring;
+import dk.jonaslindstrom.math.algebra.algorithms.AKS;
 import dk.jonaslindstrom.math.algebra.algorithms.BerlekampRabinAlgorithm;
 import dk.jonaslindstrom.math.algebra.algorithms.CharacteristicPolynomial;
 import dk.jonaslindstrom.math.algebra.algorithms.ChineseRemainderTheorem;
@@ -9,6 +10,8 @@ import dk.jonaslindstrom.math.algebra.algorithms.Determinant;
 import dk.jonaslindstrom.math.algebra.algorithms.DiscreteFourierTransform;
 import dk.jonaslindstrom.math.algebra.algorithms.DotProduct;
 import dk.jonaslindstrom.math.algebra.algorithms.EuclideanAlgorithm;
+import dk.jonaslindstrom.math.algebra.algorithms.EulersTotientFunction;
+import dk.jonaslindstrom.math.algebra.algorithms.Factorize;
 import dk.jonaslindstrom.math.algebra.algorithms.GaussianElimination;
 import dk.jonaslindstrom.math.algebra.algorithms.GramMatrix;
 import dk.jonaslindstrom.math.algebra.algorithms.GramSchmidtOverRing;
@@ -19,6 +22,7 @@ import dk.jonaslindstrom.math.algebra.algorithms.LagrangePolynomial;
 import dk.jonaslindstrom.math.algebra.algorithms.MatrixMultiplication;
 import dk.jonaslindstrom.math.algebra.algorithms.MultivariatePolynomialDivision;
 import dk.jonaslindstrom.math.algebra.algorithms.Power;
+import dk.jonaslindstrom.math.algebra.algorithms.Product;
 import dk.jonaslindstrom.math.algebra.algorithms.QuadraticEquation;
 import dk.jonaslindstrom.math.algebra.algorithms.StrassenMultiplication;
 import dk.jonaslindstrom.math.algebra.algorithms.TonelliShanks;
@@ -38,6 +42,7 @@ import dk.jonaslindstrom.math.algebra.concretisations.Rationals;
 import dk.jonaslindstrom.math.algebra.concretisations.RealNumbers;
 import dk.jonaslindstrom.math.algebra.concretisations.SymmetricGroup;
 import dk.jonaslindstrom.math.algebra.concretisations.WeierstrassForm;
+import dk.jonaslindstrom.math.algebra.concretisations.big.BigIntegers;
 import dk.jonaslindstrom.math.algebra.elements.ComplexNumber;
 import dk.jonaslindstrom.math.algebra.elements.ECPoint;
 import dk.jonaslindstrom.math.algebra.elements.Fraction;
@@ -53,6 +58,7 @@ import dk.jonaslindstrom.math.algebra.helpers.JacobiSymbol;
 import dk.jonaslindstrom.math.util.Pair;
 import dk.jonaslindstrom.math.util.Parser;
 import dk.jonaslindstrom.math.util.Triple;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -62,6 +68,17 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 public class TestAlgebra {
+
+  /**
+   * Test the given field. It's assumed that <i>a</i> times <i>b</i> should be the parameter
+   * <i>ab</i> in the field.
+   */
+  private static <E> void testField(Field<E> field, E a, E b, E ab) {
+    E actualAb = field.multiply(a, b);
+    System.out.println("In " + field + ", (" + a + ") × (" + b + ") = " + actualAb);
+    Assert.assertTrue(field.equals(actualAb, ab));
+    Assert.assertTrue(field.equals(field.multiply(ab, field.invert(a)), b));
+  }
 
   @Test
   public void testGcd() {
@@ -118,25 +135,14 @@ public class TestAlgebra {
     testField(field, x, y, (x * y) % p);
   }
 
-  /**
-   * Test the given field. It's assumed that <i>a</i> times <i>b</i> should be the parameter
-   * <i>ab</i> in the field.
-   */
-  private static <E> void testField(Field<E> field, E a, E b, E ab) {
-    E actualAb = field.multiply(a, b);
-    System.out.println("In " + field + ", (" + a + ") × (" + b + ") = " + actualAb);
-    Assert.assertTrue(field.equals(actualAb, ab));
-    Assert.assertTrue(field.equals(field.multiply(ab, field.invert(a)), b));
-  }
-
   @Test
   public void testFiniteField256() {
 
     FiniteField GF256 = new FiniteField(2, 8);
 
-    Polynomial<Integer> a = GF256.element(1,1,1,0,1,0,1);
-    Polynomial<Integer> b = GF256.element(1,1,0,0,1);
-    Polynomial<Integer> ab = GF256.element(0,1,1,1,1,1,1,1);
+    Polynomial<Integer> a = GF256.element(1, 1, 1, 0, 1, 0, 1);
+    Polynomial<Integer> b = GF256.element(1, 1, 0, 0, 1);
+    Polynomial<Integer> ab = GF256.element(0, 1, 1, 1, 1, 1, 1, 1);
 
     testField(GF256, a, b, ab);
   }
@@ -146,9 +152,9 @@ public class TestAlgebra {
 
     FiniteField GF32 = new FiniteField(2, 5);
 
-    Polynomial<Integer> a = GF32.element(1,1,1,0,1);
-    Polynomial<Integer> b = GF32.element(1,1,0,0,1);
-    Polynomial<Integer> ab = GF32.element(0,1,1,1);
+    Polynomial<Integer> a = GF32.element(1, 1, 1, 0, 1);
+    Polynomial<Integer> b = GF32.element(1, 1, 0, 0, 1);
+    Polynomial<Integer> ab = GF32.element(0, 1, 1, 1);
 
     testField(GF32, a, b, ab);
   }
@@ -281,7 +287,7 @@ public class TestAlgebra {
     Assert.assertTrue(sn.equals(new Permutation(4), sn.multiply(p, sn.invert(p))));
 
     // Cycle on the first three symbols - should be equal to p
-    Permutation c = new Permutation(4, new int[] {0, 1, 2});
+    Permutation c = new Permutation(4, new int[]{0, 1, 2});
     System.out.println(c);
     Assert.assertTrue(sn.equals(p, c));
   }
@@ -584,8 +590,10 @@ public class TestAlgebra {
     MultivariatePolynomialRing<Integer> ring = new MultivariatePolynomialRing<>(gf2, 3);
 
     Vector<MultivariatePolynomial<Integer>> g = Vector.of(
-        new MultivariatePolynomial.Builder<>(3, gf2, ordering).add(1, 1, 1, 1).add(1, 1, 1, 0).build(),
-        new MultivariatePolynomial.Builder<>(3, gf2, ordering).add(1, 2, 1, 0).add(1, 0, 1, 1).build());
+        new MultivariatePolynomial.Builder<>(3, gf2, ordering).add(1, 1, 1, 1).add(1, 1, 1, 0)
+            .build(),
+        new MultivariatePolynomial.Builder<>(3, gf2, ordering).add(1, 2, 1, 0).add(1, 0, 1, 1)
+            .build());
 
     GröbnerBasis<Integer> gröbner = new GröbnerBasis<>(ring, ordering);
     Vector<MultivariatePolynomial<Integer>> ĝ = gröbner.apply(g);
@@ -604,8 +612,8 @@ public class TestAlgebra {
     EllipticCurve<ECPoint<Integer>> E = new WeierstrassForm<>(Fp, 1, 1);
     System.out.println(E);
 
-    ECPoint<Integer> P = new ECPoint<>(0,1);
-    ECPoint<Integer> Q = new ECPoint<>(1,4);
+    ECPoint<Integer> P = new ECPoint<>(0, 1);
+    ECPoint<Integer> Q = new ECPoint<>(1, 4);
 
     Assert.assertTrue(E.equals(E.add(P, Q), new ECPoint<>(8, 1)));
     Assert.assertTrue(E.equals(E.add(P, P), new ECPoint<>(10, 7)));
@@ -680,7 +688,8 @@ public class TestAlgebra {
     Polynomial<Integer> b = Polynomial.of(1, 1, 1, 0, 2);
     Polynomial<Integer> c = Polynomial.of(2, 2, 0, 1, 1);
 
-    QuadraticEquation<Polynomial<Integer>, FiniteField> equation = QuadraticEquation.create(a, b, c, field);
+    QuadraticEquation<Polynomial<Integer>, FiniteField> equation = QuadraticEquation
+        .create(a, b, c, field);
     Polynomial<Integer> x = equation.solve();
     System.out.println(x);
 
@@ -698,4 +707,31 @@ public class TestAlgebra {
     Assert.assertEquals(0, f.apply(x, new PrimeField(p)).intValue());
   }
 
+  @Test
+  public void testFactorisation() {
+    BigInteger n = BigInteger.ONE.shiftLeft(1 << 6).subtract(BigInteger.ONE);
+
+    Factorize factorize = new Factorize();
+    List<BigInteger> factors = factorize.factor(n);
+
+    BigInteger product = new Product<>(BigIntegers.getInstance()).apply(factors);
+    Assert.assertEquals(n, product);
+  }
+
+  @Test
+  public void testAKS() {
+    Random random = new Random(1234);
+    AKS aks = new AKS();
+    BigInteger n = new BigInteger(8, random);
+    Assert.assertEquals(n.isProbablePrime(1000), aks.test(n));
+    n = new BigInteger(8, 1000, random);
+    Assert.assertTrue(aks.test(n));
+  }
+
+  @Test
+  public void testEulersTotientFunction() {
+    EulersTotientFunction phi = new EulersTotientFunction();
+    Assert.assertEquals(36, phi.apply(BigInteger.valueOf(57)).intValue());
+    Assert.assertEquals(12, phi.apply(BigInteger.valueOf(42)).intValue());
+  }
 }

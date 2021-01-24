@@ -1,7 +1,6 @@
 package dk.jonaslindstrom.math;
 
 
-
 import dk.jonaslindstrom.math.util.ArrayUtils;
 import java.util.Arrays;
 import org.junit.Assert;
@@ -11,10 +10,10 @@ public class TestArrayUtils {
 
   @Test
   public void testUnion() {
-    int[] a = new int[] {1, 3, 5};
-    int[] b = new int[] {3, 4};
+    int[] a = new int[]{1, 3, 5};
+    int[] b = new int[]{3, 4};
 
-    int[] e = new int[] {1, 3, 4, 5};
+    int[] e = new int[]{1, 3, 4, 5};
     Assert.assertArrayEquals(e, ArrayUtils.union(a, b));
   }
 
@@ -26,9 +25,9 @@ public class TestArrayUtils {
 
   @Test
   public void testRemove() {
-    int[] a = new int[] {1,2,3,4,5};
-    int[] e = new int[] {1,2,3,5};
+    int[] a = new int[]{1, 2, 3, 4, 5};
+    int[] e = new int[]{1, 2, 3, 5};
     Assert.assertArrayEquals(e, ArrayUtils.remove(a, 3));
-    
+
   }
 }

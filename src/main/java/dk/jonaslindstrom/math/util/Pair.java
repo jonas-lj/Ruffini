@@ -22,4 +22,5 @@ public class Pair<E, F> {
   public String toString() {
     return "(" + first + ", " + second + ")";
   }
+
 }

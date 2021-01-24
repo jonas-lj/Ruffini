@@ -60,8 +60,4 @@ public class ComplexNumbers implements Field<ComplexNumber> {
     return "ℂ";
   }
 
-  @Override
-  public int getCharacteristics() {
-    return 0;
-  }
 }

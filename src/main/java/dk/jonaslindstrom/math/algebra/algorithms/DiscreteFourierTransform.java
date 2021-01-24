@@ -41,7 +41,7 @@ public class DiscreteFourierTransform<E> implements UnaryOperator<Vector<E>> {
 
     @Override
     public Vector<F> apply(Vector<F> v) {
-      assert(v.getDimension() == n);
+      assert (v.getDimension() == n);
       Power<F> power = new Power<>(ring);
       Sum<F> sum = new Sum<>(ring);
 

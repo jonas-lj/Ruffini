@@ -5,12 +5,12 @@ import dk.jonaslindstrom.math.algebra.abstractions.Ring;
 import java.util.function.BiPredicate;
 import java.util.function.UnaryOperator;
 
-public abstract class QuotientRing<E> implements Ring<E> {
+public class QuotientRing<E> implements Ring<E> {
 
   protected final Ring<E> ring;
   private final UnaryOperator<E> reductionMap;
-  protected E mod;
   private final BiPredicate<E, E> equivalenceRelation;
+  protected E mod;
 
   public QuotientRing(final EuclideanDomain<E> ring, final E mod) {
     this(ring, e -> ring.divisionWithRemainder(e, mod).getSecond());
@@ -20,7 +20,8 @@ public abstract class QuotientRing<E> implements Ring<E> {
   public QuotientRing(Ring<E> ring, UnaryOperator<E> reductionMap) {
     this.ring = ring;
     this.reductionMap = reductionMap;
-    this.equivalenceRelation = (a, b) -> this.ring.equals(this.reductionMap.apply(a), this.reductionMap.apply(b));
+    this.equivalenceRelation = (a, b) -> this.ring
+        .equals(this.reductionMap.apply(a), this.reductionMap.apply(b));
   }
 
   @Override

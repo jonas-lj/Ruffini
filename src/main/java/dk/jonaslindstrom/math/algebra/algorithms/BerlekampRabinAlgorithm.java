@@ -9,7 +9,8 @@ import java.util.Random;
 import java.util.function.Function;
 
 /**
- * Find a root of a polynomial over a prime field using the probabilistic Berlekamp-Rabin algorithm.
+ * Find a root of a polynomial over a prime field using the probabilistic Berlekamp-Rabin
+ * algorithm.
  */
 public class BerlekampRabinAlgorithm implements Function<Polynomial<Integer>, Integer> {
 
@@ -51,14 +52,9 @@ public class BerlekampRabinAlgorithm implements Function<Polynomial<Integer>, In
       Polynomial<Integer> fₖ = f.mapCoefficients(Polynomial::constant)
           .apply(Polynomial.of(𝔽ₚ.negate(k), 1), 𝔽ₚx);
 
-      QuotientRing<Polynomial<Integer>> 𝔽ₚxmodf = new QuotientRing<>(𝔽ₚx, f) {
-        @Override
-        public int getCharacteristics() {
-          return p;
-        }
-      };
+      QuotientRing<Polynomial<Integer>> 𝔽ₚxmodf = new QuotientRing<>(𝔽ₚx, f);
 
-      Polynomial<Integer> gₖ = new Power<>(𝔽ₚxmodf).apply(Polynomial.of(0, 1), (p-1) / 2);
+      Polynomial<Integer> gₖ = new Power<>(𝔽ₚxmodf).apply(Polynomial.of(0, 1), (p - 1) / 2);
       if (𝔽ₚx.equals(gₖ, Polynomial.constant(-1)) || 𝔽ₚx.equals(gₖ, Polynomial.constant(1))) {
         continue;
       }
@@ -75,6 +71,7 @@ public class BerlekampRabinAlgorithm implements Function<Polynomial<Integer>, In
       }
 
     }
-    throw new IllegalArgumentException("Exceeded max number of iterations without finding a root for the given polynomial");
+    throw new IllegalArgumentException(
+        "Exceeded max number of iterations without finding a root for the given polynomial");
   }
 }

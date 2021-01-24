@@ -1,6 +1,6 @@
 package dk.jonaslindstrom.math.algebra.elements;
 
-public class EdwardsPoint<E>  {
+public class EdwardsPoint<E> {
 
   public final E x;
   public final E y;

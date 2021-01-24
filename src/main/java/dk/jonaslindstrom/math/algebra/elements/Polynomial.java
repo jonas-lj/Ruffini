@@ -1,6 +1,11 @@
 package dk.jonaslindstrom.math.algebra.elements;
 
+import dk.jonaslindstrom.math.algebra.abstractions.Ring;
 import dk.jonaslindstrom.math.algebra.algorithms.Power;
+import dk.jonaslindstrom.math.algebra.concretisations.Integers;
+import dk.jonaslindstrom.math.algebra.elements.vector.ConstructiveVector;
+import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
+import dk.jonaslindstrom.math.util.StringUtils;
 import java.util.Collections;
 import java.util.Map;
 import java.util.SortedMap;
@@ -11,63 +16,9 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import dk.jonaslindstrom.math.algebra.abstractions.Ring;
-import dk.jonaslindstrom.math.algebra.concretisations.Integers;
-import dk.jonaslindstrom.math.algebra.elements.vector.ConstructiveVector;
-import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
-import dk.jonaslindstrom.math.util.StringUtils;
-
 public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
 
   private final SortedMap<Integer, E> terms;
-
-  public static class Builder<S> {
-
-    private final Ring<S> ring;
-
-    public Builder(Ring<S> ring) {
-      this.ring = ring;
-    }
-
-    private final SortedMap<Integer, S> terms = new TreeMap<>();
-
-    /**
-     * Set the <i>i</i>'th coefficient of the polynomial being built. If this coefficient has been
-     * set before, it will be overwritten.
-     */
-    public Builder<S> set(int i, S a) {
-      terms.put(i, a);
-      return this;
-    }
-
-    /**
-     * Add a value to the <i>i</i>'th coefficient of the polynomial being built.
-     */
-    public synchronized Builder<S> addTo(int i, S a) {
-      if (terms.containsKey(i)) {
-        set(i, ring.add(terms.get(i), a));
-      } else {
-        terms.put(i, a);
-      }
-      return this;
-    }
-
-    /**
-     * Remove zero terms.
-     */
-    private Builder<S> reduce() {
-      terms.entrySet().removeIf(e -> ring.equals(e.getValue(), ring.getZero()));
-      if (terms.isEmpty()) {
-        set(0, ring.getZero());
-      }
-      return this;
-    }
-
-    public Polynomial<S> build() {
-      reduce();
-      return new Polynomial<>(terms);
-    }
-  }
 
   private Polynomial(SortedMap<Integer, E> terms) {
     this.terms = Collections.unmodifiableSortedMap(terms);
@@ -140,6 +91,14 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
     return p.build();
   }
 
+  public static Polynomial<Integer> parse(String polynomial, String variable) {
+    return parsePolynomial(polynomial, variable);
+  }
+
+  public static Polynomial<Integer> parse(String polynomial) {
+    return parsePolynomial(polynomial, "x");
+  }
+
   public void forEach(BiConsumer<Integer, E> consumer) {
     for (Integer i : terms.keySet()) {
       consumer.accept(i, terms.get(i));
@@ -148,14 +107,6 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
 
   public void forEachInParallel(BiConsumer<Integer, E> consumer) {
     terms.keySet().stream().parallel().forEach(i -> consumer.accept(i, terms.get(i)));
-  }
-
-  public static Polynomial<Integer> parse(String polynomial, String variable) {
-    return parsePolynomial(polynomial, variable);
-  }
-
-  public static Polynomial<Integer> parse(String polynomial) {
-    return parsePolynomial(polynomial, "x");
   }
 
   public <X> Polynomial<X> mapCoefficients(Function<E, X> converter) {
@@ -195,9 +146,8 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
   }
 
   /**
-   * Return the coefficients of this polynomial as a vector. The coefficients (of degree less
-   * than the degree of the polynomial) that are not present will be replaced by the given zero
-   * value.
+   * Return the coefficients of this polynomial as a vector. The coefficients (of degree less than
+   * the degree of the polynomial) that are not present will be replaced by the given zero value.
    */
   public Vector<E> vector(E zero) {
     return new ConstructiveVector<>(degree() + 1, i -> {
@@ -256,6 +206,53 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
 
   public String toString(String variable) {
     return toString(variable, E::toString);
+  }
+
+  public static class Builder<S> {
+
+    private final Ring<S> ring;
+    private final SortedMap<Integer, S> terms = new TreeMap<>();
+
+    public Builder(Ring<S> ring) {
+      this.ring = ring;
+    }
+
+    /**
+     * Set the <i>i</i>'th coefficient of the polynomial being built. If this coefficient has been
+     * set before, it will be overwritten.
+     */
+    public Builder<S> set(int i, S a) {
+      terms.put(i, a);
+      return this;
+    }
+
+    /**
+     * Add a value to the <i>i</i>'th coefficient of the polynomial being built.
+     */
+    public synchronized Builder<S> addTo(int i, S a) {
+      if (terms.containsKey(i)) {
+        set(i, ring.add(terms.get(i), a));
+      } else {
+        terms.put(i, a);
+      }
+      return this;
+    }
+
+    /**
+     * Remove zero terms.
+     */
+    private Builder<S> reduce() {
+      terms.entrySet().removeIf(e -> ring.equals(e.getValue(), ring.getZero()));
+      if (terms.isEmpty()) {
+        set(0, ring.getZero());
+      }
+      return this;
+    }
+
+    public Polynomial<S> build() {
+      reduce();
+      return new Polynomial<>(terms);
+    }
   }
 
 }

@@ -4,7 +4,8 @@ import dk.jonaslindstrom.math.algebra.abstractions.AdditiveGroup;
 import dk.jonaslindstrom.math.algebra.abstractions.Field;
 import dk.jonaslindstrom.math.algebra.abstractions.VectorSpace;
 
-public abstract class AbstractVectorSpace<V, S, F extends Field<S>> implements VectorSpace<V, S, F> {
+public abstract class AbstractVectorSpace<V, S, F extends Field<S>> implements
+    VectorSpace<V, S, F> {
 
   private final AdditiveGroup<V> vectors;
   private final F field;

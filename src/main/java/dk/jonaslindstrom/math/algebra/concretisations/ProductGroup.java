@@ -10,15 +10,15 @@ public class ProductGroup<E, F> implements Group<Pair<E, F>> {
   private final Group<E> g;
   private final Group<F> h;
 
-  public static ProductGroup<?, ?> of(List<Group<?>> groups) {
-    return new ProductGroup<>(groups.get(0), of(groups.subList(1, groups.size())));
-  }
-  
   public ProductGroup(Group<E> g, Group<F> h) {
     this.g = g;
     this.h = h;
   }
-  
+
+  public static ProductGroup<?, ?> of(List<Group<?>> groups) {
+    return new ProductGroup<>(groups.get(0), of(groups.subList(1, groups.size())));
+  }
+
   @Override
   public Pair<E, F> getIdentity() {
     return new Pair<>(g.getIdentity(), h.getIdentity());

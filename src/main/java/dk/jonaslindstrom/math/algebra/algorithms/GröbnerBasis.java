@@ -1,13 +1,12 @@
 package dk.jonaslindstrom.math.algebra.algorithms;
 
-import java.util.Comparator;
-import java.util.function.BinaryOperator;
-import java.util.function.UnaryOperator;
-
 import dk.jonaslindstrom.math.algebra.concretisations.MultivariatePolynomialRing;
 import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial;
 import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial.Monomial;
 import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
+import java.util.Comparator;
+import java.util.function.BinaryOperator;
+import java.util.function.UnaryOperator;
 
 public class GröbnerBasis<E> implements UnaryOperator<Vector<MultivariatePolynomial<E>>> {
 

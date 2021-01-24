@@ -11,7 +11,7 @@ public interface CommutativeMonoid<E> extends Set<E> {
    * Return the result of <i>a+b+c</i>.
    */
   default E add(E a, E b, E c) {
-    return add(add(a,b), c);
+    return add(add(a, b), c);
   }
 
   /**

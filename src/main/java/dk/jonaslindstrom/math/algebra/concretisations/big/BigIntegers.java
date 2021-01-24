@@ -1,20 +1,19 @@
 package dk.jonaslindstrom.math.algebra.concretisations.big;
 
-import java.math.BigInteger;
-
 import dk.jonaslindstrom.math.algebra.abstractions.EuclideanDomain;
 import dk.jonaslindstrom.math.util.Pair;
+import java.math.BigInteger;
 
 public class BigIntegers implements EuclideanDomain<BigInteger> {
 
   private static final BigIntegers instance = new BigIntegers();
 
-  public static BigIntegers getInstance() {
-    return instance;
-  }
-
   private BigIntegers() {
 
+  }
+
+  public static BigIntegers getInstance() {
+    return instance;
   }
 
   @Override
@@ -63,8 +62,4 @@ public class BigIntegers implements EuclideanDomain<BigInteger> {
     return a.abs().intValue();
   }
 
-  @Override
-  public int getCharacteristics() {
-    return 0;
-  }
 }

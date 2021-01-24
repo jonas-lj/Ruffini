@@ -1,6 +1,7 @@
 package dk.jonaslindstrom.math.util;
 
 public class StringUtils {
+
   public static String superscript(String str) {
     str = str.replaceAll("0", "⁰");
     str = str.replaceAll("1", "¹");

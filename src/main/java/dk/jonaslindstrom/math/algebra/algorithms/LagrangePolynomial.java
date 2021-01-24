@@ -37,7 +37,7 @@ public class LagrangePolynomial<E> implements Function<List<Vector<E>>, Polynomi
         E xm = points.get(m).get(0);
 
         Polynomial<E> f = Polynomial.of(field, field.negate(xm), field.getIdentity());
-        f = f.scale(field.invert(field.subtract(xj,  xm)), field);
+        f = f.scale(field.invert(field.subtract(xj, xm)), field);
         l = ring.multiply(l, f);
       }
       lj.add(l);

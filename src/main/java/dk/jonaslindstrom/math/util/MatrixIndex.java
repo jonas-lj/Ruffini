@@ -3,12 +3,12 @@ package dk.jonaslindstrom.math.util;
 public class MatrixIndex {
 
   public final int i, j;
-  
+
   public MatrixIndex(int i, int j) {
     this.i = i;
     this.j = j;
   }
-  
+
   public static MatrixIndex of(int i, int j) {
     return new MatrixIndex(i, j);
   }
@@ -39,6 +39,6 @@ public class MatrixIndex {
     }
     return j == other.j;
   }
-  
-  
+
+
 }

@@ -14,11 +14,10 @@ public class QuadraticEquation<E, F extends Field<E>> {
   private final UnaryOperator<E> squareRoot;
   private final F field;
 
+  /**
+   * Field should have characteristic != 2
+   */
   private QuadraticEquation(E a, E b, E c, F field, UnaryOperator<E> squareRoot) {
-    if (field.getCharacteristics() == 2) {
-      throw new IllegalArgumentException("Cannot solve quadratic equations over fields of characteristics 2.");
-    }
-
     this.a = a;
     this.b = b;
     this.c = c;
@@ -26,15 +25,17 @@ public class QuadraticEquation<E, F extends Field<E>> {
     this.squareRoot = squareRoot;
   }
 
-  public static QuadraticEquation<Polynomial<Integer>, FiniteField>  create(Polynomial<Integer> a, Polynomial<Integer> b, Polynomial<Integer> c, FiniteField field) {
+  public static QuadraticEquation<Polynomial<Integer>, FiniteField> create(Polynomial<Integer> a,
+      Polynomial<Integer> b, Polynomial<Integer> c, FiniteField field) {
     return new QuadraticEquation<>(a, b, c, field, new TonelliShanks(field));
   }
 
-  public static QuadraticEquation<Integer, PrimeField>  create(int a, int b, int c, PrimeField field) {
-    return new QuadraticEquation<>(a, b, c, field, TonelliShanks.forPrimeField(a, b, c, field));
+  public static QuadraticEquation<Integer, PrimeField> create(int a, int b, int c,
+      PrimeField field) {
+    return new QuadraticEquation<>(a, b, c, field, TonelliShanks.forPrimeField(field));
   }
 
-  public static QuadraticEquation<Double, RealNumbers>  create(double a, double b, double c) {
+  public static QuadraticEquation<Double, RealNumbers> create(double a, double b, double c) {
     return new QuadraticEquation<>(a, b, c, RealNumbers.getInstance(), FastMath::sqrt);
   }
 

@@ -47,8 +47,4 @@ public class RingOfFunctions<S, R> implements Ring<Function<S, R>> {
     return s -> ring.getZero();
   }
 
-  @Override
-  public int getCharacteristics() {
-    return ring.getCharacteristics();
-  }
 }

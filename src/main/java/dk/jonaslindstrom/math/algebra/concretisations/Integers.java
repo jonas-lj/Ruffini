@@ -7,12 +7,12 @@ public class Integers implements EuclideanDomain<Integer> {
 
   private static final Integers instance = new Integers();
 
-  public static Integers getInstance() {
-    return instance;
-  }
-
   private Integers() {
 
+  }
+
+  public static Integers getInstance() {
+    return instance;
   }
 
   @Override
@@ -59,16 +59,11 @@ public class Integers implements EuclideanDomain<Integer> {
 
   @Override
   public String toString() {
-    return "ℤ";
+    return "\\mathbb{Z}";
   }
 
   @Override
   public Integer norm(Integer a) {
     return Math.abs(a);
-  }
-
-  @Override
-  public int getCharacteristics() {
-    return 0;
   }
 }

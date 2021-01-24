@@ -7,10 +7,6 @@ import dk.jonaslindstrom.math.util.Pair;
 
 /**
  * This class implements the ring of polynomials <i>K[x]</i> over a field <i>K</i>.
- *
- * @author jonas
- *
- * @param <E>
  */
 public class PolynomialRing<E> extends PolynomialRingOverRing<E>
     implements EuclideanDomain<Polynomial<E>> {
@@ -42,8 +38,4 @@ public class PolynomialRing<E> extends PolynomialRingOverRing<E>
     return field.toString() + "(x)";
   }
 
-  @Override
-  public int getCharacteristics() {
-    return field.getCharacteristics();
-  }
 }

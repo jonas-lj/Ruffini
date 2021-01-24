@@ -33,7 +33,7 @@ public class Permutation implements UnaryOperator<Integer> {
     }
   }
 
-  public Permutation(int ... permutation) {
+  public Permutation(int... permutation) {
     this.p = permutation;
   }
 

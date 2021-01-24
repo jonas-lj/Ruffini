@@ -6,11 +6,12 @@ public class RealNumbers implements Field<Double> {
 
   private static final RealNumbers instance = new RealNumbers();
 
+  private RealNumbers() {
+  }
+
   public static RealNumbers getInstance() {
     return instance;
   }
-
-  private RealNumbers() {}
 
   @Override
   public String toString() {
@@ -57,8 +58,4 @@ public class RealNumbers implements Field<Double> {
     return 0.0;
   }
 
-  @Override
-  public int getCharacteristics() {
-    return 0;
-  }
 }

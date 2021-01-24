@@ -19,7 +19,7 @@ public class Power<E> implements BiFunction<E, Integer, E> {
   public E apply(E a, Integer e) {
 
     if (e < 0) {
-      if(!(monoid instanceof Group)) {
+      if (!(monoid instanceof Group)) {
         throw new IllegalArgumentException("Negative exponents are only allowed for groups");
       }
       return ((Group<E>) monoid).invert(apply(a, -e));
@@ -36,7 +36,7 @@ public class Power<E> implements BiFunction<E, Integer, E> {
     } else {
       return apply(monoid.multiply(a, a), e / 2);
     }
-    
+
   }
 
 }

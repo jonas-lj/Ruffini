@@ -19,7 +19,7 @@ public class ChineseRemainderTheorem<E> implements BiFunction<Vector<E>, Vector<
 
   @Override
   public E apply(Vector<E> a, Vector<E> m) {
-    assert(a.getDimension() == m.getDimension());
+    assert (a.getDimension() == m.getDimension());
 
     if (a.getDimension() == 1) {
       return a.get(0);

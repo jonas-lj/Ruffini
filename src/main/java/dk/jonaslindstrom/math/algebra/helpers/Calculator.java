@@ -7,14 +7,13 @@ import dk.jonaslindstrom.math.algebra.algorithms.IntegerRingEmbedding;
 import dk.jonaslindstrom.math.algebra.algorithms.Power;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class Calculator<E> {
 
+  private final AdditiveGroup<E> group;
   private Field<E> field;
   private Ring<E> ring;
-  private final AdditiveGroup<E> group;
 
   public Calculator(Field<E> field) {
     this.field = field;

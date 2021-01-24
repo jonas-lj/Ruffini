@@ -1,8 +1,5 @@
 package dk.jonaslindstrom.math.algebra.algorithms;
 
-import java.util.Comparator;
-import java.util.function.BiFunction;
-
 import dk.jonaslindstrom.math.algebra.abstractions.Field;
 import dk.jonaslindstrom.math.algebra.concretisations.MultivariatePolynomialRing;
 import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial;
@@ -10,6 +7,8 @@ import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial.Builder;
 import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial.Monomial;
 import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
 import dk.jonaslindstrom.math.util.Pair;
+import java.util.Comparator;
+import java.util.function.BiFunction;
 
 public class MultivariatePolynomialDivision<E> implements
     BiFunction<MultivariatePolynomial<E>, Vector<MultivariatePolynomial<E>>, Pair<Vector<MultivariatePolynomial<E>>, MultivariatePolynomial<E>>> {
@@ -21,7 +20,8 @@ public class MultivariatePolynomialDivision<E> implements
     this(field, variables, MultivariatePolynomial.DEFAULT_ORDERING);
   }
 
-  public MultivariatePolynomialDivision(Field<E> field, int variables, Comparator<Monomial> ordering) {
+  public MultivariatePolynomialDivision(Field<E> field, int variables,
+      Comparator<Monomial> ordering) {
     this(new MultivariatePolynomialRing<>(field, variables), ordering);
   }
 
@@ -29,7 +29,8 @@ public class MultivariatePolynomialDivision<E> implements
     this(ring, MultivariatePolynomial.DEFAULT_ORDERING);
   }
 
-  public MultivariatePolynomialDivision(MultivariatePolynomialRing<E> ring, Comparator<Monomial> ordering) {
+  public MultivariatePolynomialDivision(MultivariatePolynomialRing<E> ring,
+      Comparator<Monomial> ordering) {
     this.R = ring;
     this.ordering = ordering;
   }

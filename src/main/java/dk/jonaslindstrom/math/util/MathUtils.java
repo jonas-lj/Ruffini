@@ -2,7 +2,7 @@ package dk.jonaslindstrom.math.util;
 
 public class MathUtils {
 
-  public static int product(int ... factors) {
+  public static int product(int... factors) {
 
     if (factors.length == 0) {
       return 1;

@@ -15,16 +15,12 @@ public class WeierstrassForm<E> implements EllipticCurve<ECPoint<E>> {
 
   /**
    * Curve on Weierstrass form. Field should have characteristics not equal to 2 or 3.
-   *
-   * @param field
-   * @param a
-   * @param b
    */
   public WeierstrassForm(Field<E> field, E a, E b) {
     this.field = field;
     this.a = a;
     this.b = b;
-    assert(!field.equals(discriminant(), field.getZero()));
+    assert (!field.equals(discriminant(), field.getZero()));
     this.embedding = new IntegerRingEmbedding<>(field);
   }
 

@@ -14,11 +14,13 @@ class ConcreteMatrix<E> extends BaseMatrix<E> {
   protected ArrayList<ArrayList<E>> rows;
 
   ConcreteMatrix(int m, int n, IntBinaryFunction<E> populator) {
-    this(m, i -> IntStream.range(0, n).parallel().mapToObj(j -> populator.apply(i, j)).collect(Collectors.toCollection(ArrayList::new)));
+    this(m, i -> IntStream.range(0, n).parallel().mapToObj(j -> populator.apply(i, j))
+        .collect(Collectors.toCollection(ArrayList::new)));
   }
 
   ConcreteMatrix(int m, IntFunction<ArrayList<E>> rowPopulator) {
-    this(IntStream.range(0, m).parallel().mapToObj(rowPopulator).collect(Collectors.toCollection(ArrayList::new)));
+    this(IntStream.range(0, m).parallel().mapToObj(rowPopulator)
+        .collect(Collectors.toCollection(ArrayList::new)));
   }
 
   ConcreteMatrix(ArrayList<ArrayList<E>> rows) {
@@ -49,7 +51,7 @@ class ConcreteMatrix<E> extends BaseMatrix<E> {
   /**
    * Return a submatrix of this matrix with the given rows and columns.
    *
-   * @param rows Rows to include in submatrix.
+   * @param rows    Rows to include in submatrix.
    * @param columns Columns to include in submatrix.
    */
   @Override

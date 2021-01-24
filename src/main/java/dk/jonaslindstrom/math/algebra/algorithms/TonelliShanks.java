@@ -18,14 +18,14 @@ public class TonelliShanks implements UnaryOperator<Polynomial<Integer>> {
   public TonelliShanks(FiniteField field) {
     // https://eprint.iacr.org/2012/685.pdf
     this.field = field;
-    this.p = field.getCharacteristics();
+    this.p = field.getPrime();
     this.m = field.getExponent();
     this.power = new Power<>(field);
     this.q = new Power<>(Integers.getInstance()).apply(p, m);
     this.random = new Random();
   }
 
-  public static UnaryOperator<Integer> forPrimeField(int a, int b, int c, PrimeField field) {
+  public static UnaryOperator<Integer> forPrimeField(PrimeField field) {
     TonelliShanks sqrt = new TonelliShanks(field.asFiniteField());
     return i -> sqrt.apply(Polynomial.constant(i)).getCoefficient(0);
   }
@@ -53,14 +53,14 @@ public class TonelliShanks implements UnaryOperator<Polynomial<Integer>> {
       return field.getIdentity();
     }
 
-    if (field.getCharacteristics() == 2) {
+    if (this.p == 2) {
       return power.apply(a, 1 << (q / 2));
     }
 
     int t = q - 1;
     int s = 0;
 
-    while (Math.floorMod(t,  2) == 0) {
+    while (Math.floorMod(t, 2) == 0) {
       t = t / 2;
       s = s + 1;
     }
@@ -70,11 +70,11 @@ public class TonelliShanks implements UnaryOperator<Polynomial<Integer>> {
     do {
       Polynomial<Integer> c = sampleUnit();
       z = power.apply(c, t);
-      c0 = power.apply(c,1 << (s-1));
+      c0 = power.apply(c, 1 << (s - 1));
     } while (c0.equals(field.getIdentity()));
 
-    Polynomial<Integer> ω = power.apply(a, (t-1) / 2);
-    Polynomial<Integer> a0 = power.apply(field.multiply(ω, ω, a), 1 << (s-1));
+    Polynomial<Integer> ω = power.apply(a, (t - 1) / 2);
+    Polynomial<Integer> a0 = power.apply(field.multiply(ω, ω, a), 1 << (s - 1));
 
     if (field.equals(a0, field.negate(field.getIdentity()))) {
       throw new IllegalArgumentException("Input is not a square.");
@@ -97,7 +97,7 @@ public class TonelliShanks implements UnaryOperator<Polynomial<Integer>> {
         return apply(a);
       }
 
-      ω = power.apply(z, 1 << (v-k-1));
+      ω = power.apply(z, 1 << (v - k - 1));
       z = field.multiply(ω, ω);
       b = field.multiply(b, z);
       x = field.multiply(x, ω);

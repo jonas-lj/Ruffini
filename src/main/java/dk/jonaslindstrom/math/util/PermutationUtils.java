@@ -19,7 +19,7 @@ public class PermutationUtils {
 
   /**
    * Sample a random permutation uniformly among all permutations on n elements.
-   * 
+   *
    * @param n
    * @return
    */

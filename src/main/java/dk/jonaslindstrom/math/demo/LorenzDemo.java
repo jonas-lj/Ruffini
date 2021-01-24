@@ -2,7 +2,6 @@ package dk.jonaslindstrom.math.demo;
 
 import dk.jonaslindstrom.math.algebra.algorithms.RungeKutta;
 import dk.jonaslindstrom.math.algebra.concretisations.RealCoordinateSpace;
-import dk.jonaslindstrom.math.algebra.concretisations.RealNumbers;
 import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -39,7 +38,8 @@ public class LorenzDemo {
     graphics.setColor(Color.BLACK);
 
     Vector<Double> p0 = Vector.of(1.0, 1.0, 1.0);
-    RungeKutta<Vector<Double>> integrator = new RungeKutta<>(f, 0.0, p0, new RealCoordinateSpace(3));
+    RungeKutta<Vector<Double>> integrator = new RungeKutta<>(f, 0.0, p0,
+        new RealCoordinateSpace(3));
     double h = 0.001;
 
     for (int i = 0; i < 100000; i++) {

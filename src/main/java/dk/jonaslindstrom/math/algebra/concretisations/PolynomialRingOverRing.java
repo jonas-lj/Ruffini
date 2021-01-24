@@ -32,7 +32,8 @@ public class PolynomialRingOverRing<E> implements Ring<Polynomial<E>>, Cloneable
   @Override
   public Polynomial<E> multiply(Polynomial<E> a, Polynomial<E> b) {
     Polynomial.Builder<E> result = new Builder<>(ring);
-    a.forEachInParallel((i, ai) -> b.forEachInParallel((j, bj) -> result.addTo(i + j, ring.multiply(ai, bj))));
+    a.forEachInParallel(
+        (i, ai) -> b.forEachInParallel((j, bj) -> result.addTo(i + j, ring.multiply(ai, bj))));
     return result.build();
   }
 
@@ -115,8 +116,8 @@ public class PolynomialRingOverRing<E> implements Ring<Polynomial<E>>, Cloneable
    * Perform polynomial division, eg. finding a quotient <i>q</i> and a remainder <i>r</i> with
    * degree smaller than <i>b</i> s.t. <i>a = qb + r</i>.
    *
-   * @param a The dividend.
-   * @param b The divisor.
+   * @param a            The dividend.
+   * @param b            The divisor.
    * @param bLeadInverse An inverse of the leading coefficient of <i>b</i>.
    */
   public Pair<Polynomial<E>, Polynomial<E>> divisionWithRemainder(Polynomial<E> a, Polynomial<E> b,
@@ -151,8 +152,4 @@ public class PolynomialRingOverRing<E> implements Ring<Polynomial<E>>, Cloneable
     return ring.toString() + "[x]";
   }
 
-  @Override
-  public int getCharacteristics() {
-    return ring.getCharacteristics();
-  }
 }

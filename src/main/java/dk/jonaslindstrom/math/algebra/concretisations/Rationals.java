@@ -4,12 +4,12 @@ public class Rationals extends FieldOfFractions<Integer> {
 
   private static final Rationals instance = new Rationals();
 
-  public static Rationals getInstance() {
-    return instance;
-  }
-
   private Rationals() {
     super(Integers.getInstance());
+  }
+
+  public static Rationals getInstance() {
+    return instance;
   }
 
   @Override

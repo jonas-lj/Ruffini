@@ -9,16 +9,16 @@ public class Fraction<E> {
     this.denominator = denominator;
   }
 
+  public static <F> Fraction<F> of(F nominator, F denominator) {
+    return new Fraction<>(nominator, denominator);
+  }
+
   public E getNominator() {
     return nominator;
   }
 
   public E getDenominator() {
     return denominator;
-  }
-
-  public static <F> Fraction<F> of(F nominator, F denominator) {
-    return new Fraction<>(nominator, denominator);
   }
 
   @Override

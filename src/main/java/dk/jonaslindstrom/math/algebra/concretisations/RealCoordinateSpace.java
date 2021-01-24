@@ -5,7 +5,7 @@ import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
 import org.apache.commons.math3.util.FastMath;
 
 public class RealCoordinateSpace extends VectorSpaceOverField<Double, RealNumbers> implements
-    NormedVectorSpace<Vector<Double>, Double, RealNumbers>{
+    NormedVectorSpace<Vector<Double>, Double, RealNumbers> {
 
   public RealCoordinateSpace(int n) {
     super(RealNumbers.getInstance(), n);

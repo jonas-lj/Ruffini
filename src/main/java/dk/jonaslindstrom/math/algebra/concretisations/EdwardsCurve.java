@@ -1,10 +1,8 @@
 package dk.jonaslindstrom.math.algebra.concretisations;
 
-import java.util.List;
-
-import dk.jonaslindstrom.math.algebra.abstractions.AdditiveGroup;
 import dk.jonaslindstrom.math.algebra.abstractions.Field;
 import dk.jonaslindstrom.math.algebra.elements.EdwardsPoint;
+import java.util.List;
 
 public class EdwardsCurve<E> implements EllipticCurve<EdwardsPoint<E>> {
 

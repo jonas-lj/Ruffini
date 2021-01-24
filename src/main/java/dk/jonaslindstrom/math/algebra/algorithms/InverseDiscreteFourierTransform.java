@@ -9,10 +9,6 @@ import java.util.function.UnaryOperator;
 /**
  * Compute the Inverse Discrete Fourier Transform over a ring, assuming that <i>n</i> has an inverse
  * over the ring.
- *
- * @author Jonas Lindstrøm (jonas.lindstrom@alexandra.dk)
- *
- * @param <E>
  */
 public class InverseDiscreteFourierTransform<E> implements UnaryOperator<Vector<E>> {
 

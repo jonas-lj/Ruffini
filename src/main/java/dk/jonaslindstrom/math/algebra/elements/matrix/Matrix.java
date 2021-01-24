@@ -14,6 +14,81 @@ import java.util.stream.IntStream;
 
 public interface Matrix<E> extends BiFunction<Vector<E>, Ring<E>, Vector<E>> {
 
+  static <E> Matrix<E> lazy(int m, int n, IntBinaryFunction<E> populator) {
+    return new ConstructiveMatrix<>(m, n, populator);
+  }
+
+  /**
+   * Create copy of a matrix.
+   */
+  static <E> Matrix<E> copy(Matrix<E> matrix) {
+    return new ConcreteMatrix<>(matrix.getHeight(), matrix.getWidth(), matrix::get);
+  }
+
+  /**
+   * Create a new matrix with the given height, width and populate it using the given funktion.
+   */
+  static <E> Matrix<E> of(int m, int n, IntBinaryFunction<E> populator) {
+    return new ConcreteMatrix<>(m, n, populator);
+  }
+
+  static <E> Matrix<E> of(int m, IntFunction<ArrayList<E>> rowPopulator) {
+    return new ConcreteMatrix<>(
+        IntStream.range(0, m).parallel().mapToObj(rowPopulator)
+            .collect(Collectors.toCollection(ArrayList::new)));
+  }
+
+  @SuppressWarnings("unchecked")
+  static <E> Matrix<E> of(E[]... rows) {
+    return new ConcreteMatrix<>(rows.length, i -> new ArrayList<>(Arrays.asList(rows[i])));
+  }
+
+  @SafeVarargs
+  static <E> Matrix<E> of(ArrayList<E>... rows) {
+    return new ConcreteMatrix<>(
+        Arrays.stream(rows).collect(Collectors.toCollection(ArrayList::new)));
+  }
+
+  /**
+   * Convenience function to quickly define (small) matrices. The <i>m</i> is the number of rows and
+   * the remaining are the entries which should be divisible by the number of rows.
+   */
+  @SafeVarargs
+  static <E> Matrix<E> of(int m, E... entries) {
+    if (entries.length % m != 0) {
+      throw new IllegalArgumentException(
+          "Number of entries should be divisible by the number of rows, but was "
+              + entries.length + " which does not divide " + m + ".");
+    }
+    int n = entries.length / m;
+    return of(m, n, (i, j) -> entries[i * n + j]);
+  }
+
+  static <E> Matrix<E> of(int m, int n, E defaultValue) {
+    return new ConcreteMatrix<>(m, n, (x, y) -> defaultValue);
+  }
+
+  static <E> Matrix<E> fromBlocks(Matrix<Matrix<E>> blocks) {
+    Matrix<E> tl = blocks.get(0, 0);
+    int m = blocks.getHeight() * tl.getHeight();
+    int n = blocks.getWidth() * tl.getWidth();
+
+    ArrayList<ArrayList<E>> rows = new ArrayList<>(m);
+
+    for (Vector<Matrix<E>> row : blocks.rows()) {
+      for (int i = 0; i < tl.getHeight(); i++) {
+        ArrayList<E> entries = new ArrayList<>(n);
+        for (Matrix<E> b : row) {
+          for (E e : b.getRow(i)) {
+            entries.add(e);
+          }
+        }
+        rows.add(entries);
+      }
+    }
+    return new ConcreteMatrix<>(rows);
+  }
+
   Vector<E> getColumn(int j);
 
   Vector<E> getRow(int i);
@@ -64,78 +139,5 @@ public interface Matrix<E> extends BiFunction<Vector<E>, Ring<E>, Vector<E>> {
    * Returns a mutable copy of this matrix.
    */
   MutableMatrix<E> mutable();
-
-  static <E> Matrix<E> lazy(int m, int n, IntBinaryFunction<E> populator) {
-    return new ConstructiveMatrix<>(m, n, populator);
-  }
-
-  /**
-   * Create copy of a matrix.
-   */
-  static <E> Matrix<E> copy(Matrix<E> matrix) {
-    return new ConcreteMatrix<>(matrix.getHeight(), matrix.getWidth(), matrix::get);
-  }
-
-  /**
-   * Create a new matrix with the given height, width and populate it using the given funktion.
-   */
-  static <E> Matrix<E> of(int m, int n, IntBinaryFunction<E> populator) {
-    return new ConcreteMatrix<>(m, n, populator);
-  }
-
-  static <E> Matrix<E> of(int m, IntFunction<ArrayList<E>> rowPopulator) {
-    return new ConcreteMatrix<>(
-        IntStream.range(0, m).parallel().mapToObj(rowPopulator).collect(Collectors.toCollection(ArrayList::new)));
-  }
-
-  @SuppressWarnings("unchecked")
-  static <E> Matrix<E> of(E[]... rows) {
-    return new ConcreteMatrix<>(rows.length, i -> new ArrayList<>(Arrays.asList(rows[i])));
-  }
-
-  @SafeVarargs
-  static <E> Matrix<E> of(ArrayList<E>... rows) {
-    return new ConcreteMatrix<>(
-        Arrays.stream(rows).collect(Collectors.toCollection(ArrayList::new)));
-  }
-
-  /**
-   * Convenience function to quickly define (small) matrices. The <i>m</i> is the number of
-   * rows and the remaining are the entries which should be divisible by the number of rows.
-   */
-  @SafeVarargs
-  static <E> Matrix<E> of(int m, E... entries) {
-    if (entries.length % m != 0) {
-      throw new IllegalArgumentException("Number of entries should be divisible by the number of rows, but was "
-          + entries.length + " which does not divide " + m + ".");
-    }
-    int n = entries.length / m;
-    return of(m, n, (i, j) -> entries[i * n + j]);
-  }
-
-  static <E> Matrix<E> of(int m, int n, E defaultValue) {
-    return new ConcreteMatrix<>(m, n, (x, y) -> defaultValue);
-  }
-
-  static <E> Matrix<E> fromBlocks(Matrix<Matrix<E>> blocks) {
-    Matrix<E> tl = blocks.get(0, 0);
-    int m = blocks.getHeight() * tl.getHeight();
-    int n = blocks.getWidth() * tl.getWidth();
-
-    ArrayList<ArrayList<E>> rows = new ArrayList<>(m);
-
-    for (Vector<Matrix<E>> row : blocks.rows()) {
-      for (int i = 0; i < tl.getHeight(); i++) {
-        ArrayList<E> entries = new ArrayList<>(n);
-        for (Matrix<E> b : row) {
-          for (E e : b.getRow(i)) {
-            entries.add(e);
-          }
-        }
-        rows.add(entries);
-      }
-    }
-    return new ConcreteMatrix<>(rows);
-  }
 
 }

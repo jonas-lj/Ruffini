@@ -73,8 +73,4 @@ public class FieldOfFractions<E> implements Field<Fraction<E>> {
     return "Frac(" + baseRing + ")";
   }
 
-  @Override
-  public int getCharacteristics() {
-    return baseRing.getCharacteristics();
-  }
 }

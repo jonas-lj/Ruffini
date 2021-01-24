@@ -6,7 +6,8 @@ import dk.jonaslindstrom.math.algebra.elements.ComplexNumber;
 import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
 import org.apache.commons.math3.util.FastMath;
 
-public class ComplexCoordinateSpace extends VectorSpaceOverField<ComplexNumber, ComplexNumbers> implements
+public class ComplexCoordinateSpace extends
+    VectorSpaceOverField<ComplexNumber, ComplexNumbers> implements
     NormedVectorSpace<Vector<ComplexNumber>, ComplexNumber, ComplexNumbers> {
 
   public ComplexCoordinateSpace(int n) {

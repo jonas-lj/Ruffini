@@ -46,9 +46,11 @@ public class StrassenMultiplication<E> implements BinaryOperator<Matrix<E>> {
 
     int m = n / 2;
 
-    Matrix<Matrix<E>> A = Matrix.of(2, 2, (i, j) -> a.view().submatrix(i * m, (i + 1) * m, j * m, (j + 1) * m));
+    Matrix<Matrix<E>> A = Matrix
+        .of(2, 2, (i, j) -> a.view().submatrix(i * m, (i + 1) * m, j * m, (j + 1) * m));
 
-    Matrix<Matrix<E>> B = Matrix.of(2, 2, (i, j) -> b.view().submatrix(i * m, (i + 1) * m, j * m, (j + 1) * m));
+    Matrix<Matrix<E>> B = Matrix
+        .of(2, 2, (i, j) -> b.view().submatrix(i * m, (i + 1) * m, j * m, (j + 1) * m));
 
     Matrix<E> m1 = apply(plus(A.get(0, 0), A.get(1, 1)), plus(B.get(0, 0), B.get(1, 1)));
     Matrix<E> m2 = apply(plus(A.get(1, 0), A.get(1, 1)), B.get(0, 0));

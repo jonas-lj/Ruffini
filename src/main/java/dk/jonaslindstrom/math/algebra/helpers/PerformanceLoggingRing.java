@@ -2,7 +2,9 @@ package dk.jonaslindstrom.math.algebra.helpers;
 
 import dk.jonaslindstrom.math.algebra.abstractions.Ring;
 
-/** Wrapper for the ring class which logs the number of operations performed in this ring. */
+/**
+ * Wrapper for the ring class which logs the number of operations performed in this ring.
+ */
 public class PerformanceLoggingRing<E> implements Ring<E> {
 
   private final Ring<E> ring;
@@ -10,11 +12,6 @@ public class PerformanceLoggingRing<E> implements Ring<E> {
 
   public PerformanceLoggingRing(Ring<E> ring) {
     this.ring = ring;
-  }
-
-  @Override
-  public int getCharacteristics() {
-    return 0;
   }
 
   @Override
@@ -81,7 +78,8 @@ public class PerformanceLoggingRing<E> implements Ring<E> {
   }
 
   public String toString() {
-    return "mults = " + multiplications + "\nadds  = " + additions + "\nneg   = " + negations + "\neqs   = " + equalities;
+    return "mults = " + multiplications + "\nadds  = " + additions + "\nneg   = " + negations
+        + "\neqs   = " + equalities;
   }
 
   public void reset() {
