@@ -1,20 +1,9 @@
 <!-- PROJECT LOGO -->
-<br />
-<p align="center">
-<!--
-  <a href="https://github.com/jonas-lj/Ruffini">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
--->
+<h1 align="center">Ruffini</h1>
 
-  <h3 align="center">Ruffini</h3>
-
-  <p align="center">
+<p>
     Computations over algebraic structures in Java made easy
-  </p>
 </p>
-
-
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
