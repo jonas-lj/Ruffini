@@ -1,5 +1,5 @@
 <!-- PROJECT LOGO -->
-<h1 align="center">Ruffini</h1>
+<h1>Ruffini</h1>
 
 <p>
     Computations over algebraic structures in Java made easy
