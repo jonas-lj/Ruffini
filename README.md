@@ -2,7 +2,7 @@
 <h1>Ruffini</h1>
 
 <p>
-    Computations over algebraic structures in Java made easy
+    Computations over algebraic structures in Java made easy.
 </p>
 
 <!-- TABLE OF CONTENTS -->
@@ -22,11 +22,17 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+<p>
 The Ruffini library is developed to make it easy to implement algorithms in Java involving various 
 algebraic structures such as finite fields, polynomial rings, field extensions etc. The library includes 
 an extensive library of already implemented algorithms such as the Euclidean algorithm, polynomial 
 division etc. to make implementation even easier.
-
+</p>
+<p>
+The project is named after the italian mathematician Paolo Ruffini (1765-1822) who, among other 
+things, contributed to group theory and was the first to give a proof (incomplete) that there is no 
+general formula to solve quintic (and higher order) equations.
+</p>
 
 ## Built With
 The project may be build using maven,
