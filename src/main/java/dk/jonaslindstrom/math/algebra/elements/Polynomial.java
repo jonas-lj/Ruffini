@@ -14,6 +14,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
@@ -112,6 +113,12 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
   public <X> Polynomial<X> mapCoefficients(Function<E, X> converter) {
     Map<Integer, X> newTerms = terms.keySet().stream()
         .collect(Collectors.toMap(i -> i, i -> converter.apply(terms.get(i))));
+    return new Polynomial<>(newTerms);
+  }
+
+  public Polynomial<E> removeTerms(Predicate<E> predicate) {
+    Map<Integer, E> newTerms = terms.keySet().stream().filter(p -> !predicate.test(terms.get(p)))
+        .collect(Collectors.toMap(i -> i, terms::get));
     return new Polynomial<>(newTerms);
   }
 

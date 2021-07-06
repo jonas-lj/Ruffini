@@ -47,7 +47,7 @@ public class GramMatrix<E> implements UnaryOperator<Matrix<E>> {
     int k = r > 0 ? q + 1 : q;
 
     ConcreteVector<Matrix<E>> A = new ConcreteVector<>(k,
-        i -> a.submatrix(i * n, Math.min((i + 1) * n, m), 0, n).extend(n, n, null));
+        i -> a.submatrix(i * n, Math.min((i + 1) * n, m), 0, n).extendTo(n, n, null));
 
     BinaryOperator<Matrix<E>> mult = new StrassenMultiplication<>(ring);
 

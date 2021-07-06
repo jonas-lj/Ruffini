@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.IntFunction;
 import java.util.stream.IntStream;
+import java.util.stream.StreamSupport;
 
 public class Sum<E> {
 
@@ -15,7 +16,11 @@ public class Sum<E> {
   }
 
   public final E apply(IntFunction<E> f, Integer n) {
-    return IntStream.range(0, n).mapToObj(f).reduce(group.getZero(), group::add);
+    return apply(f, 0, n);
+  }
+
+  public final E apply(IntFunction<E> f, Integer n0, Integer n1) {
+    return IntStream.range(n0, n1).mapToObj(f).reduce(group.getZero(), group::add);
   }
 
   public final E apply(List<E> inputs) {
@@ -25,6 +30,10 @@ public class Sum<E> {
   @SafeVarargs
   public final E apply(E... inputs) {
     return Arrays.stream(inputs).reduce(group.getZero(), group::add);
+  }
+
+  public final E apply(Iterable<E> inputs) {
+    return StreamSupport.stream(inputs.spliterator(), true).reduce(group.getZero(), group::add);
   }
 
 }

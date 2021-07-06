@@ -21,13 +21,21 @@ public class BerlekampRabinAlgorithm implements Function<Polynomial<Integer>, In
   private final int maxIterations;
   private final EuclideanAlgorithm<Polynomial<Integer>> gcd;
 
-  public BerlekampRabinAlgorithm(int p, int maxIterations) {
+  public BerlekampRabinAlgorithm(int p, int maxIterations, Random random) {
     this.p = p;
     this.𝔽ₚ = new PrimeField(p);
     this.𝔽ₚx = new PolynomialRing<>(𝔽ₚ);
-    this.random = new Random();
+    this.random = random;
     this.maxIterations = maxIterations;
     this.gcd = new EuclideanAlgorithm<>(𝔽ₚx);
+  }
+
+  public BerlekampRabinAlgorithm(int p, int maxIterations, int seed) {
+    this(p, maxIterations, new Random(seed));
+  }
+
+  public BerlekampRabinAlgorithm(int p, int maxIterations) {
+    this(p, maxIterations, new Random());
   }
 
   public BerlekampRabinAlgorithm(int p) {

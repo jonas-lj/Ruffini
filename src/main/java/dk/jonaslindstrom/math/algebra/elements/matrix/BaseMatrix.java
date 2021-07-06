@@ -1,10 +1,13 @@
 package dk.jonaslindstrom.math.algebra.elements.matrix;
 
+import com.google.common.collect.Iterators;
 import dk.jonaslindstrom.math.algebra.abstractions.Ring;
 import dk.jonaslindstrom.math.algebra.algorithms.DotProduct;
 import dk.jonaslindstrom.math.algebra.elements.vector.ConcreteVector;
 import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
 import dk.jonaslindstrom.math.util.StringUtils;
+import java.util.AbstractCollection;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.function.BiPredicate;
 import java.util.stream.IntStream;
@@ -18,7 +21,7 @@ public abstract class BaseMatrix<E> implements Matrix<E> {
 
   @Override
   public Vector<E> apply(Vector<E> b, Ring<E> ring) {
-    if (b.getDimension() != getHeight()) {
+    if (b.getDimension() != getWidth()) {
       throw new IllegalArgumentException();
     }
 
@@ -29,6 +32,8 @@ public abstract class BaseMatrix<E> implements Matrix<E> {
 
   @Override
   public String toString() {
+
+
     StringBuilder sb = new StringBuilder();
     int maxLength = 0;
     for (int i = 0; i < getHeight(); i++) {
@@ -40,12 +45,16 @@ public abstract class BaseMatrix<E> implements Matrix<E> {
     maxLength += 2; // Ensure space on both sides of values
 
     for (int i = 0; i < getHeight(); i++) {
-      if (i == 0) {
-        sb.append("⎛");
-      } else if (i == getHeight() - 1) {
-        sb.append("⎝");
+      if (getHeight() == 1) {
+        sb.append("(");
       } else {
-        sb.append("⎜");
+        if (i == 0) {
+          sb.append("⎛");
+        } else if (i == getHeight() - 1) {
+          sb.append("⎝");
+        } else {
+          sb.append("⎜");
+        }
       }
       for (int j = 0; j < getWidth(); j++) {
         String entry = Objects.nonNull(get(i, j)) ? get(i, j).toString() : "N/A";
@@ -55,12 +64,17 @@ public abstract class BaseMatrix<E> implements Matrix<E> {
         sb.append(entry);
         sb.append(StringUtils.getWhiteSpaces(maxLength - k));
       }
-      if (i == 0) {
-        sb.append("⎞\n");
-      } else if (i == getHeight() - 1) {
-        sb.append("⎠");
+
+      if (getHeight() == 1) {
+        sb.append(")");
       } else {
-        sb.append("⎟\n");
+        if (i == 0) {
+          sb.append("⎞\n");
+        } else if (i == getHeight() - 1) {
+          sb.append("⎠");
+        } else {
+          sb.append("⎟\n");
+        }
       }
     }
     return sb.toString();
@@ -103,6 +117,11 @@ public abstract class BaseMatrix<E> implements Matrix<E> {
   @Override
   public Iterable<Vector<E>> rows() {
     return () -> IntStream.range(0, getHeight()).mapToObj(this::getRow).iterator();
+  }
+
+  @Override
+  public Iterable<Vector<E>> columns() {
+    return () -> IntStream.range(0, getWidth()).mapToObj(this::getColumn).iterator();
   }
 
   @Override

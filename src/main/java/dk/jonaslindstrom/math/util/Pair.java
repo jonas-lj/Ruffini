@@ -1,5 +1,7 @@
 package dk.jonaslindstrom.math.util;
 
+import java.util.function.BiFunction;
+
 public class Pair<E, F> {
 
   public E first;
@@ -21,6 +23,10 @@ public class Pair<E, F> {
   @Override
   public String toString() {
     return "(" + first + ", " + second + ")";
+  }
+
+  public <G> G apply(BiFunction<E, F, G> function) {
+    return function.apply(first, second);
   }
 
 }

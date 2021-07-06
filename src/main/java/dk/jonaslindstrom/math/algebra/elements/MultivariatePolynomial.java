@@ -1,6 +1,7 @@
 package dk.jonaslindstrom.math.algebra.elements;
 
 import dk.jonaslindstrom.math.algebra.abstractions.Ring;
+import dk.jonaslindstrom.math.algebra.algorithms.IntegerRingEmbedding;
 import dk.jonaslindstrom.math.algebra.algorithms.Power;
 import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
 import dk.jonaslindstrom.math.util.Pair;
@@ -27,9 +28,24 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
     this.terms = terms;
   }
 
+  private MultivariatePolynomial<E> pad(int variables) {
+    if (variables == this.variables) {
+      return this;
+    }
+
+    SortedMap<Monomial, E> newTerms = new TreeMap<>(DEFAULT_ORDERING);
+    for (Monomial degree : terms.keySet()) {
+      newTerms.put(degree.pad(variables), terms.get(degree));
+    }
+    return new MultivariatePolynomial<>(variables, newTerms);
+  }
+
   public static <T> MultivariatePolynomial<T> multiply(MultivariatePolynomial<T> a,
       MultivariatePolynomial<T> b, Ring<T> ring) {
-    assert (a.variables == b.variables);
+    if (a.variables != b.variables) {
+      int variables = Math.max(a.variables, b.variables);
+      return multiply(a.pad(variables), b.pad(variables), ring);
+    }
     Builder<T> builder = new Builder<>(a.variables, ring);
     for (Monomial ai : a.terms.keySet()) {
       for (Monomial bi : b.terms.keySet()) {
@@ -41,7 +57,10 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
 
   public static <T> MultivariatePolynomial<T> add(MultivariatePolynomial<T> a,
       MultivariatePolynomial<T> b, Ring<T> ring) {
-    assert (a.variables == b.variables);
+    if (a.variables != b.variables) {
+      int variables = Math.max(a.variables, b.variables);
+      return add(a.pad(variables), b.pad(variables), ring);
+    }
     Builder<T> builder = new Builder<>(a.variables, ring);
     for (Pair<Monomial, T> ai : a.coefficients()) {
       builder.add(ai.second, ai.first);
@@ -75,10 +94,14 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
     while (it.hasNext()) {
       Monomial x = it.next();
       E e = terms.get(x);
-      if (!e.toString().equals("1")) {
+      if (Arrays.stream(x.degree).allMatch(d -> d == 0)) {
         sb.append(e.toString());
+      } else {
+        if (!e.toString().equals("1")) {
+          sb.append(e.toString());
+        }
+        sb.append(x.toString());
       }
-      sb.append(x.toString());
       if (it.hasNext()) {
         sb.append(" + ");
       }
@@ -94,6 +117,26 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
       result = ring.add(result, ring.multiply(c, d.applyTerm(x, ring)));
     }
     return result;
+  }
+
+  public MultivariatePolynomial<E> differentiate(int variable, Ring<E> ring) {
+    IntegerRingEmbedding<E> integerEmbedding = new IntegerRingEmbedding<>(ring);
+
+    Builder<E> builder = new Builder<>(variables, ring);
+    for (Monomial monomial : terms.keySet()) {
+      E coefficient = terms.get(monomial);
+      if (variable >= variables || monomial.degree(variable) == 0) {
+        // Constant term
+        continue;
+      }
+
+      int power = monomial.degree(variable);
+      E newCoefficient = ring.multiply(coefficient, integerEmbedding.apply(power));
+      int[] newMonomial = Arrays.copyOf(monomial.degree, variables);
+      newMonomial[variable]--;
+      builder.add(newCoefficient, newMonomial);
+    }
+    return builder.build();
   }
 
   public int variables() {
@@ -171,6 +214,12 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
       return Arrays.stream(degree).sum();
     }
 
+    private Monomial pad(int variables) {
+      assert (variables >= degree.length);
+      int[] newDegree = new int[variables];
+      System.arraycopy(degree, 0, newDegree, 0, degree.length);
+      return new Monomial(newDegree);
+    }
 
     public Monomial multiply(Monomial other) {
       assert (this.variables() == other.variables());
@@ -253,7 +302,7 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
           return "z";
         }
       }
-      return "x" + StringUtils.subscript(Integer.toString(i));
+      return "x" + StringUtils.subscript(Integer.toString(i + 1));
     }
 
     public String toString() {

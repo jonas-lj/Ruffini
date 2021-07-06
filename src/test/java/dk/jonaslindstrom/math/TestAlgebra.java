@@ -19,6 +19,7 @@ import dk.jonaslindstrom.math.algebra.algorithms.GröbnerBasis;
 import dk.jonaslindstrom.math.algebra.algorithms.IntegerRingEmbedding;
 import dk.jonaslindstrom.math.algebra.algorithms.InverseDiscreteFourierTransform;
 import dk.jonaslindstrom.math.algebra.algorithms.LagrangePolynomial;
+import dk.jonaslindstrom.math.algebra.algorithms.MatrixInversion;
 import dk.jonaslindstrom.math.algebra.algorithms.MatrixMultiplication;
 import dk.jonaslindstrom.math.algebra.algorithms.MultivariatePolynomialDivision;
 import dk.jonaslindstrom.math.algebra.algorithms.Power;
@@ -218,12 +219,30 @@ public class TestAlgebra {
   }
 
   @Test
+  public void testMatrixInversion() {
+    Random random = new Random(123);
+    int p = 13;
+    int n = 7;
+
+    PrimeField field = new PrimeField(13);
+    Matrix<Integer> a = Matrix.of(7, 7, (i,j) -> random.nextInt(p));
+    Matrix<Integer> b = new MatrixInversion<>(field).apply(a);
+
+    MatrixRing<Integer> matrixRing = new MatrixRing<>(field, n);
+    Matrix<Integer> c = matrixRing.multiply(a, b);
+
+
+    Assert.assertTrue(matrixRing.equals(c, matrixRing.getIdentity()));
+  }
+
+  @Test
   public void testMatrixView() {
+
     Matrix<Integer> a = Matrix.of(7,
         1, 2, 3, 4, 5, 6, 7,
-        2, 3, 4, 5, 6, 7, 8,
-        3, 4, 5, 6, 7, 8, 9,
-        4, 5, 6, 7, 8, 9, 1,
+        2, 3, 4, 5, 6, 7, 11,
+        3, 4, 5, 6, 1, 8, 9,
+        4, 5, 6, 3, 8, 9, 1,
         5, 6, 7, 8, 9, 1, 2,
         6, 7, 8, 9, 1, 2, 3,
         7, 8, 9, 1, 2, 3, 4);

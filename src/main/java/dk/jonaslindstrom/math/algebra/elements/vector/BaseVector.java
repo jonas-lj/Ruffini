@@ -12,6 +12,13 @@ public abstract class BaseVector<E> implements Vector<E> {
 
   @Override
   public String toString() {
+
+    if (this.getDimension() == 0) {
+      return "()";
+    } else if (this.getDimension() == 1) {
+      return "(" + get(0) + ")";
+    }
+
     StringBuilder sb = new StringBuilder();
     int maxLength = 0;
     for (int j = 0; j < getDimension(); j++) {

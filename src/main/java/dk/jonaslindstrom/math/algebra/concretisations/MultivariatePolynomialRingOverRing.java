@@ -2,6 +2,7 @@ package dk.jonaslindstrom.math.algebra.concretisations;
 
 import dk.jonaslindstrom.math.algebra.abstractions.EuclideanDomain;
 import dk.jonaslindstrom.math.algebra.abstractions.Field;
+import dk.jonaslindstrom.math.algebra.abstractions.Ring;
 import dk.jonaslindstrom.math.algebra.algorithms.MultivariatePolynomialDivision;
 import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial;
 import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial.Monomial;
@@ -15,40 +16,35 @@ import java.util.stream.StreamSupport;
 /**
  * This class implements the ring of polynomials <i>K[x]</i> over a field <i>K</i>.
  */
-public class MultivariatePolynomialRing<E>
-    extends MultivariatePolynomialRingOverRing<E> implements EuclideanDomain<MultivariatePolynomial<E>> {
+public class MultivariatePolynomialRingOverRing<E>
+    implements Ring<MultivariatePolynomial<E>> {
 
-  private final Field<E> field;
-  private final Comparator<Monomial> ordering;
+  private final Ring<E> ring;
+  protected final int variables;
 
-  public MultivariatePolynomialRing(Field<E> field, int variables, Comparator<Monomial> ordering) {
-    super(field, variables);
-    this.field = field;
-    this.ordering = ordering;
+  public MultivariatePolynomialRingOverRing(Ring<E> ring, int variables) {
+    this.ring = ring;
+    this.variables = variables;
   }
 
-  public MultivariatePolynomialRing(Field<E> field, int variables) {
-    this(field, variables, MultivariatePolynomial.DEFAULT_ORDERING);
-  }
-
-  public Field<E> getField() {
-    return field;
+  public Ring<E> getRing() {
+    return ring;
   }
 
   @Override
   public String toString() {
-    return field.toString() + "(x)";
+    return ring.toString() + "(x)";
   }
 
   @Override
   public MultivariatePolynomial<E> getIdentity() {
-    return MultivariatePolynomial.constant(field.getIdentity(), variables);
+    return MultivariatePolynomial.constant(ring.getIdentity(), variables);
   }
 
   @Override
   public MultivariatePolynomial<E> multiply(MultivariatePolynomial<E> a,
       MultivariatePolynomial<E> b) {
-    return MultivariatePolynomial.multiply(a, b, field);
+    return MultivariatePolynomial.multiply(a, b, ring);
   }
 
   @Override
@@ -61,14 +57,14 @@ public class MultivariatePolynomialRing<E>
     for (Pair<Monomial, E> ai : a.coefficients()) {
       E bi = b.getCoefficient(ai.first);
       if (Objects.isNull(bi)) {
-        if (field.equals(ai.second, field.getZero())) {
+        if (ring.equals(ai.second, ring.getZero())) {
           continue;
         } else {
           return false;
         }
       }
 
-      if (!field.equals(ai.second, b.getCoefficient(ai.first))) {
+      if (!ring.equals(ai.second, b.getCoefficient(ai.first))) {
         return false;
       }
     }
@@ -76,14 +72,14 @@ public class MultivariatePolynomialRing<E>
     for (Pair<Monomial, E> bi : b.coefficients()) {
       E ai = b.getCoefficient(bi.first);
       if (Objects.isNull(ai)) {
-        if (field.equals(bi.second, field.getZero())) {
+        if (ring.equals(bi.second, ring.getZero())) {
           continue;
         } else {
           return false;
         }
       }
 
-      if (!field.equals(bi.second, a.getCoefficient(bi.first))) {
+      if (!ring.equals(bi.second, a.getCoefficient(bi.first))) {
         return false;
       }
     }
@@ -93,30 +89,17 @@ public class MultivariatePolynomialRing<E>
 
   @Override
   public MultivariatePolynomial<E> add(MultivariatePolynomial<E> a, MultivariatePolynomial<E> b) {
-    return MultivariatePolynomial.add(a, b, field);
+    return MultivariatePolynomial.add(a, b, ring);
   }
 
   @Override
   public MultivariatePolynomial<E> negate(MultivariatePolynomial<E> a) {
-    return a.mapCoefficients(field::negate);
+    return a.mapCoefficients(ring::negate);
   }
 
   @Override
   public MultivariatePolynomial<E> getZero() {
-    return MultivariatePolynomial.constant(field.getZero(), variables);
+    return MultivariatePolynomial.constant(ring.getZero(), variables);
   }
 
-  @Override
-  public Pair<MultivariatePolynomial<E>, MultivariatePolynomial<E>> divisionWithRemainder(
-      MultivariatePolynomial<E> a, MultivariatePolynomial<E> b) {
-    Pair<Vector<MultivariatePolynomial<E>>, MultivariatePolynomial<E>> result = new MultivariatePolynomialDivision<>(
-        this, ordering).apply(a, Vector.of(b));
-    return new Pair<>(result.first.get(0), result.second);
-  }
-
-  @Override
-  public Integer norm(MultivariatePolynomial<E> a) {
-    Stream<Monomial> monomials = StreamSupport.stream(a.monomials().spliterator(), true);
-    return monomials.mapToInt(Monomial::degree).max().orElse(0);
-  }
 }

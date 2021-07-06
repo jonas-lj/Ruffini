@@ -14,4 +14,8 @@ public interface AdditiveGroup<E> extends CommutativeMonoid<E> {
     return add(a, negate(b));
   }
 
+  default boolean isZero(E a) {
+    return this.equals(a, this.getZero());
+  }
+
 }

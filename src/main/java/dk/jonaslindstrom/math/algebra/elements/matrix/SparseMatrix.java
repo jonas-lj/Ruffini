@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class SparseMatrix<E> extends ConstructiveMatrix<E> {
+public class SparseMatrix<E> extends MatrixView<E> {
 
   private SparseMatrix(int m, int n, Map<MatrixIndex, E> entries, E zero) {
     super(m, n, (i, j) -> {

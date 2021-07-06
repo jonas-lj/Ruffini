@@ -3,6 +3,8 @@ package dk.jonaslindstrom.math;
 
 import dk.jonaslindstrom.math.util.ArrayUtils;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -24,10 +26,16 @@ public class TestArrayUtils {
   }
 
   @Test
+  public void testNonEmptySubsets() {
+    ArrayUtils.nonEmptySubsets(5).forEach(s -> System.out.println(Arrays.toString(s)));
+    Assert.assertEquals(31, ArrayUtils.nonEmptySubsets(5).count());
+  }
+
+  @Test
   public void testRemove() {
     int[] a = new int[]{1, 2, 3, 4, 5};
     int[] e = new int[]{1, 2, 3, 5};
     Assert.assertArrayEquals(e, ArrayUtils.remove(a, 3));
-
   }
+
 }
