@@ -49,7 +49,9 @@ mvn javadoc:javadoc
 
 The Ruffini library is organized analogous of how abstract algebra is presented in mathematics. The base of the library are a number of interfaces representing abstract algebraic structures. They are organized in an inheritance hierachy as seen in figure below. Note that `E` is a generic class, representing the element of the given structure.
 
-<img src="abstractions.svg" align="center" alt="Inheritance diagram for abstract algebraic structures">
+<p align="center">
+  <img src="abstractions.svg" align="center" alt="Inheritance diagram for abstract algebraic structures">
+</p>
 
 As in abstract algebra, an algorithm may be defined for an abstract structure and then be used with any concrete structure satisfying the definition of the abstract structure. As an example, consider the implementation of the Gram-Schmidt process definded over vectors of type `V` and scalars of type `S`. Now, this code may be used with any concrete implementations of a vector space over a field.
 
