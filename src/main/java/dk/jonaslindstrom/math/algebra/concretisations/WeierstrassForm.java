@@ -88,7 +88,7 @@ public class WeierstrassForm<E> implements EllipticCurve<ECPoint<E>> {
 
   public String toString() {
     Polynomial<E> rhs = Polynomial.of(field, b, a, field.getZero(), field.getIdentity());
-    return "E: y² = " + rhs.toString("x");
+    return "E: y^2 = " + rhs.toString("x");
   }
 
 }

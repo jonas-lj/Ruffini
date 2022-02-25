@@ -1,9 +1,11 @@
 package dk.jonaslindstrom.math.algebra.algorithms;
 
 import dk.jonaslindstrom.math.algebra.abstractions.Field;
+import dk.jonaslindstrom.math.algebra.concretisations.ConstructiveReals;
 import dk.jonaslindstrom.math.algebra.concretisations.FiniteField;
 import dk.jonaslindstrom.math.algebra.concretisations.PrimeField;
 import dk.jonaslindstrom.math.algebra.concretisations.RealNumbers;
+import dk.jonaslindstrom.math.algebra.elements.ConstructiveReal;
 import dk.jonaslindstrom.math.algebra.elements.Polynomial;
 import java.util.function.UnaryOperator;
 import org.apache.commons.math3.util.FastMath;
@@ -38,6 +40,12 @@ public class QuadraticEquation<E, F extends Field<E>> {
   public static QuadraticEquation<Double, RealNumbers> create(double a, double b, double c) {
     return new QuadraticEquation<>(a, b, c, RealNumbers.getInstance(), FastMath::sqrt);
   }
+
+  public static QuadraticEquation<ConstructiveReal, ConstructiveReals> create(ConstructiveReal a,
+      ConstructiveReal b, ConstructiveReal c) {
+    return new QuadraticEquation<>(a, b, c, new ConstructiveReals(), ConstructiveReal::sqrt);
+  }
+
 
   public E solve() throws IllegalArgumentException {
     IntegerRingEmbedding<E> integerEmbedding = new IntegerRingEmbedding<>(field);

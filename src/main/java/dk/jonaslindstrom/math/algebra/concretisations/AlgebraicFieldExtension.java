@@ -28,6 +28,10 @@ public class AlgebraicFieldExtension<E> extends QuotientRing<Polynomial<E>> impl
   public String toString(Polynomial<E> p) {
     return p.toString(this.element);
   }
+
+  public String toString() {
+    return field.toString() + "(" + this.element + ")";
+  }
 }
 
 

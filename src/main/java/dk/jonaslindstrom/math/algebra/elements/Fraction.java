@@ -26,6 +26,6 @@ public class Fraction<E> {
     if (denominator.toString().equals("1")) {
       return nominator.toString();
     }
-    return nominator + "/" + denominator;
+    return "\\frac{" + nominator + "}{" + denominator + "}";
   }
 }

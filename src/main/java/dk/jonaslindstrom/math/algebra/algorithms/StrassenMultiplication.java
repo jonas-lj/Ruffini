@@ -41,7 +41,7 @@ public class StrassenMultiplication<E> implements BinaryOperator<Matrix<E>> {
 
     int N = MathUtils.nextPowerOfTwo(n);
     if (N > n) {
-      return apply(a.view().extend(N, N, null), b.view().extend(N, N, null)).submatrix(0, n, 0, n);
+      return apply(a.view().extendTo(N, N, null), b.view().extendTo(N, N, null)).submatrix(0, n, 0, n);
     }
 
     int m = n / 2;
@@ -54,18 +54,18 @@ public class StrassenMultiplication<E> implements BinaryOperator<Matrix<E>> {
 
     Matrix<E> m1 = apply(plus(A.get(0, 0), A.get(1, 1)), plus(B.get(0, 0), B.get(1, 1)));
     Matrix<E> m2 = apply(plus(A.get(1, 0), A.get(1, 1)), B.get(0, 0));
-    Matrix<E> m3 = apply(A.get(0, 0), plus(B.get(0, 1), B.get(1, 1).view().forEach(this::minus)));
-    Matrix<E> m4 = apply(A.get(1, 1), plus(B.get(1, 0), B.get(0, 0).view().forEach(this::minus)));
+    Matrix<E> m3 = apply(A.get(0, 0), plus(B.get(0, 1), B.get(1, 1).view().map(this::minus)));
+    Matrix<E> m4 = apply(A.get(1, 1), plus(B.get(1, 0), B.get(0, 0).view().map(this::minus)));
     Matrix<E> m5 = apply(plus(A.get(0, 0), A.get(0, 1)), B.get(1, 1));
-    Matrix<E> m6 = apply(plus(A.get(1, 0), A.get(0, 0).view().forEach(this::minus)),
+    Matrix<E> m6 = apply(plus(A.get(1, 0), A.get(0, 0).view().map(this::minus)),
         plus(B.get(0, 0), B.get(0, 1)));
-    Matrix<E> m7 = apply(plus(A.get(0, 1), A.get(1, 1).view().forEach(this::minus)),
+    Matrix<E> m7 = apply(plus(A.get(0, 1), A.get(1, 1).view().map(this::minus)),
         plus(B.get(1, 0), B.get(1, 1)));
 
     MultiOperator<Matrix<E>> sum = new MultiOperator<>(this::plus);
 
-    Matrix<Matrix<E>> C = Matrix.of(2, sum.apply(m1, m4, m5.view().forEach(this::minus), m7),
-        plus(m3, m5), plus(m2, m4), sum.apply(m1, m2.view().forEach(this::minus), m3, m6));
+    Matrix<Matrix<E>> C = Matrix.of(2, sum.apply(m1, m4, m5.view().map(this::minus), m7),
+        plus(m3, m5), plus(m2, m4), sum.apply(m1, m2.view().map(this::minus), m3, m6));
 
     return Matrix.fromBlocks(C);
   }

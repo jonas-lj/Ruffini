@@ -52,7 +52,7 @@ public class MatrixRing<E> implements Ring<Matrix<E>> {
 
   @Override
   public Matrix<E> negate(Matrix<E> a) {
-    return a.forEach(baseRing::negate);
+    return a.map(baseRing::negate);
   }
 
   @Override

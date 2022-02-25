@@ -15,7 +15,7 @@ public class RealNumbers implements Field<Double> {
 
   @Override
   public String toString() {
-    return "ℝ";
+    return "\\mathbb{R}";
   }
 
   @Override

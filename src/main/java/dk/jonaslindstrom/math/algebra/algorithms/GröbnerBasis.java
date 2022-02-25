@@ -25,7 +25,9 @@ public class GröbnerBasis<E> implements UnaryOperator<Vector<MultivariatePolyno
   @Override
   public Vector<MultivariatePolynomial<E>> apply(Vector<MultivariatePolynomial<E>> t) {
     for (int i = 0; i < t.getDimension(); i++) {
+      System.out.println(i + "/" + t.getDimension());
       for (int j = i + 1; j < t.getDimension(); j++) {
+        System.out.println(" * " + j + "/" + t.getDimension());
 
         MultivariatePolynomial<E> f = t.get(i);
         MultivariatePolynomial<E> g = t.get(j);

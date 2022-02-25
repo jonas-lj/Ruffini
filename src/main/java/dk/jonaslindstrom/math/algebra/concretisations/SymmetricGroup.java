@@ -53,7 +53,7 @@ public class SymmetricGroup implements Group<Permutation> {
 
   @Override
   public String toString() {
-    return "S" + StringUtils.subscript(Integer.toString(n));
+    return "S_{" + n + "}";
   }
 
 }

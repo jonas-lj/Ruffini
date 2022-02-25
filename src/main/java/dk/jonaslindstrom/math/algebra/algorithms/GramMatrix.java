@@ -23,7 +23,7 @@ public class GramMatrix<E> implements UnaryOperator<Matrix<E>> {
   public Matrix<E> apply(Matrix<E> a) {
 
     if (a.isSquare()) {
-      MutableMatrix<E> C = new MutableMatrix<>(a.getHeight(), a.getHeight(), null);
+      MutableMatrix<E> C = new MutableMatrix<>(a.getHeight(), a.getHeight(), (i,j) -> null);
       NullSafeRing<E> ops = new NullSafeRing<>(ring);
       DotProduct<E> dot = new DotProduct<>(ops);
       for (int i = 0; i < a.getHeight(); i++) {
@@ -47,11 +47,11 @@ public class GramMatrix<E> implements UnaryOperator<Matrix<E>> {
     int k = r > 0 ? q + 1 : q;
 
     ConcreteVector<Matrix<E>> A = new ConcreteVector<>(k,
-        i -> a.submatrix(i * n, Math.min((i + 1) * n, m), 0, n).extend(n, n, null));
+        i -> a.submatrix(i * n, Math.min((i + 1) * n, m), 0, n).extendTo(n, n, null));
 
     BinaryOperator<Matrix<E>> mult = new StrassenMultiplication<>(ring);
 
-    MutableMatrix<Matrix<E>> C = new MutableMatrix<>(k, k, null);
+    MutableMatrix<Matrix<E>> C = new MutableMatrix<>(k, k, (i,j) -> null);
     for (int i = 0; i < k; i++) {
       for (int j = 0; j <= i; j++) {
         if (i == j) {

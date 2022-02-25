@@ -3,9 +3,14 @@ package dk.jonaslindstrom.math.algebra.algorithms;
 import dk.jonaslindstrom.math.algebra.abstractions.Ring;
 import dk.jonaslindstrom.math.algebra.elements.vector.ConcreteVector;
 import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
+import dk.jonaslindstrom.math.util.Pair;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Compute the Discrete Fourier Transform over a ring.
@@ -80,16 +85,16 @@ public class DiscreteFourierTransform<E> implements UnaryOperator<Vector<E>> {
       Vector<F> even = fntt.apply(Vector.view(n / 2, i -> x.get(2 * i)));
       Vector<F> odd = fntt.apply(Vector.view(n / 2, i -> x.get(2 * i + 1)));
 
-      ArrayList<F> Y = new ArrayList<>(n);
-
+      ArrayList<F> Y = new ArrayList<>();
       Y.addAll(Collections.nCopies(n, null));
 
-      for (int k = 0; k < n / 2; k++) {
+      IntStream.range(0, n / 2).parallel().forEach(k -> {
         F ak = ring.multiply(power.apply(a, k), odd.get(k));
         Y.set(k, ring.add(even.get(k), ak));
-        Y.set(k + n / 2, ring.subtract(even.get(k), ak));
-      }
-      return new ConcreteVector<>(Y);
+        Y.set(k + n/2, ring.subtract(even.get(k), ak));
+      });
+
+      return Vector.ofList(Y);
     }
 
   }

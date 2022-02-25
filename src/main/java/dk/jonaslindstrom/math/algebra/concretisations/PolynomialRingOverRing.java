@@ -106,7 +106,7 @@ public class PolynomialRingOverRing<E> implements Ring<Polynomial<E>>, Cloneable
    */
   public Pair<Polynomial<E>, Polynomial<E>> divisionWithRemainder(Polynomial<E> a,
       Polynomial<E> b) {
-    if (!ring.equals(b.getCoefficient(b.degree()), ring.getIdentity())) {
+    if (!ring.isIdentity(b.getCoefficient(b.degree()))) {
       throw new ArithmeticException("Divisor must be monic");
     }
     return divisionWithRemainder(a, b, ring.getIdentity());

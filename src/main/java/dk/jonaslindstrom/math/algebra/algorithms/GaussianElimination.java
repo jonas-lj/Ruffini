@@ -4,6 +4,7 @@ import dk.jonaslindstrom.math.algebra.abstractions.Field;
 import dk.jonaslindstrom.math.algebra.elements.matrix.Matrix;
 import dk.jonaslindstrom.math.algebra.elements.matrix.MutableMatrix;
 import java.util.function.UnaryOperator;
+import java.util.stream.IntStream;
 
 public class GaussianElimination<E> implements UnaryOperator<Matrix<E>> {
 
@@ -14,18 +15,16 @@ public class GaussianElimination<E> implements UnaryOperator<Matrix<E>> {
   }
 
   private void interchangeRows(MutableMatrix<E> matrix, int i, int j) {
-    for (int k = 0; k < matrix.getWidth(); k++) {
+    IntStream.range(0, matrix.getWidth()).parallel().forEach(k -> {
       E tmp = matrix.get(i, k);
       matrix.set(i, k, matrix.get(j, k));
       matrix.set(j, k, tmp);
-    }
+    });
   }
 
   private void addMultipleOfRow(MutableMatrix<E> matrix, int from, int to, E multiple) {
-    for (int k = 0; k < matrix.getWidth(); k++) {
-      matrix.set(to, k,
-          field.add(matrix.get(to, k), field.multiply(matrix.get(from, k), multiple)));
-    }
+    IntStream.range(0, matrix.getWidth()).parallel().forEach(k -> matrix.set(to, k,
+        field.add(matrix.get(to, k), field.multiply(matrix.get(from, k), multiple))));
   }
 
   private void subtractMultipleOfRow(MutableMatrix<E> matrix, int from, int to, E multiple) {
@@ -33,9 +32,8 @@ public class GaussianElimination<E> implements UnaryOperator<Matrix<E>> {
   }
 
   private void scaleRow(MutableMatrix<E> matrix, int row, E multiple) {
-    for (int k = 0; k < matrix.getWidth(); k++) {
-      matrix.set(row, k, field.multiply(matrix.get(row, k), multiple));
-    }
+    IntStream.range(0, matrix.getWidth()).parallel().forEach(k ->
+        matrix.set(row, k, field.multiply(matrix.get(row, k), multiple)));
   }
 
   @Override
@@ -44,7 +42,7 @@ public class GaussianElimination<E> implements UnaryOperator<Matrix<E>> {
     MutableMatrix<E> matrix = a.mutable();
     for (int j = 0; j < matrix.getWidth(); j++) {
       for (int i = lead; i < matrix.getHeight(); i++) {
-        if (!field.equals(matrix.get(i, j), field.getZero())) {
+        if (!field.isZero(matrix.get(i, j))) {
           if (i > lead) {
             interchangeRows(matrix, i, lead);
           }
@@ -52,7 +50,6 @@ public class GaussianElimination<E> implements UnaryOperator<Matrix<E>> {
           for (int k = 0; k < matrix.getHeight(); k++) {
             if (k == lead) {
               continue;
-
             }
             subtractMultipleOfRow(matrix, lead, k, matrix.get(k, j));
           }

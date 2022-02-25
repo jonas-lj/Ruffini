@@ -1,10 +1,10 @@
 package dk.jonaslindstrom.math.algebra.elements;
 
 import dk.jonaslindstrom.math.algebra.abstractions.Ring;
+import dk.jonaslindstrom.math.algebra.algorithms.IntegerRingEmbedding;
 import dk.jonaslindstrom.math.algebra.algorithms.Power;
 import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
 import dk.jonaslindstrom.math.util.Pair;
-import dk.jonaslindstrom.math.util.StringUtils;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -29,7 +29,10 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
 
   public static <T> MultivariatePolynomial<T> multiply(MultivariatePolynomial<T> a,
       MultivariatePolynomial<T> b, Ring<T> ring) {
-    assert (a.variables == b.variables);
+    if (a.variables != b.variables) {
+      int variables = Math.max(a.variables, b.variables);
+      return multiply(a.pad(variables), b.pad(variables), ring);
+    }
     Builder<T> builder = new Builder<>(a.variables, ring);
     for (Monomial ai : a.terms.keySet()) {
       for (Monomial bi : b.terms.keySet()) {
@@ -41,7 +44,10 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
 
   public static <T> MultivariatePolynomial<T> add(MultivariatePolynomial<T> a,
       MultivariatePolynomial<T> b, Ring<T> ring) {
-    assert (a.variables == b.variables);
+    if (a.variables != b.variables) {
+      int variables = Math.max(a.variables, b.variables);
+      return add(a.pad(variables), b.pad(variables), ring);
+    }
     Builder<T> builder = new Builder<>(a.variables, ring);
     for (Pair<Monomial, T> ai : a.coefficients()) {
       builder.add(ai.second, ai.first);
@@ -67,22 +73,60 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
     return monomial(coefficient, new int[variables]);
   }
 
+  private MultivariatePolynomial<E> pad(int variables) {
+    if (variables == this.variables) {
+      return this;
+    }
+
+    SortedMap<Monomial, E> newTerms = new TreeMap<>(DEFAULT_ORDERING);
+    for (Monomial degree : terms.keySet()) {
+      newTerms.put(degree.pad(variables), terms.get(degree));
+    }
+    return new MultivariatePolynomial<>(variables, newTerms);
+  }
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
 
     Iterator<Monomial> it = terms.keySet().iterator();
-    while (it.hasNext()) {
-      Monomial x = it.next();
-      E e = terms.get(x);
-      if (!e.toString().equals("1")) {
-        sb.append(e.toString());
-      }
-      sb.append(x.toString());
-      if (it.hasNext()) {
-        sb.append(" + ");
-      }
+    if (!it.hasNext()) {
+      return "";
     }
+
+    Monomial x = it.next();
+    E e = terms.get(x);
+    if (e.toString().startsWith("-")) {
+      sb.append("-");
+    }
+
+    do {
+      String term = e.toString();
+      if (Arrays.stream(x.degree).allMatch(d -> d == 0)) {
+        sb.append(term);
+      } else {
+        if (term.startsWith("-")) {
+          term = term.substring(1);
+        }
+
+        if (!term.equals("1")) {
+          sb.append(term);
+        }
+        sb.append(x.toString());
+      }
+      if (it.hasNext()) {
+        x = it.next();
+        e = terms.get(x);
+
+        if (e.toString().startsWith("-")) {
+          sb.append(" - ");
+        } else {
+          sb.append(" + ");
+        }
+
+      }
+    } while (it.hasNext());
+
     return sb.toString();
   }
 
@@ -94,6 +138,26 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
       result = ring.add(result, ring.multiply(c, d.applyTerm(x, ring)));
     }
     return result;
+  }
+
+  public MultivariatePolynomial<E> differentiate(int variable, Ring<E> ring) {
+    IntegerRingEmbedding<E> integerEmbedding = new IntegerRingEmbedding<>(ring);
+
+    Builder<E> builder = new Builder<>(variables, ring);
+    for (Monomial monomial : terms.keySet()) {
+      E coefficient = terms.get(monomial);
+      if (variable >= variables || monomial.degree(variable) == 0) {
+        // Constant term
+        continue;
+      }
+
+      int power = monomial.degree(variable);
+      E newCoefficient = ring.multiply(coefficient, integerEmbedding.apply(power));
+      int[] newMonomial = Arrays.copyOf(monomial.degree, variables);
+      newMonomial[variable]--;
+      builder.add(newCoefficient, newMonomial);
+    }
+    return builder.build();
   }
 
   public int variables() {
@@ -171,6 +235,12 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
       return Arrays.stream(degree).sum();
     }
 
+    private Monomial pad(int variables) {
+      assert (variables >= degree.length);
+      int[] newDegree = new int[variables];
+      System.arraycopy(degree, 0, newDegree, 0, degree.length);
+      return new Monomial(newDegree);
+    }
 
     public Monomial multiply(Monomial other) {
       assert (this.variables() == other.variables());
@@ -253,20 +323,26 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
           return "z";
         }
       }
-      return "x" + StringUtils.subscript(Integer.toString(i));
+      return "x_" + (i + 1);
     }
 
     public String toString() {
       StringBuilder sb = new StringBuilder();
-      for (int i = 0; i < degree.length; i++) {
-        if (degree[i] > 0) {
-          sb.append(getVariable(i));
-          if (degree[i] > 1) {
-            sb.append(StringUtils.superscript(Integer.toString(degree[i])));
-          }
+      int[] nonZero = IntStream.range(0, degree.length).filter(i -> degree[i] > 0).toArray();
+
+      for (int i = 0; i < nonZero.length; i++) {
+        int termIndex = nonZero[i];
+        sb.append(getVariable(termIndex));
+        if (degree[termIndex] > 1) {
+          sb.append("^").append(degree[termIndex]);
+        }
+        if (i < nonZero.length - 1) {
+          sb.append(" ");
         }
       }
       return sb.toString();
+      
+      
     }
 
     private <S> S applyTerm(Vector<S> a, Ring<S> ring) {

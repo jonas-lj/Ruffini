@@ -14,7 +14,7 @@ public class Rationals extends FieldOfFractions<Integer> {
 
   @Override
   public String toString() {
-    return "ℚ";
+    return "\\mathbb{Q}";
   }
 
 }

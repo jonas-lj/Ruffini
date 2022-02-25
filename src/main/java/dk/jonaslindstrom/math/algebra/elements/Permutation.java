@@ -41,16 +41,23 @@ public class Permutation implements UnaryOperator<Integer> {
   public String toString() {
     StringBuilder sb = new StringBuilder();
 
-    sb.append("⎛ ");
+    sb.append("\\begin{pmatrix}\n");
     for (int i = 0; i < p.length; i++) {
-      sb.append(i + " ");
+      sb.append(i);
+      if (i < p.length - 1) {
+        sb.append(" & ");
+      }
     }
-    sb.append("⎞\n⎝ ");
+    sb.append("\\\\ \n");
+
     for (int i = 0; i < p.length; i++) {
       sb.append(apply(i));
-      sb.append(" ");
+      if (i < p.length - 1) {
+        sb.append(" & ");
+      }
     }
-    sb.append("⎠");
+    sb.append("\\\\ \n");
+    sb.append("\\end{pmatrix}\n");
     return sb.toString();
   }
 

@@ -2,6 +2,7 @@ package dk.jonaslindstrom.math.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.function.IntFunction;
 import java.util.stream.Collectors;
@@ -31,7 +32,6 @@ public class ArrayUtils {
     System.arraycopy(b, 0, out, a.length, b.length);
     return out;
   }
-
 
   /**
    * Return a new array which is a copy of the original one except that the element with index i is
@@ -112,10 +112,6 @@ public class ArrayUtils {
         .collect(Collectors.toCollection(ArrayList::new));
   }
 
-  public static <E> List<E> append(List<E> a, List<E> b) {
-    return Stream.concat(a.stream(), b.stream()).collect(Collectors.toList());
-  }
-
   /**
    * Return all subsets of the array in lexicographical order of the indices.
    *
@@ -125,6 +121,11 @@ public class ArrayUtils {
   public static <E> Stream<List<E>> subsets(List<E> set) {
     return subsets(set.size()).map(subset -> sublist(set, subset));
   }
+
+  public static Stream<int[]> subsets(int[] set) {
+    return subsets(set.length).map(subset -> sublist(set, subset));
+  }
+
 
   /**
    * Return all subsets of {0,1,2,...,r-1} lexicographical order.
@@ -146,12 +147,26 @@ public class ArrayUtils {
   }
 
   /**
-   * Return a stream of all k-subsets of {0,1,2,...,r-1} in lexicographical order
+   * Return all nonempty subsets of {0,1,2,...,r-1} lexicographical order.
    *
-   * @param k
    * @param r
    * @return
    */
+  public static Stream<int[]> nonEmptySubsets(int r) {
+    return subsets(r).filter(s -> s.length > 0);
+  }
+
+  public static Stream<int[]> nonEmptySubsets(int[] set) {
+    return nonEmptySubsets(set.length).map(subset -> sublist(set, subset));
+  }
+
+    /**
+     * Return a stream of all k-subsets of {0,1,2,...,r-1} in lexicographical order
+     *
+     * @param k
+     * @param r
+     * @return
+     */
   public static Stream<int[]> ksubsets(int k, int r) {
     if (k == 0) {
       return Stream.of(new int[0]);
@@ -166,7 +181,7 @@ public class ArrayUtils {
   }
 
   public static <E> List<E> sublist(List<E> list, int[] indices) {
-    return Arrays.stream(indices).mapToObj(i -> list.get(i)).collect(Collectors.toList());
+    return Arrays.stream(indices).mapToObj(list::get).collect(Collectors.toList());
   }
 
   public static int[] sublist(int[] list, int[] indices) {

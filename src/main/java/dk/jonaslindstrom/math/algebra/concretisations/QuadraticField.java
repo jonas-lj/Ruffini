@@ -6,7 +6,7 @@ import dk.jonaslindstrom.math.algebra.elements.Polynomial;
 public class QuadraticField extends AlgebraicFieldExtension<Fraction<Integer>> {
 
   public QuadraticField(Integer d) {
-    super(Rationals.getInstance(), "√" + d, Polynomial.of(
+    super(Rationals.getInstance(), "\\sqrt{" + d + "}", Polynomial.of(
         Rationals.getInstance(),
         new Fraction<>(-d, 1),
         new Fraction<>(0, 0),

@@ -14,6 +14,6 @@ public class KroneckerProduct<E> implements BinaryOperator<Matrix<E>> {
 
   @Override
   public Matrix<E> apply(Matrix<E> a, Matrix<E> b) {
-    return Matrix.fromBlocks(a.forEach(aij -> b.forEach(bij -> ring.multiply(bij, aij))));
+    return Matrix.fromBlocks(a.map(aij -> b.map(bij -> ring.multiply(bij, aij))));
   }
 }

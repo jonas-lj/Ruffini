@@ -16,15 +16,14 @@ import java.util.stream.StreamSupport;
  * This class implements the ring of polynomials <i>K[x]</i> over a field <i>K</i>.
  */
 public class MultivariatePolynomialRing<E>
-    implements EuclideanDomain<MultivariatePolynomial<E>> {
+    extends MultivariatePolynomialRingOverRing<E> implements EuclideanDomain<MultivariatePolynomial<E>> {
 
   private final Field<E> field;
-  private final int variables;
   private final Comparator<Monomial> ordering;
 
   public MultivariatePolynomialRing(Field<E> field, int variables, Comparator<Monomial> ordering) {
+    super(field, variables);
     this.field = field;
-    this.variables = variables;
     this.ordering = ordering;
   }
 

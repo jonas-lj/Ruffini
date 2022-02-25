@@ -40,7 +40,6 @@ public class EuclideanAlgorithm<E> {
       E tmpT = t_1;
       t_1 = ring.add(t_0, ring.negate(ring.multiply(q, tmpT)));
       t_0 = tmpT;
-
     }
     return new Triple<>(r_0, s_0, t_0);
   }

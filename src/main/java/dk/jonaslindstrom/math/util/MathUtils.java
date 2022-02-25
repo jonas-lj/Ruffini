@@ -1,18 +1,11 @@
 package dk.jonaslindstrom.math.util;
 
+import java.util.Arrays;
+
 public class MathUtils {
 
   public static int product(int... factors) {
-
-    if (factors.length == 0) {
-      return 1;
-    }
-
-    int result = factors[0];
-    for (int i = 1; i < factors.length; i++) {
-      result *= factors[i];
-    }
-    return result;
+    return Arrays.stream(factors).reduce(1, (a,b) -> a*b);
   }
 
   public static int nextPowerOfTwo(int n) {

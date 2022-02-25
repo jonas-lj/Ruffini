@@ -58,8 +58,4 @@ public class EdwardsCurve<E> implements EllipticCurve<EdwardsPoint<E>> {
     return new EdwardsPoint<>(field.getZero(), field.getIdentity());
   }
 
-  private boolean isZero(EdwardsPoint<E> a) {
-    return field.equals(a.x, field.getZero()) && field.equals(a.y, field.getIdentity());
-  }
-
 }

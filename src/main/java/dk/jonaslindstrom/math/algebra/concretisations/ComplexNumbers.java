@@ -57,7 +57,7 @@ public class ComplexNumbers implements Field<ComplexNumber> {
   }
 
   public String toString() {
-    return "ℂ";
+    return "\\mathbb{C}";
   }
 
 }

@@ -52,7 +52,7 @@ public class LorenzDemo {
       p0 = p1;
     }
 
-    ImageIO.write(bi, "PNG", new File("out.png"));
+    ImageIO.write(bi, "PNG", new File("lorenz.png"));
   }
 
   static double mapToRange(double x, Interval domain, Interval image) {

@@ -66,7 +66,7 @@ public class MultivariatePolynomialDivision<E> implements
           h.get(i).add(q, β);
 
           MultivariatePolynomial<E> δ = R.multiply(MultivariatePolynomial.monomial(q, β), fᵢ);
-          ĝ = R.subtract(ĝ, δ);
+          ĝ = R.add(ĝ, δ);
 
           foundDivisor = true;
           break;

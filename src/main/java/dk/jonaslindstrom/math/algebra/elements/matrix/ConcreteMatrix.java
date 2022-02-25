@@ -14,13 +14,21 @@ class ConcreteMatrix<E> extends BaseMatrix<E> {
   protected ArrayList<ArrayList<E>> rows;
 
   ConcreteMatrix(int m, int n, IntBinaryFunction<E> populator) {
-    this(m, i -> IntStream.range(0, n).parallel().mapToObj(j -> populator.apply(i, j))
-        .collect(Collectors.toCollection(ArrayList::new)));
+    this(m, n, populator, true);
+  }
+
+  ConcreteMatrix(int m, int n, IntBinaryFunction<E> populator, boolean sequential) {
+    this(m, i -> (sequential ? IntStream.range(0, n) : IntStream.range(0, n).parallel())
+        .mapToObj(j -> populator.apply(i, j)).collect(Collectors.toCollection(ArrayList::new)), sequential);
   }
 
   ConcreteMatrix(int m, IntFunction<ArrayList<E>> rowPopulator) {
-    this(IntStream.range(0, m).parallel().mapToObj(rowPopulator)
-        .collect(Collectors.toCollection(ArrayList::new)));
+    this(m, rowPopulator, true);
+  }
+
+  ConcreteMatrix(int m, IntFunction<ArrayList<E>> rowPopulator, boolean sequential) {
+    this((sequential ? IntStream.range(0, m) : IntStream.range(0, m).parallel())
+        .mapToObj(rowPopulator).collect(Collectors.toCollection(ArrayList::new)));
   }
 
   ConcreteMatrix(ArrayList<ArrayList<E>> rows) {
@@ -95,11 +103,11 @@ class ConcreteMatrix<E> extends BaseMatrix<E> {
 
   @Override
   public Matrix<E> view() {
-    return new MatrixView<>(this);
+    return this;
   }
 
   @Override
-  public Matrix<E> extend(int m, int n, E padding) {
+  public Matrix<E> extendTo(int m, int n, E padding) {
     assert (m >= getHeight() && n >= getWidth());
     return new ConcreteMatrix<>(m, n, (i, j) -> {
       if (i < getHeight() && j < getWidth()) {
@@ -111,7 +119,7 @@ class ConcreteMatrix<E> extends BaseMatrix<E> {
   }
 
   @Override
-  public <F> Matrix<F> forEach(Function<E, F> f) {
+  public <F> Matrix<F> map(Function<E, F> f) {
     return Matrix.of(getHeight(), getWidth(), (i, j) -> f.apply(get(i, j)));
   }
 
