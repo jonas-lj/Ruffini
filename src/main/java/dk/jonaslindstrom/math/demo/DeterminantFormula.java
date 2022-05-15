@@ -7,21 +7,12 @@ import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial;
 import dk.jonaslindstrom.math.algebra.elements.matrix.Matrix;
 import java.math.BigInteger;
 
-<<<<<<< HEAD
 /** Compute a closed formula for the determinant of a 6x6 matrix */
 public class DeterminantFormula {
 
   public static void main(String[] arguments) {
 
     int n = 6;
-
-=======
-/** Compute a closed formula for the determinant of a 4x4 matrix */
-public class DeterminantFormula {
-
-  public static void main(String[] arguments) {
-    int n = 4;
->>>>>>> ac6a691d5d7b9d636e315c4c416123e7ab2bfbdd
     MultivariatePolynomialRingOverRing<BigInteger> ring = new MultivariatePolynomialRingOverRing<>(
         BigIntegers.getInstance(), n * n);
 

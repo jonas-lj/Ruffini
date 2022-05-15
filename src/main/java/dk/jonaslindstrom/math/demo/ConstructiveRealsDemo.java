@@ -3,10 +3,7 @@ package dk.jonaslindstrom.math.demo;
 import dk.jonaslindstrom.math.algebra.abstractions.VectorSpace;
 import dk.jonaslindstrom.math.algebra.algorithms.DotProduct;
 import dk.jonaslindstrom.math.algebra.algorithms.GramSchmidt;
-<<<<<<< HEAD
 import dk.jonaslindstrom.math.algebra.algorithms.Power;
-=======
->>>>>>> ac6a691d5d7b9d636e315c4c416123e7ab2bfbdd
 import dk.jonaslindstrom.math.algebra.algorithms.QuadraticEquation;
 import dk.jonaslindstrom.math.algebra.concretisations.ConstructiveReals;
 import dk.jonaslindstrom.math.algebra.concretisations.MatrixRing;
@@ -15,21 +12,14 @@ import dk.jonaslindstrom.math.algebra.elements.ConstructiveReal;
 import dk.jonaslindstrom.math.algebra.elements.matrix.Matrix;
 import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
 import java.math.BigDecimal;
-<<<<<<< HEAD
 import java.math.RoundingMode;
-import java.time.Instant;
-=======
->>>>>>> ac6a691d5d7b9d636e315c4c416123e7ab2bfbdd
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-<<<<<<< HEAD
 /**
  * A demo of using constructive reals for various computations.
  */
-=======
->>>>>>> ac6a691d5d7b9d636e315c4c416123e7ab2bfbdd
 public class ConstructiveRealsDemo {
 
   public static void main(String[] arguments) {
@@ -62,31 +52,29 @@ public class ConstructiveRealsDemo {
     System.out.println("Expected: " + phi);
     System.out.println("Error   : " + z.subtract(phi).abs());
 
-    // Apply Gram-Schmidt process to nxn random matrix
-    Random random = new Random(1234);
-    int n = 4;
-    VectorSpace<Vector<ConstructiveReal>, ConstructiveReal, ConstructiveReals> V = new VectorSpaceOverField<>(ℝ, n);
-
-    System.out.println();
-    System.out.println("Applying Gram-Schmidt process to random matrix...");
-    Matrix<Double> mPrime = Matrix.of(n, n, (i,j) -> random.nextDouble(), true);
-    Matrix<ConstructiveReal> matrix = mPrime.map(ConstructiveReal::of);
-    GramSchmidt<Vector<ConstructiveReal>, ConstructiveReal, ConstructiveReals> gramSchmidt =
-        new GramSchmidt<>(V, dotProduct);
-    List<Vector<ConstructiveReal>> vectors = gramSchmidt.apply(Vector.of(n, matrix::getColumn).asList());
-
-    List<ConstructiveReal> magnitudes = vectors.stream().map(c -> dotProduct.apply(c,c)).map(ConstructiveReal::sqrt).collect(
-        Collectors.toList());
-    Matrix<ConstructiveReal> result = Matrix.of(n, n, (i, j) -> ℝ.divide(vectors.get(i).get(j), magnitudes.get(i)));
-    System.out.println(result.map(xij -> xij.estimate(m)));
-
-    System.out.println();
-    System.out.println("Computing I - A^T A. Should be the zero matrix...");
-    MatrixRing<ConstructiveReal> ring = new MatrixRing<>(ℝ, n);
-    Matrix<BigDecimal> innerProducts = ring.subtract(ring.getIdentity(), ring.multiply(result, result.transpose())).map(xij -> xij.estimate(m));
-    System.out.println(innerProducts);
-
-<<<<<<< HEAD
+//    // Apply Gram-Schmidt process to nxn random matrix
+//    Random random = new Random(1234);
+//    int n = 4;
+//    VectorSpace<Vector<ConstructiveReal>, ConstructiveReal, ConstructiveReals> V = new VectorSpaceOverField<>(ℝ, n);
+//
+//    System.out.println();
+//    System.out.println("Applying Gram-Schmidt process to random matrix...");
+//    Matrix<Double> mPrime = Matrix.of(n, n, (i,j) -> random.nextDouble(), true);
+//    Matrix<ConstructiveReal> matrix = mPrime.map(ConstructiveReal::of);
+//    GramSchmidt<Vector<ConstructiveReal>, ConstructiveReal, ConstructiveReals> gramSchmidt =
+//        new GramSchmidt<>(V, dotProduct);
+//    List<Vector<ConstructiveReal>> vectors = gramSchmidt.apply(Vector.of(n, matrix::getColumn).asList());
+//
+//    List<ConstructiveReal> magnitudes = vectors.stream().map(c -> dotProduct.apply(c,c)).map(ConstructiveReal::sqrt).collect(
+//        Collectors.toList());
+//    Matrix<ConstructiveReal> result = Matrix.of(n, n, (i, j) -> ℝ.divide(vectors.get(i).get(j), magnitudes.get(i)));
+//    System.out.println(result.map(xij -> xij.estimate(m)));
+//
+//    System.out.println();
+//    System.out.println("Computing I - A^T A. Should be the zero matrix...");
+//    MatrixRing<ConstructiveReal> ring = new MatrixRing<>(ℝ, n);
+//    Matrix<BigDecimal> innerProducts = ring.subtract(ring.getIdentity(), ring.multiply(result, result.transpose())).map(xij -> xij.estimate(m));
+//    System.out.println(innerProducts);
 
     // Compute 1000 digits of pi
     System.out.println();
@@ -110,9 +98,6 @@ public class ConstructiveRealsDemo {
       sum = ℝ.add(sum, ℝ.multiply(a, ℝ.subtract(b, ℝ.add(c,d,e))));
     }
     System.out.println(sum.estimate(M).setScale(digits, RoundingMode.HALF_UP));
-
-=======
->>>>>>> ac6a691d5d7b9d636e315c4c416123e7ab2bfbdd
   }
 
 }
