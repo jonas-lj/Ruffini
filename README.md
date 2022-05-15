@@ -33,7 +33,8 @@ The project is named after the italian mathematician Paolo Ruffini (1765-1822) w
 things, contributed to group theory and was the first to give a proof (incomplete) that there is no 
 general formula to solve quintic (and higher order) equations.
 </p>
-<a href="https://en.wikipedia.org/wiki/Paolo_Ruffini" rel="Paolo Ruffini">![Foo](https://upload.wikimedia.org/wikipedia/commons/2/22/Ruffini_paolo.jpg)</a>
+
+[<img src="https://upload.wikimedia.org/wikipedia/commons/2/22/Ruffini_paolo.jpg">](https://en.wikipedia.org/wiki/Paolo_Ruffini)
 
 ## Built With
 The project may be build using maven,
