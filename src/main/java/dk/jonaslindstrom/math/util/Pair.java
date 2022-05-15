@@ -51,4 +51,5 @@ public class Pair<E, F> {
   public static <A, B> Pair<A, B> of(A first, B second) {
     return new Pair<>(first, second);
   }
+
 }

@@ -13,6 +13,7 @@ import java.util.function.Function;
 import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * A representation of a matrix taking entries of type <i>E</i>.
@@ -188,6 +189,10 @@ public interface Matrix<E> extends BiFunction<Vector<E>, Ring<E>, Vector<E>> {
 
   default Vector<E> collapseColumns(E init, BinaryOperator<E> op) {
     return Vector.of(getHeight(), j -> getColumn(j).stream().reduce(init, op));
+  }
+
+  default Stream<E> stream() {
+    return IntStream.range(0, getHeight()).boxed().flatMap(i -> IntStream.range(0, getWidth()).mapToObj(j -> get(i, j)));
   }
 
 }

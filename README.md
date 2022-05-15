@@ -1,20 +1,9 @@
 <!-- PROJECT LOGO -->
-<br />
-<p align="center">
-<!--
-  <a href="https://github.com/jonas-lj/Ruffini">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
--->
+<h1>Ruffini</h1>
 
-  <h3 align="center">Ruffini</h3>
-
-  <p align="center">
-    Computations over algebraic structures in Java made easy
-  </p>
+<p>
+    Computations over algebraic structures in Java made easy.
 </p>
-
-
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
@@ -33,11 +22,17 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+<p>
 The Ruffini library is developed to make it easy to implement algorithms in Java involving various 
 algebraic structures such as finite fields, polynomial rings, field extensions etc. The library includes 
 an extensive library of already implemented algorithms such as the Euclidean algorithm, polynomial 
 division etc. to make implementation even easier.
-
+</p>
+<p>
+The project is named after the italian mathematician Paolo Ruffini (1765-1822) who, among other 
+things, contributed to group theory and was the first to give a proof (incomplete) that there is no 
+general formula to solve quintic (and higher order) equations.
+</p>
 
 ## Built With
 The project may be build using maven,
@@ -54,7 +49,9 @@ mvn javadoc:javadoc
 
 The Ruffini library is organized analogous of how abstract algebra is presented in mathematics. The base of the library are a number of interfaces representing abstract algebraic structures. They are organized in an inheritance hierachy as seen in figure below. Note that `E` is a generic class, representing the element of the given structure.
 
-![Inhertince diagram of algebraic abstractions](abstractions.svg "Inheritance diagram for abstract algebraic structures")
+<p align="center">
+  <img src="abstractions.svg" align="center" alt="Inheritance diagram for abstract algebraic structures">
+</p>
 
 As in abstract algebra, an algorithm may be defined for an abstract structure and then be used with any concrete structure satisfying the definition of the abstract structure. As an example, consider the implementation of the Gram-Schmidt process definded over vectors of type `V` and scalars of type `S`. Now, this code may be used with any concrete implementations of a vector space over a field.
 

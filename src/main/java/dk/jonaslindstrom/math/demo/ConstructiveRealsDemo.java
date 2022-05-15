@@ -3,7 +3,10 @@ package dk.jonaslindstrom.math.demo;
 import dk.jonaslindstrom.math.algebra.abstractions.VectorSpace;
 import dk.jonaslindstrom.math.algebra.algorithms.DotProduct;
 import dk.jonaslindstrom.math.algebra.algorithms.GramSchmidt;
+<<<<<<< HEAD
 import dk.jonaslindstrom.math.algebra.algorithms.Power;
+=======
+>>>>>>> ac6a691d5d7b9d636e315c4c416123e7ab2bfbdd
 import dk.jonaslindstrom.math.algebra.algorithms.QuadraticEquation;
 import dk.jonaslindstrom.math.algebra.concretisations.ConstructiveReals;
 import dk.jonaslindstrom.math.algebra.concretisations.MatrixRing;
@@ -12,15 +15,21 @@ import dk.jonaslindstrom.math.algebra.elements.ConstructiveReal;
 import dk.jonaslindstrom.math.algebra.elements.matrix.Matrix;
 import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
 import java.math.BigDecimal;
+<<<<<<< HEAD
 import java.math.RoundingMode;
 import java.time.Instant;
+=======
+>>>>>>> ac6a691d5d7b9d636e315c4c416123e7ab2bfbdd
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+<<<<<<< HEAD
 /**
  * A demo of using constructive reals for various computations.
  */
+=======
+>>>>>>> ac6a691d5d7b9d636e315c4c416123e7ab2bfbdd
 public class ConstructiveRealsDemo {
 
   public static void main(String[] arguments) {
@@ -77,6 +86,7 @@ public class ConstructiveRealsDemo {
     Matrix<BigDecimal> innerProducts = ring.subtract(ring.getIdentity(), ring.multiply(result, result.transpose())).map(xij -> xij.estimate(m));
     System.out.println(innerProducts);
 
+<<<<<<< HEAD
 
     // Compute 1000 digits of pi
     System.out.println();
@@ -101,6 +111,8 @@ public class ConstructiveRealsDemo {
     }
     System.out.println(sum.estimate(M).setScale(digits, RoundingMode.HALF_UP));
 
+=======
+>>>>>>> ac6a691d5d7b9d636e315c4c416123e7ab2bfbdd
   }
 
 }

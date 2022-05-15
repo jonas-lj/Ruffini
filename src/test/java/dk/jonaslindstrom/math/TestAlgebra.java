@@ -236,6 +236,23 @@ public class TestAlgebra {
 //  }
 
   @Test
+  public void testMatrixInversion() {
+    Random random = new Random(123);
+    int p = 13;
+    int n = 7;
+
+    PrimeField field = new PrimeField(13);
+    Matrix<Integer> a = Matrix.of(7, 7, (i,j) -> random.nextInt(p));
+    Matrix<Integer> b = new MatrixInversion<>(field).apply(a);
+
+    MatrixRing<Integer> matrixRing = new MatrixRing<>(field, n);
+    Matrix<Integer> c = matrixRing.multiply(a, b);
+
+
+    Assert.assertTrue(matrixRing.equals(c, matrixRing.getIdentity()));
+  }
+
+  @Test
   public void testMatrixView() {
 
     Matrix<Integer> a = Matrix.of(7,

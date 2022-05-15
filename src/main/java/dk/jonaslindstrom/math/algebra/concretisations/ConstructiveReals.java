@@ -31,7 +31,11 @@ public class ConstructiveReals implements Field<ConstructiveReal> {
 
   @Override
   public ConstructiveReal getIdentity() {
+<<<<<<< HEAD
     return new ConstructiveReal(BigInteger.ONE::shiftLeft, "1");
+=======
+    return new ConstructiveReal(i -> BigInteger.ONE.shiftLeft(i), "1");
+>>>>>>> ac6a691d5d7b9d636e315c4c416123e7ab2bfbdd
   }
 
   @Override

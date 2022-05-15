@@ -27,6 +27,18 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
     this.terms = terms;
   }
 
+  private MultivariatePolynomial<E> pad(int variables) {
+    if (variables == this.variables) {
+      return this;
+    }
+
+    SortedMap<Monomial, E> newTerms = new TreeMap<>(DEFAULT_ORDERING);
+    for (Monomial degree : terms.keySet()) {
+      newTerms.put(degree.pad(variables), terms.get(degree));
+    }
+    return new MultivariatePolynomial<>(variables, newTerms);
+  }
+
   public static <T> MultivariatePolynomial<T> multiply(MultivariatePolynomial<T> a,
       MultivariatePolynomial<T> b, Ring<T> ring) {
     if (a.variables != b.variables) {
@@ -71,18 +83,6 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
 
   public static <T> MultivariatePolynomial<T> constant(T coefficient, int variables) {
     return monomial(coefficient, new int[variables]);
-  }
-
-  private MultivariatePolynomial<E> pad(int variables) {
-    if (variables == this.variables) {
-      return this;
-    }
-
-    SortedMap<Monomial, E> newTerms = new TreeMap<>(DEFAULT_ORDERING);
-    for (Monomial degree : terms.keySet()) {
-      newTerms.put(degree.pad(variables), terms.get(degree));
-    }
-    return new MultivariatePolynomial<>(variables, newTerms);
   }
 
   @Override

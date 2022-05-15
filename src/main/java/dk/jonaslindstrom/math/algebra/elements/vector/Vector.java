@@ -72,7 +72,6 @@ public interface Vector<E> extends Iterable<E> {
     return Matrix.lazy(getDimension(), 1, (i, j) -> get(i));
   }
 
-
   static Vector<Double> fromArray(double[] array) {
     return Vector.view(array.length, i -> array[i]);
   }
