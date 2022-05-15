@@ -30,7 +30,7 @@ division etc. to make implementation even easier.
 </p>
 <p>
 The project is named after the italian mathematician Paolo Ruffini (1765-1822) who, among other 
-things, contributed to group theory and was the first to give a proof (incomplete) that there is no 
+things, contributed to group theory and was the first to give a proof (although incomplete) that there is no 
 general formula to solve quintic (and higher order) equations.
 </p>
 
