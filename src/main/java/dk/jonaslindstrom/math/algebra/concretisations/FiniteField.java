@@ -22,7 +22,7 @@ public class FiniteField extends QuotientRing<Polynomial<Integer>>
   /**
    * Create a finite field as a field of prime order module an irreducible polynomial.
    */
-  FiniteField(PrimeField baseField, Polynomial<Integer> mod) {
+  public FiniteField(PrimeField baseField, Polynomial<Integer> mod) {
     super(new PolynomialRing<>(baseField), mod);
 
     this.p = baseField.getModulus();

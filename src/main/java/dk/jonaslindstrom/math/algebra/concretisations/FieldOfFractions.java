@@ -15,7 +15,7 @@ public class FieldOfFractions<E> implements Field<Fraction<E>> {
     this.euclideanAlgorithm = new EuclideanAlgorithm<>(baseRing);
   }
 
-  private Fraction<E> reduce(E n, E d) {
+  public Fraction<E> reduce(E n, E d) {
     E gcd = euclideanAlgorithm.extendedGcd(n, d).getFirst();
     return new Fraction<>(baseRing.divisionWithRemainder(n, gcd).getFirst(),
         baseRing.divisionWithRemainder(d, gcd).getFirst());

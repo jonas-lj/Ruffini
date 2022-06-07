@@ -1,5 +1,7 @@
 package dk.jonaslindstrom.math.util;
 
+import java.util.List;
+
 public class StringUtils {
 
   public static String superscript(String str) {
@@ -38,4 +40,19 @@ public class StringUtils {
     return sb.toString();
   }
 
+  public static String sumToString(List<String> terms) {
+    StringBuilder sb = new StringBuilder();
+    sb.append(terms.get(0));
+
+    for (int i = 1; i < terms.size(); i++) {
+      if (terms.get(i).startsWith("-")) {
+        sb.append(" - ");
+        sb.append(terms.get(i).substring(1));
+      } else {
+        sb.append(" + ");
+        sb.append(terms.get(i));
+      }
+    }
+    return sb.toString();
+  }
 }

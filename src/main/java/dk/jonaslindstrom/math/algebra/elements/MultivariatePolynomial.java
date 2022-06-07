@@ -5,14 +5,17 @@ import dk.jonaslindstrom.math.algebra.algorithms.IntegerRingEmbedding;
 import dk.jonaslindstrom.math.algebra.algorithms.Power;
 import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
 import dk.jonaslindstrom.math.util.Pair;
+import dk.jonaslindstrom.math.util.StringUtils;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>, E> {
@@ -87,47 +90,14 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
-
-    Iterator<Monomial> it = terms.keySet().iterator();
-    if (!it.hasNext()) {
-      return "";
-    }
-
-    Monomial x = it.next();
-    E e = terms.get(x);
-    if (e.toString().startsWith("-")) {
-      sb.append("-");
-    }
-
-    do {
-      String term = e.toString();
-      if (Arrays.stream(x.degree).allMatch(d -> d == 0)) {
-        sb.append(term);
-      } else {
-        if (term.startsWith("-")) {
-          term = term.substring(1);
-        }
-
-        if (!term.equals("1")) {
-          sb.append(term);
-        }
-        sb.append(x.toString());
+    List<String> termsAsString = terms.keySet().stream().map(monomial -> {
+      String coefficient = terms.get(monomial).toString();
+      if (coefficient.equals("1")) {
+        coefficient = "";
       }
-      if (it.hasNext()) {
-        x = it.next();
-        e = terms.get(x);
-
-        if (e.toString().startsWith("-")) {
-          sb.append(" - ");
-        } else {
-          sb.append(" + ");
-        }
-
-      }
-    } while (it.hasNext());
-
-    return sb.toString();
+      return  coefficient + monomial.toString();
+    }).collect(Collectors.toList());
+    return StringUtils.sumToString(termsAsString);
   }
 
   @Override
@@ -327,6 +297,7 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
     }
 
     public String toString() {
+
       StringBuilder sb = new StringBuilder();
       int[] nonZero = IntStream.range(0, degree.length).filter(i -> degree[i] > 0).toArray();
 
@@ -340,9 +311,8 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
           sb.append(" ");
         }
       }
+
       return sb.toString();
-      
-      
     }
 
     private <S> S applyTerm(Vector<S> a, Ring<S> ring) {

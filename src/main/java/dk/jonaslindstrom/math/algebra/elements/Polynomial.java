@@ -6,6 +6,7 @@ import dk.jonaslindstrom.math.algebra.concretisations.Integers;
 import dk.jonaslindstrom.math.algebra.elements.vector.ConstructiveVector;
 import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
 import dk.jonaslindstrom.math.util.StringUtils;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.SortedMap;
@@ -14,8 +15,10 @@ import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.IntFunction;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
 
@@ -27,6 +30,14 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
 
   private Polynomial(Map<Integer, E> terms) {
     this.terms = Collections.unmodifiableSortedMap(new ConcurrentSkipListMap<>(terms));
+  }
+
+  public Polynomial(int degree, IntFunction<E> populator) {
+    this(IntStream.rangeClosed(0, degree).boxed().collect(Collectors.toList()), populator);
+  }
+
+  public Polynomial(Collection<Integer> nonZero, IntFunction<E> populator) {
+    this(nonZero.stream().collect(Collectors.toMap(Integer::valueOf, populator::apply)));
   }
 
   public static <T> Polynomial<T> constant(T constant) {

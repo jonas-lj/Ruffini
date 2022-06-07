@@ -22,6 +22,7 @@ import dk.jonaslindstrom.math.algebra.algorithms.LagrangePolynomial;
 import dk.jonaslindstrom.math.algebra.algorithms.MatrixInversion;
 import dk.jonaslindstrom.math.algebra.algorithms.MatrixMultiplication;
 import dk.jonaslindstrom.math.algebra.algorithms.MultivariatePolynomialDivision;
+import dk.jonaslindstrom.math.algebra.algorithms.PolynomialInterpolation;
 import dk.jonaslindstrom.math.algebra.algorithms.Power;
 import dk.jonaslindstrom.math.algebra.algorithms.Product;
 import dk.jonaslindstrom.math.algebra.algorithms.QuadraticEquation;
@@ -248,7 +249,6 @@ public class TestAlgebra {
     MatrixRing<Integer> matrixRing = new MatrixRing<>(field, n);
     Matrix<Integer> c = matrixRing.multiply(a, b);
 
-
     Assert.assertTrue(matrixRing.equals(c, matrixRing.getIdentity()));
   }
 
@@ -425,19 +425,27 @@ public class TestAlgebra {
     int p = 13;
     PrimeField field = new PrimeField(p);
 
-    List<Vector<Integer>> points = new ArrayList<>();
-    points.add(Vector.of(1, 1));
-    points.add(Vector.of(2, 4));
-    points.add(Vector.of(3, 9));
+    Random random = new Random(1234);
+    Polynomial<Integer> P = Polynomial.of(field, random.nextInt(p), random.nextInt(p), random.nextInt(p));
 
-    Function<List<Vector<Integer>>, Polynomial<Integer>> lagrange = new LagrangePolynomial<>(field);
+    List<Pair<Integer, Integer>> points = new ArrayList<>();
+    points.add(Pair.of(1, P.apply(1, field)));
+    points.add(Pair.of(2, P.apply(2, field)));
+    points.add(Pair.of(3, P.apply(3, field)));
+
+    Function<List<Pair<Integer, Integer>>, Polynomial<Integer>> lagrange = new LagrangePolynomial<>(field);
 
     Polynomial<Integer> L = lagrange.apply(points);
 
     PolynomialRingOverRing<Integer> ℤx = new PolynomialRingOverRing<>(Integers.getInstance());
-    Polynomial<Integer> e = Polynomial.monomial(1, 2);
 
-    Assert.assertTrue("Expected " + e + " but got " + L, ℤx.equals(L, e));
+
+    Polynomial<Integer> F = new PolynomialInterpolation<>(field).apply(points);
+
+    System.out.println(L);
+    System.out.println(F);
+
+    Assert.assertTrue("Expected " + P + " but got " + L, ℤx.equals(L, P));
   }
 
   @Test
@@ -567,7 +575,7 @@ public class TestAlgebra {
 
     MultivariatePolynomial<Integer> p = builder.build();
 
-    System.out.println(p);
+    System.out.println(p.toString());
   }
 
   @Test
