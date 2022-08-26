@@ -14,6 +14,7 @@
     <li><a href="#usage">Usage</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
+    <li><a href="#referencing">Referencing</a></li>
   </ol>
 </details>
 
