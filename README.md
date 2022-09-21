@@ -14,6 +14,7 @@
     <li><a href="#usage">Usage</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
+    <li><a href="#referencing">Referencing</a></li>
   </ol>
 </details>
 
@@ -107,3 +108,16 @@ If you want to help out developing new features for Ruffini or fix a bug you've 
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
+
+<!-- REFERENCING -->
+## Referencing
+If you are using the Ruffini ilbrary in a research project, please cite it as (setting the `date` field accordingly):
+
+```
+@software{Ruffini,
+  author = {{Jonas Lindstrøm}},
+  title = {{Ruffini} - Java library for computations over abstract algebraic structures},
+  note = {\url{https://github.com/jonas-lj/Ruffini}},
+  date = {},
+}
+```
