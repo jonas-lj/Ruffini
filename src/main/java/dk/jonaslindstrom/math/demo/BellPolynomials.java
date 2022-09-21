@@ -2,7 +2,7 @@ package dk.jonaslindstrom.math.demo;
 
 import dk.jonaslindstrom.math.algebra.concretisations.MultivariatePolynomialRingOverRing;
 import dk.jonaslindstrom.math.algebra.concretisations.big.BigIntegers;
-import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.MultivariatePolynomial;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;

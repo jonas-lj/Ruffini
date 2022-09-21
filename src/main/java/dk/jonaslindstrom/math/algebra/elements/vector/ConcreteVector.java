@@ -1,6 +1,8 @@
 package dk.jonaslindstrom.math.algebra.elements.vector;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.IntFunction;
@@ -41,7 +43,7 @@ public class ConcreteVector<E> extends BaseVector<E> {
   }
 
   @Override
-  public int getDimension() {
+  public int size() {
     return coordinates.size();
   }
 
@@ -51,19 +53,13 @@ public class ConcreteVector<E> extends BaseVector<E> {
   }
 
   @Override
-  public Iterator<E> iterator() {
-    return coordinates.iterator();
-  }
-
-  @Override
   public Stream<E> stream() {
     return coordinates.stream();
   }
 
   @Override
   public List<E> asList() {
-    return coordinates;
+    return Collections.unmodifiableList(coordinates);
   }
-
 
 }

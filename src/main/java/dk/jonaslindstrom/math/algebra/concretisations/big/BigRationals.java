@@ -18,7 +18,7 @@ public class BigRationals extends FieldOfFractions<BigInteger> {
 
   @Override
   public String toString() {
-    return "ℚ";
+    return "\\mathbb{Q}";
   }
 
 }

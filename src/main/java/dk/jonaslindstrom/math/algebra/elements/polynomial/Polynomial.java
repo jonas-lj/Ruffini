@@ -1,11 +1,10 @@
-package dk.jonaslindstrom.math.algebra.elements;
+package dk.jonaslindstrom.math.algebra.elements.polynomial;
 
 import dk.jonaslindstrom.math.algebra.abstractions.Ring;
 import dk.jonaslindstrom.math.algebra.algorithms.Power;
 import dk.jonaslindstrom.math.algebra.concretisations.Integers;
 import dk.jonaslindstrom.math.algebra.elements.vector.ConstructiveVector;
 import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
-import dk.jonaslindstrom.math.util.StringUtils;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;

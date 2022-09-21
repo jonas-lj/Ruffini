@@ -53,7 +53,7 @@ public class MultiLayerPerceptron {
       int epochs, double alpha,
       BiConsumer<Integer, Double> errorRateConsumer) {
 
-    RealCoordinateSpace Rn = new RealCoordinateSpace(labels.get(0).getDimension());
+    RealCoordinateSpace Rn = new RealCoordinateSpace(labels.get(0).size());
     DotProduct<Double> dotProduct = new DotProduct<>(RealNumbers.getInstance());
 
     MultiLayerPerceptron currentNetwork = this;

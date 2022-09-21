@@ -6,7 +6,7 @@ import dk.jonaslindstrom.math.algebra.concretisations.FiniteField;
 import dk.jonaslindstrom.math.algebra.concretisations.PrimeField;
 import dk.jonaslindstrom.math.algebra.concretisations.RealNumbers;
 import dk.jonaslindstrom.math.algebra.elements.ConstructiveReal;
-import dk.jonaslindstrom.math.algebra.elements.Polynomial;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.Polynomial;
 import java.util.function.UnaryOperator;
 import org.apache.commons.math3.util.FastMath;
 

@@ -1,15 +1,10 @@
 package dk.jonaslindstrom.math.algebra.algorithms;
 
 import dk.jonaslindstrom.math.algebra.abstractions.Ring;
-import dk.jonaslindstrom.math.algebra.elements.vector.ConcreteVector;
 import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
-import dk.jonaslindstrom.math.util.Pair;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.function.UnaryOperator;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
@@ -46,11 +41,11 @@ public class DiscreteFourierTransform<E> implements UnaryOperator<Vector<E>> {
 
     @Override
     public Vector<F> apply(Vector<F> v) {
-      assert (v.getDimension() == n);
+      assert (v.size() == n);
       Power<F> power = new Power<>(ring);
       Sum<F> sum = new Sum<>(ring);
 
-      return new ConcreteVector<>(n,
+      return Vector.of(n,
           k -> sum.apply(j -> ring.multiply(v.get(j), power.apply(a, j * k)), n));
     }
   }
@@ -69,7 +64,7 @@ public class DiscreteFourierTransform<E> implements UnaryOperator<Vector<E>> {
 
     @Override
     public Vector<F> apply(Vector<F> x) {
-      assert (x.getDimension() == n);
+      assert (x.size() == n);
 
       if (n % 2 != 0) {
         if (n == 1) {
@@ -85,8 +80,7 @@ public class DiscreteFourierTransform<E> implements UnaryOperator<Vector<E>> {
       Vector<F> even = fntt.apply(Vector.view(n / 2, i -> x.get(2 * i)));
       Vector<F> odd = fntt.apply(Vector.view(n / 2, i -> x.get(2 * i + 1)));
 
-      ArrayList<F> Y = new ArrayList<>();
-      Y.addAll(Collections.nCopies(n, null));
+      ArrayList<F> Y = new ArrayList<>(Collections.nCopies(n, null));
 
       IntStream.range(0, n / 2).parallel().forEach(k -> {
         F ak = ring.multiply(power.apply(a, k), odd.get(k));

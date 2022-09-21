@@ -23,4 +23,8 @@ public class BigIntegersModuloN extends QuotientRing<BigInteger> {
     return mod;
   }
 
+  @Override
+  public BigInteger power(BigInteger x, int e) {
+    return x.modPow(BigInteger.valueOf(e), getModulus());
+  }
 }

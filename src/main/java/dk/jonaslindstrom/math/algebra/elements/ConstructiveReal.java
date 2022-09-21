@@ -75,41 +75,6 @@ public class ConstructiveReal implements IntFunction<BigInteger> {
         Double.toString(x));
   }
 
-//  static Pair<Integer, Long> parse(double x) {
-//    // Translate the double into sign, exponent and mantissa.
-//    long bits = Double.doubleToLongBits(x);
-//    // Note that the shift is sign-extended, hence the test against -1 not 1
-//    boolean negative = (bits & (1L << 63)) != 0;
-//    int exponent = (int) ((bits >> 52) & 0x7ffL);
-//    long mantissa = bits & 0xfffffffffffffL;
-//
-//    // Subnormal numbers; exponent is effectively one higher,
-//    // but there's no extra normalisation bit in the mantissa
-//    if (exponent == 0) {
-//      exponent++;
-//    } else {
-//      // Normal numbers; leave exponent as it is but add extra
-//      // bit to the front of the mantissa
-//      mantissa = mantissa | (1L << 52);
-//    }
-//
-//    // Bias the exponent. It's actually biased by 1023, but we're
-//    // treating the mantissa as m.0 rather than 0.m, so we need
-//    // to subtract another 52 from it.
-//    exponent -= 1075;
-//
-//    /* Normalize */
-//    while ((mantissa & 1) == 0) {
-//      /*  Mantissa is even */
-//      mantissa >>= 1;
-//      exponent++;
-//    }
-//
-//    System.out.println(Math.pow(2.0, exponent) * mantissa);
-//
-//    return new Pair<>(exponent, negative ? -mantissa : mantissa);
-//  }
-
   public BigDecimal estimate(int m) {
     // 10^{-n} * x = 2^{-m} y => x = 10^n / 2^m * y
     int n = 2 * (int) Math.ceil(m * Math.log10(2.0));
@@ -121,43 +86,6 @@ public class ConstructiveReal implements IntFunction<BigInteger> {
     return new ConstructiveReal(i -> BigIntegerMath.sqrt(x.apply(2*i), RoundingMode.FLOOR),
         "sqrt(" + x + ")");
   }
-
-//  double estimate() {
-//    int e = 0;
-//    BigInteger intPart = apply(0);
-//    if (intPart.equals(BigInteger.ZERO)) {
-//      // Negative exponent
-//      do {
-//        e = e - 1;
-//      } while (apply(-e).equals(BigInteger.ZERO));
-//    } else {
-//      e = BigIntegerMath.log2(intPart, RoundingMode.DOWN);
-//    }
-//
-//    BigInteger fraction = intPart;
-//    int j = -Math.min(e, 0);
-//    do {
-//      j = j + 1;
-//      fraction = apply(j);
-//    } while (fraction.bitLength() <= 53);
-//
-//    // The 53'th bit is assumed to be 1
-//    assert (fraction.testBit(53));
-//
-//    BitSet bitSet = new BitSet(64);
-//    BigInteger exponent = BigInteger.valueOf(1023 + e);
-//
-//    for (int i = 0; i < 11; i++) {
-//      bitSet.set(11 - i, exponent.testBit(i));
-//    }
-//
-//    for (int i = 0; i < 52; i++) {
-//      bitSet.set(12 + i, fraction.testBit(52 - i));
-//    }
-//
-//    long bits = Long.reverse(bitSet.toLongArray()[0]);
-//    return Double.longBitsToDouble(bits);
-//  }
 
   @Override
   public BigInteger apply(int i) {

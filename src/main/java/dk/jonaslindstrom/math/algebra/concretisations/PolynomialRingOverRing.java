@@ -1,8 +1,8 @@
 package dk.jonaslindstrom.math.algebra.concretisations;
 
 import dk.jonaslindstrom.math.algebra.abstractions.Ring;
-import dk.jonaslindstrom.math.algebra.elements.Polynomial;
-import dk.jonaslindstrom.math.algebra.elements.Polynomial.Builder;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.Polynomial;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.Polynomial.Builder;
 import dk.jonaslindstrom.math.util.Pair;
 import java.util.Objects;
 

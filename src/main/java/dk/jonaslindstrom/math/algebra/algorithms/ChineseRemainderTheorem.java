@@ -19,9 +19,9 @@ public class ChineseRemainderTheorem<E> implements BiFunction<Vector<E>, Vector<
 
   @Override
   public E apply(Vector<E> a, Vector<E> m) {
-    assert (a.getDimension() == m.getDimension());
+    assert (a.size() == m.size());
 
-    if (a.getDimension() == 1) {
+    if (a.size() == 1) {
       return a.get(0);
     }
 
@@ -32,11 +32,11 @@ public class ChineseRemainderTheorem<E> implements BiFunction<Vector<E>, Vector<
     E x = c.sum(c.mul(a.get(0), bezout.third, m.get(1)),
         c.mul(a.get(1), bezout.second, m.get(0)));
 
-    if (a.getDimension() == 2) {
+    if (a.size() == 2) {
       return x;
     }
 
-    Vector<E> newModulus = new ConstructiveVector<>(m.getDimension() - 1, i -> {
+    Vector<E> newModulus = new ConstructiveVector<>(m.size() - 1, i -> {
       if (i == 0) {
         return domain.multiply(m.get(0), m.get(1));
       } else {
@@ -44,7 +44,7 @@ public class ChineseRemainderTheorem<E> implements BiFunction<Vector<E>, Vector<
       }
     });
 
-    Vector<E> newA = new ConstructiveVector<>(a.getDimension() - 1, i -> {
+    Vector<E> newA = new ConstructiveVector<>(a.size() - 1, i -> {
       if (i == 0) {
         return x;
       } else {

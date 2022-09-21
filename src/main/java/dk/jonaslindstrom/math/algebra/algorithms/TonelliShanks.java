@@ -3,7 +3,7 @@ package dk.jonaslindstrom.math.algebra.algorithms;
 import dk.jonaslindstrom.math.algebra.concretisations.FiniteField;
 import dk.jonaslindstrom.math.algebra.concretisations.Integers;
 import dk.jonaslindstrom.math.algebra.concretisations.PrimeField;
-import dk.jonaslindstrom.math.algebra.elements.Polynomial;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.Polynomial;
 import java.util.Random;
 import java.util.function.UnaryOperator;
 import java.util.stream.IntStream;

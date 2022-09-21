@@ -2,18 +2,22 @@ package dk.jonaslindstrom.math.algebra.elements.vector;
 
 import com.google.common.collect.Streams;
 import dk.jonaslindstrom.math.algebra.elements.matrix.Matrix;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.IntFunction;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public interface Vector<E> extends Iterable<E> {
+public interface Vector<E> extends Collection<E> {
 
   @SafeVarargs
   static <F> Vector<F> of(F... e) {
@@ -35,7 +39,7 @@ public interface Vector<E> extends Iterable<E> {
     return new ConstructiveVector<>(d, f);
   }
 
-  int getDimension();
+  int size();
 
   E get(int i);
 
@@ -65,11 +69,11 @@ public interface Vector<E> extends Iterable<E> {
   }
 
   default Matrix<E> asRow() {
-    return Matrix.lazy(1, getDimension(), (i, j) -> get(j));
+    return Matrix.lazy(1, size(), (i, j) -> get(j));
   }
 
   default Matrix<E> asColumn() {
-    return Matrix.lazy(getDimension(), 1, (i, j) -> get(i));
+    return Matrix.lazy(size(), 1, (i, j) -> get(i));
   }
 
   static Vector<Double> fromArray(double[] array) {

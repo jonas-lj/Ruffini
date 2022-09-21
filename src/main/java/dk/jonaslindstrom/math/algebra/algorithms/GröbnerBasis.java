@@ -1,8 +1,8 @@
 package dk.jonaslindstrom.math.algebra.algorithms;
 
 import dk.jonaslindstrom.math.algebra.concretisations.MultivariatePolynomialRing;
-import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial;
-import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial.Monomial;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.MultivariatePolynomial;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.Monomial;
 import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
 import java.util.Comparator;
 import java.util.function.BinaryOperator;
@@ -24,10 +24,10 @@ public class GröbnerBasis<E> implements UnaryOperator<Vector<MultivariatePolyno
 
   @Override
   public Vector<MultivariatePolynomial<E>> apply(Vector<MultivariatePolynomial<E>> t) {
-    for (int i = 0; i < t.getDimension(); i++) {
-      System.out.println(i + "/" + t.getDimension());
-      for (int j = i + 1; j < t.getDimension(); j++) {
-        System.out.println(" * " + j + "/" + t.getDimension());
+    for (int i = 0; i < t.size(); i++) {
+      System.out.println(i + "/" + t.size());
+      for (int j = i + 1; j < t.size(); j++) {
+        System.out.println(" * " + j + "/" + t.size());
 
         MultivariatePolynomial<E> f = t.get(i);
         MultivariatePolynomial<E> g = t.get(j);
@@ -36,8 +36,8 @@ public class GröbnerBasis<E> implements UnaryOperator<Vector<MultivariatePolyno
         MultivariatePolynomial<E> r = division.apply(S, t).second;
 
         if (!ring.equals(r, ring.getZero())) {
-          Vector<MultivariatePolynomial<E>> tNext = Vector.view(t.getDimension() + 1, k -> {
-            if (k < t.getDimension()) {
+          Vector<MultivariatePolynomial<E>> tNext = Vector.view(t.size() + 1, k -> {
+            if (k < t.size()) {
               return t.get(k);
             } else {
               return r;

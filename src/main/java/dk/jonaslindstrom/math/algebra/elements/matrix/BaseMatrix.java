@@ -1,14 +1,9 @@
 package dk.jonaslindstrom.math.algebra.elements.matrix;
 
-import com.google.common.collect.Iterators;
 import dk.jonaslindstrom.math.algebra.abstractions.Ring;
 import dk.jonaslindstrom.math.algebra.algorithms.DotProduct;
 import dk.jonaslindstrom.math.algebra.elements.vector.ConcreteVector;
 import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
-import dk.jonaslindstrom.math.util.StringUtils;
-import java.util.AbstractCollection;
-import java.util.Iterator;
-import java.util.Objects;
 import java.util.function.BiPredicate;
 import java.util.stream.IntStream;
 
@@ -21,7 +16,7 @@ public abstract class BaseMatrix<E> implements Matrix<E> {
 
   @Override
   public Vector<E> apply(Vector<E> b, Ring<E> ring) {
-    if (b.getDimension() != getWidth()) {
+    if (b.size() != getWidth()) {
       throw new IllegalArgumentException();
     }
 

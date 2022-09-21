@@ -2,7 +2,7 @@ package dk.jonaslindstrom.math.algebra.concretisations;
 
 import dk.jonaslindstrom.math.algebra.abstractions.Field;
 import dk.jonaslindstrom.math.algebra.algorithms.EuclideanAlgorithm;
-import dk.jonaslindstrom.math.algebra.elements.Polynomial;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.Polynomial;
 import dk.jonaslindstrom.math.util.StringUtils;
 
 public class FiniteField extends QuotientRing<Polynomial<Integer>>
@@ -26,8 +26,8 @@ public class FiniteField extends QuotientRing<Polynomial<Integer>>
     super(new PolynomialRing<>(baseField), mod);
 
     this.p = baseField.getModulus();
-    this.stringRepresentation = String.format("GF(%s%s)", baseField.mod.toString(),
-        StringUtils.superscript(Integer.toString(mod.degree())));
+    this.stringRepresentation = String.format("GF(%s^{%s})", baseField.mod.toString(),
+        mod.degree());
     this.baseField = baseField;
   }
 

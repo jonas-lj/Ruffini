@@ -2,19 +2,19 @@ package dk.jonaslindstrom.math.algebra.elements;
 
 public class Fraction<E> {
 
-  private final E nominator, denominator;
+  private final E numerator, denominator;
 
-  public Fraction(E nominator, E denominator) {
-    this.nominator = nominator;
+  public Fraction(E numerator, E denominator) {
+    this.numerator = numerator;
     this.denominator = denominator;
   }
 
-  public static <F> Fraction<F> of(F nominator, F denominator) {
-    return new Fraction<>(nominator, denominator);
+  public static <F> Fraction<F> of(F numerator, F denominator) {
+    return new Fraction<>(numerator, denominator);
   }
 
-  public E getNominator() {
-    return nominator;
+  public E getNumerator() {
+    return numerator;
   }
 
   public E getDenominator() {
@@ -24,8 +24,8 @@ public class Fraction<E> {
   @Override
   public String toString() {
     if (denominator.toString().equals("1")) {
-      return nominator.toString();
+      return numerator.toString();
     }
-    return "\\frac{" + nominator + "}{" + denominator + "}";
+    return "\\frac{" + numerator + "}{" + denominator + "}";
   }
 }

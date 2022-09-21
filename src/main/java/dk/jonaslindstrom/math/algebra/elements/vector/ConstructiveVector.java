@@ -16,7 +16,7 @@ public class ConstructiveVector<E> extends BaseVector<E> {
   }
 
   @Override
-  public int getDimension() {
+  public int size() {
     return d;
   }
 

@@ -62,4 +62,9 @@ public class BigIntegers implements EuclideanDomain<BigInteger> {
     return a.abs().intValue();
   }
 
+  @Override
+  public String toString() {
+    return "\\mathbb{Z}";
+  }
+
 }

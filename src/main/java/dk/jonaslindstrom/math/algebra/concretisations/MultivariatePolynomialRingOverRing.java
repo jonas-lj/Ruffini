@@ -1,17 +1,10 @@
 package dk.jonaslindstrom.math.algebra.concretisations;
 
-import dk.jonaslindstrom.math.algebra.abstractions.EuclideanDomain;
-import dk.jonaslindstrom.math.algebra.abstractions.Field;
 import dk.jonaslindstrom.math.algebra.abstractions.Ring;
-import dk.jonaslindstrom.math.algebra.algorithms.MultivariatePolynomialDivision;
-import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial;
-import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial.Monomial;
-import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.MultivariatePolynomial;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.Monomial;
 import dk.jonaslindstrom.math.util.Pair;
-import java.util.Comparator;
 import java.util.Objects;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 /**
  * This class implements the ring of polynomials <i>K[x]</i> over a field <i>K</i>.

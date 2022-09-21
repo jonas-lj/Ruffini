@@ -1,5 +1,7 @@
 package dk.jonaslindstrom.math.algebra.abstractions;
 
+import dk.jonaslindstrom.math.algebra.algorithms.Power;
+
 public interface Monoid<E> extends Semigroup<E> {
 
   /**
@@ -10,5 +12,13 @@ public interface Monoid<E> extends Semigroup<E> {
   default boolean isIdentity(E a) {
     return this.equals(a, this.getIdentity());
   }
+
+  /**
+   * Return <i>x<sup>e</sup></i>
+   */
+  default E power(E x, int e) {
+    return new Power<>(this).apply(x, e);
+  }
+
 
 }

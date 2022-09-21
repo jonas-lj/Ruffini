@@ -61,7 +61,7 @@ public class FullyConnectedLayer implements Layer {
   public Layer update(LayerFPResult fpResult, LayerBPResult bpResult, double alpha) {
     Matrix<Double> newWeights = Matrix.of(weights.getHeight(), weights.getWidth(), (i,j) ->
         weights.get(i,j) + bpResult.getDelta().get(i) * fpResult.getInput().get(j) * alpha);
-    Vector<Double> newBias = Vector.of(bias.getDimension(), i -> bias.get(i) + bpResult.getDelta().get(i) * alpha);
+    Vector<Double> newBias = Vector.of(bias.size(), i -> bias.get(i) + bpResult.getDelta().get(i) * alpha);
     return new FullyConnectedLayer(newWeights, newBias, activationFunction);
   }
 

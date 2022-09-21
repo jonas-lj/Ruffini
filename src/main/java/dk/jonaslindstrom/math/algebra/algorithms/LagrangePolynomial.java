@@ -2,8 +2,7 @@ package dk.jonaslindstrom.math.algebra.algorithms;
 
 import dk.jonaslindstrom.math.algebra.abstractions.Field;
 import dk.jonaslindstrom.math.algebra.concretisations.PolynomialRing;
-import dk.jonaslindstrom.math.algebra.elements.Polynomial;
-import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.Polynomial;
 import dk.jonaslindstrom.math.util.Pair;
 import java.util.ArrayList;
 import java.util.List;

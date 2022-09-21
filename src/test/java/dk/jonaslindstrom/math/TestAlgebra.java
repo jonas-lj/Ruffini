@@ -1,61 +1,26 @@
 package dk.jonaslindstrom.math;
 
+import com.google.common.io.BaseEncoding;
+import dk.jonaslindstrom.math.algebra.abstractions.AdditiveGroup;
 import dk.jonaslindstrom.math.algebra.abstractions.Field;
 import dk.jonaslindstrom.math.algebra.abstractions.Ring;
-import dk.jonaslindstrom.math.algebra.algorithms.AKS;
-import dk.jonaslindstrom.math.algebra.algorithms.BerlekampRabinAlgorithm;
-import dk.jonaslindstrom.math.algebra.algorithms.CharacteristicPolynomial;
-import dk.jonaslindstrom.math.algebra.algorithms.ChineseRemainderTheorem;
-import dk.jonaslindstrom.math.algebra.algorithms.Determinant;
-import dk.jonaslindstrom.math.algebra.algorithms.DiscreteFourierTransform;
-import dk.jonaslindstrom.math.algebra.algorithms.DotProduct;
-import dk.jonaslindstrom.math.algebra.algorithms.EuclideanAlgorithm;
-import dk.jonaslindstrom.math.algebra.algorithms.EulersTotientFunction;
-import dk.jonaslindstrom.math.algebra.algorithms.Factorize;
-import dk.jonaslindstrom.math.algebra.algorithms.GaussianElimination;
-import dk.jonaslindstrom.math.algebra.algorithms.GramMatrix;
-import dk.jonaslindstrom.math.algebra.algorithms.GramSchmidtOverRing;
-import dk.jonaslindstrom.math.algebra.algorithms.GröbnerBasis;
-import dk.jonaslindstrom.math.algebra.algorithms.IntegerRingEmbedding;
-import dk.jonaslindstrom.math.algebra.algorithms.InverseDiscreteFourierTransform;
-import dk.jonaslindstrom.math.algebra.algorithms.LagrangePolynomial;
-import dk.jonaslindstrom.math.algebra.algorithms.MatrixInversion;
-import dk.jonaslindstrom.math.algebra.algorithms.MatrixMultiplication;
-import dk.jonaslindstrom.math.algebra.algorithms.MultivariatePolynomialDivision;
-import dk.jonaslindstrom.math.algebra.algorithms.PolynomialInterpolation;
-import dk.jonaslindstrom.math.algebra.algorithms.Power;
-import dk.jonaslindstrom.math.algebra.algorithms.Product;
-import dk.jonaslindstrom.math.algebra.algorithms.QuadraticEquation;
-import dk.jonaslindstrom.math.algebra.algorithms.StrassenMultiplication;
-import dk.jonaslindstrom.math.algebra.algorithms.TonelliShanks;
-import dk.jonaslindstrom.math.algebra.concretisations.AlgebraicFieldExtension;
-import dk.jonaslindstrom.math.algebra.concretisations.ComplexNumbers;
-import dk.jonaslindstrom.math.algebra.concretisations.EllipticCurve;
-import dk.jonaslindstrom.math.algebra.concretisations.FiniteField;
-import dk.jonaslindstrom.math.algebra.concretisations.Integers;
-import dk.jonaslindstrom.math.algebra.concretisations.IntegersModuloN;
-import dk.jonaslindstrom.math.algebra.concretisations.MatrixRing;
-import dk.jonaslindstrom.math.algebra.concretisations.MultivariatePolynomialRing;
-import dk.jonaslindstrom.math.algebra.concretisations.PolynomialRing;
-import dk.jonaslindstrom.math.algebra.concretisations.PolynomialRingOverRing;
-import dk.jonaslindstrom.math.algebra.concretisations.PrimeField;
-import dk.jonaslindstrom.math.algebra.concretisations.QuadraticField;
-import dk.jonaslindstrom.math.algebra.concretisations.Rationals;
-import dk.jonaslindstrom.math.algebra.concretisations.RealNumbers;
-import dk.jonaslindstrom.math.algebra.concretisations.SymmetricGroup;
-import dk.jonaslindstrom.math.algebra.concretisations.WeierstrassForm;
+import dk.jonaslindstrom.math.algebra.algorithms.*;
+import dk.jonaslindstrom.math.algebra.concretisations.*;
 import dk.jonaslindstrom.math.algebra.concretisations.big.BigIntegers;
+import dk.jonaslindstrom.math.algebra.concretisations.big.BigPrimeField;
 import dk.jonaslindstrom.math.algebra.elements.ComplexNumber;
-import dk.jonaslindstrom.math.algebra.elements.ECPoint;
+import dk.jonaslindstrom.math.algebra.elements.curves.AffinePoint;
 import dk.jonaslindstrom.math.algebra.elements.Fraction;
-import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial;
-import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial.Builder;
-import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial.MonomialOrdering;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.GradedLexicographicalOrdering;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.MultivariatePolynomial;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.MultivariatePolynomial.Builder;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.MonomialOrdering;
 import dk.jonaslindstrom.math.algebra.elements.Permutation;
-import dk.jonaslindstrom.math.algebra.elements.Polynomial;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.Polynomial;
 import dk.jonaslindstrom.math.algebra.elements.matrix.Matrix;
 import dk.jonaslindstrom.math.algebra.elements.matrix.SparseMatrix;
 import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
+import dk.jonaslindstrom.math.algebra.elements.word.AlgebraElement;
 import dk.jonaslindstrom.math.algebra.helpers.JacobiSymbol;
 import dk.jonaslindstrom.math.util.Pair;
 import dk.jonaslindstrom.math.util.Parser;
@@ -590,7 +555,7 @@ public class TestAlgebra {
     int x = crt.apply(a, m);
     System.out.println(x);
 
-    for (int i = 0; i < a.getDimension(); i++) {
+    for (int i = 0; i < a.size(); i++) {
       Assert.assertEquals((int) a.get(i), Math.floorMod(x, m.get(i)));
     }
 
@@ -600,7 +565,7 @@ public class TestAlgebra {
   public void testMultivariatePolynomialDivision() {
 
     MultivariatePolynomial.DEFAULT_ORDERING =
-        new MultivariatePolynomial.GradedLexicographicalOrdering();
+        new GradedLexicographicalOrdering();
 
     Field<Integer> gf2 = new PrimeField(2);
     MultivariatePolynomialRing<Integer> ring = new MultivariatePolynomialRing<>(gf2, 2);
@@ -628,7 +593,7 @@ public class TestAlgebra {
   @Test
   public void testGröbnerBasis() {
     MonomialOrdering ordering =
-        new MultivariatePolynomial.GradedLexicographicalOrdering();
+        new GradedLexicographicalOrdering();
 
     Field<Integer> gf2 = new PrimeField(2);
     MultivariatePolynomialRing<Integer> ring = new MultivariatePolynomialRing<>(gf2, 3);
@@ -653,15 +618,50 @@ public class TestAlgebra {
     int p = 13;
     PrimeField Fp = new PrimeField(p);
 
-    EllipticCurve<ECPoint<Integer>> E = new WeierstrassForm<>(Fp, 1, 1);
+    AdditiveGroup<AffinePoint<Integer>> E = new WeierstrassCurve<>(Fp, 1, 1);
     System.out.println(E);
 
-    ECPoint<Integer> P = new ECPoint<>(0, 1);
-    ECPoint<Integer> Q = new ECPoint<>(1, 4);
+    AffinePoint<Integer> P = new AffinePoint<>(0, 1);
+    AffinePoint<Integer> Q = new AffinePoint<>(1, 4);
 
-    Assert.assertTrue(E.equals(E.add(P, Q), new ECPoint<>(8, 1)));
-    Assert.assertTrue(E.equals(E.add(P, P), new ECPoint<>(10, 7)));
-    Assert.assertTrue(E.equals(E.subtract(P, Q), new ECPoint<>(11, 2)));
+    Assert.assertTrue(E.equals(E.add(P, Q), new AffinePoint<>(8, 1)));
+    Assert.assertTrue(E.equals(E.add(P, P), new AffinePoint<>(10, 7)));
+    Assert.assertTrue(E.equals(E.subtract(P, Q), new AffinePoint<>(11, 2)));
+  }
+
+  @Test
+  public void testCurve25519scalarDecode() {
+    //https://www.rfc-editor.org/rfc/rfc7748#section-4.1
+    byte[] bytes = BaseEncoding.base16().decode("4b66e9d4d1b4673c5ad22691957d6af5c11b6421e0ea01d42ca4169e7918ba0d".toUpperCase());
+    BigInteger expected = new BigInteger("35156891815674817266734212754503633747128614016119564763269015315466259359304");
+    org.junit.Assert.assertEquals(expected, Curve25519.decodeScalar(bytes).mod(Curve25519.P));
+  }
+
+  @Test
+  public void testCurve25519pointDecode() {
+    //https://www.rfc-editor.org/rfc/rfc7748#section-4.1
+    byte[] bytes = BaseEncoding.base16().decode("e5210f12786811d3f4b7959d0538ae2c31dbe7106fc03c3efc4cd549c715a493".toUpperCase());
+    BigInteger expected = new BigInteger("8883857351183929894090759386610649319417338800022198945255395922347792736741");
+    org.junit.Assert.assertEquals(expected, Curve25519.decodePoint(bytes).mod(Curve25519.P));
+  }
+
+  @Test
+  public void testCurve25519pointEncode() {
+    //https://www.rfc-editor.org/rfc/rfc7748#section-4.1
+    BigInteger x = Curve25519.decodePoint(BaseEncoding.base16().decode("e6db6867583030db3594c1a424b15f7c726624ec26b3353b10a903a6d0ab1c4c".toUpperCase())).mod(Curve25519.P);
+    BigInteger n = Curve25519.decodeScalar(BaseEncoding.base16().decode("a546e36bf0527c9d3b16154b82465edd62144c0ac1fc5a18506a2244ba449ac4".toUpperCase())).mod(Curve25519.P);
+
+    Field<BigInteger> field = new BigPrimeField(Curve25519.P);
+
+    // Reconstruct the y-coordinate
+    BigInteger rhs = field.add(field.power(x, 3), field.multiply(Curve25519.A, field.power(x, 2)), x);
+    BigInteger y = new ModularSquareRoot(Curve25519.P).apply(rhs);
+
+    // Compute nP on Curve25519
+    AffinePoint<BigInteger> dh = new Curve25519().scale(n, new AffinePoint<>(x, y));
+
+    BigInteger expected = Curve25519.decodePoint(BaseEncoding.base16().decode("c3da55379de9c6908e94ea4df28d084f32eccf03491c71f754b4075577a28552".toUpperCase())).mod(Curve25519.P);
+    org.junit.Assert.assertEquals(expected, dh.x);
   }
 
   @Test
@@ -778,4 +778,13 @@ public class TestAlgebra {
     Assert.assertEquals(36, phi.apply(BigInteger.valueOf(57)).intValue());
     Assert.assertEquals(12, phi.apply(BigInteger.valueOf(42)).intValue());
   }
+
+  @Test
+  public void testFreeAlgebra() {
+    AlgebraElement<Integer> a = AlgebraElement.fromWord(3, 0, 1);
+    AlgebraElement<Integer> b = AlgebraElement.fromWord(2, 1, 0);
+    FreeAlgebra<Integer, Integers> algebra = new FreeAlgebra<>(Integers.getInstance(), 2);
+    System.out.println(algebra.multiply(a, b));
+  }
+
 }

@@ -17,35 +17,59 @@ import java.util.stream.Stream;
 
 /**
  * A representation of a matrix taking entries of type <i>E</i>.
- *
+ * <p>
  * Matrices are by default immutable, but calling the {@link #mutable()} returns an instance of a
  * {@link MutableMatrix} which may be edited.
+ *
  * @param <E>
  */
 public interface Matrix<E> extends BiFunction<Vector<E>, Ring<E>, Vector<E>> {
 
+  /**
+   * Generate a {@link Matrix<E>} where each element is created using the given populator when it is
+   * needed.
+   *
+   * @param m         The height of the matrix
+   * @param n         The width of the matrix
+   * @param populator The populator function where <code>populator.apply(i, j)</code> generates the
+   *                  <i>(i,j)'th</i> entry.
+   * @param <E>       The type of the entries.
+   * @return A {@link Matrix<E>} where each element is created using the given populator when it is
+   * needed.
+   */
   static <E> Matrix<E> lazy(int m, int n, IntBinaryFunction<E> populator) {
     return new MatrixView<>(m, n, populator);
   }
 
   /**
-   * Create copy of a matrix.
+   * Create copy of a matrix. Note that the entries will be the same as in the original, and is hence not
+   * <i>cloned</i>.
    */
   static <E> Matrix<E> copy(Matrix<E> matrix) {
     return new ConcreteMatrix<>(matrix.getHeight(), matrix.getWidth(), matrix::get);
   }
 
   /**
-   * Create a new matrix with the given height, width and populate it using the given function.
+   * Create a new matrix with the given height, width and populate it using the given function. The
+   * entries are created immediately in parallel.
    */
   static <E> Matrix<E> of(int m, int n, IntBinaryFunction<E> populator) {
     return of(m, n, populator, false);
   }
 
-  static <E> Matrix<E> of(int m, int n, IntBinaryFunction<E> populator, boolean populateSequentially) {
+  /**
+   * Create a new matrix with the given height, width and populate it using the given function. The
+   * entries are created immediately sequentially.
+   */
+  static <E> Matrix<E> of(int m, int n, IntBinaryFunction<E> populator,
+      boolean populateSequentially) {
     return new ConcreteMatrix<>(m, n, populator, populateSequentially);
   }
 
+  /**
+   * Create a new matrix with the given height and populate it using the given row populator. The
+   * rows are created immediately in parallel.
+   */
   static <E> Matrix<E> of(int m, IntFunction<ArrayList<E>> rowPopulator) {
     return new ConcreteMatrix<>(
         IntStream.range(0, m).parallel().mapToObj(rowPopulator)
@@ -83,7 +107,7 @@ public interface Matrix<E> extends BiFunction<Vector<E>, Ring<E>, Vector<E>> {
   }
 
   static <E> Matrix<E> eye(int n, E one, E zero) {
-    return lazy(n, n, (i, j) -> i == j ? one : zero);
+    return lazy(n, n, (i, j) -> i.equals(j) ? one : zero);
   }
 
   static <E> Matrix<E> eye(int n, Ring<E> ring) {
@@ -101,14 +125,22 @@ public interface Matrix<E> extends BiFunction<Vector<E>, Ring<E>, Vector<E>> {
       for (int i = 0; i < tl.getHeight(); i++) {
         ArrayList<E> entries = new ArrayList<>(n);
         for (Matrix<E> b : row) {
-          for (E e : b.getRow(i)) {
-            entries.add(e);
-          }
+          entries.addAll(b.getRow(i));
         }
         rows.add(entries);
       }
     }
     return new ConcreteMatrix<>(rows);
+  }
+
+  static <T> BinaryOperator<Matrix<T>> entrywiseOperator(BinaryOperator<T> op) {
+    return (a, b) -> {
+      if (a.getHeight() != b.getHeight() || a.getWidth() != b.getWidth()) {
+        throw new IllegalArgumentException("Matrices must have same size but was " + a.getHeight() +
+            "×" + a.getWidth() + " and " + b.getHeight() + "×" + b.getWidth());
+      }
+      return Matrix.of(a.getHeight(), a.getWidth(), (i, j) -> op.apply(a.get(i, j), b.get(i, j)));
+    };
   }
 
   Vector<E> getColumn(int j);
@@ -149,7 +181,6 @@ public interface Matrix<E> extends BiFunction<Vector<E>, Ring<E>, Vector<E>> {
     return extendTo(getHeight() + dm, getWidth() + dn, padding);
   }
 
-
   /**
    * Returns a new matrix with the given rows and columns from this matrix. The given arrays are
    * assumed to be sorted.
@@ -173,16 +204,6 @@ public interface Matrix<E> extends BiFunction<Vector<E>, Ring<E>, Vector<E>> {
    */
   MutableMatrix<E> mutable();
 
-  static <T> BinaryOperator<Matrix<T>> entrywiseOperator(BinaryOperator<T> op) {
-    return (a, b) -> {
-      if (a.getHeight() != b.getHeight() || a.getWidth() != b.getWidth()) {
-        throw new IllegalArgumentException("Matrices must have same size but was " + a.getHeight() +
-            "×" + a.getWidth() + " and " + b.getHeight() + "×" + b.getWidth());
-      }
-      return Matrix.of(a.getHeight(), a.getWidth(), (i, j) -> op.apply(a.get(i, j), b.get(i, j)));
-    };
-  }
-
   default Vector<E> collapseRows(E init, BinaryOperator<E> op) {
     return Vector.of(getHeight(), i -> getRow(i).stream().reduce(init, op));
   }
@@ -192,7 +213,8 @@ public interface Matrix<E> extends BiFunction<Vector<E>, Ring<E>, Vector<E>> {
   }
 
   default Stream<E> stream() {
-    return IntStream.range(0, getHeight()).boxed().flatMap(i -> IntStream.range(0, getWidth()).mapToObj(j -> get(i, j)));
+    return IntStream.range(0, getHeight()).boxed()
+        .flatMap(i -> IntStream.range(0, getWidth()).mapToObj(j -> get(i, j)));
   }
 
 }

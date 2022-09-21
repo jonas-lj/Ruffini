@@ -3,7 +3,7 @@ package dk.jonaslindstrom.math.algebra.algorithms;
 import dk.jonaslindstrom.math.algebra.concretisations.PolynomialRing;
 import dk.jonaslindstrom.math.algebra.concretisations.PrimeField;
 import dk.jonaslindstrom.math.algebra.concretisations.QuotientRing;
-import dk.jonaslindstrom.math.algebra.elements.Polynomial;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.Polynomial;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Function;

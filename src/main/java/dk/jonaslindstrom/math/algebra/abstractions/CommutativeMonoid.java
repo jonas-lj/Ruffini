@@ -1,5 +1,7 @@
 package dk.jonaslindstrom.math.algebra.abstractions;
 
+import java.math.BigInteger;
+
 public interface CommutativeMonoid<E> extends Set<E> {
 
   /**

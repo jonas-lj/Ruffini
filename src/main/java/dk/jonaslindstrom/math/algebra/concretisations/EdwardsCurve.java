@@ -1,10 +1,18 @@
 package dk.jonaslindstrom.math.algebra.concretisations;
 
+import dk.jonaslindstrom.math.algebra.abstractions.AdditiveGroup;
 import dk.jonaslindstrom.math.algebra.abstractions.Field;
-import dk.jonaslindstrom.math.algebra.elements.EdwardsPoint;
-import java.util.List;
+import dk.jonaslindstrom.math.algebra.elements.curves.AffinePoint;
+import dk.jonaslindstrom.math.algebra.elements.curves.EdwardsPoint;
+import dk.jonaslindstrom.math.util.Pair;
 
-public class EdwardsCurve<E> implements EllipticCurve<EdwardsPoint<E>> {
+import java.util.function.Function;
+
+/**
+ * Instances of this class represents a curve over a field over elements of type <code>E</code> satisfying the equation
+ * <i>x<sup>2</sup> + y<sup>2</sup> = 1 + d x<sup>2</sup> y<sup>2</sup></i>.
+ */
+public class EdwardsCurve<E> implements AdditiveGroup<EdwardsPoint<E>> {
 
   private final Field<E> field;
   private final E d;
@@ -24,13 +32,14 @@ public class EdwardsCurve<E> implements EllipticCurve<EdwardsPoint<E>> {
     return field.equals(a.x, b.x) && field.equals(a.y, b.y);
   }
 
-  private E multiply(List<E> factors) {
-    if (factors.isEmpty()) {
+  @SafeVarargs
+  private E multiply(E ... factors) {
+    if (factors.length == 0) {
       return field.getIdentity();
     }
-    E p = factors.get(0);
-    for (int i = 1; i < factors.size(); i++) {
-      p = field.multiply(p, factors.get(i));
+    E p = factors[0];
+    for (int i = 1; i < factors.length; i++) {
+      p = field.multiply(p, factors[i]);
     }
     return p;
   }
@@ -41,7 +50,7 @@ public class EdwardsCurve<E> implements EllipticCurve<EdwardsPoint<E>> {
     E n1 = field.add(field.multiply(a.x, b.y), field.multiply(a.y, b.x));
     E n2 = field.subtract(field.multiply(a.y, b.y), field.multiply(a.x, b.x));
 
-    E p = multiply(List.of(d, a.x, b.x, a.y, b.y));
+    E p = multiply(d, a.x, b.x, a.y, b.y);
     E d1 = field.add(field.getIdentity(), p);
     E d2 = field.subtract(field.getIdentity(), p);
 
@@ -56,6 +65,24 @@ public class EdwardsCurve<E> implements EllipticCurve<EdwardsPoint<E>> {
   @Override
   public EdwardsPoint<E> getZero() {
     return new EdwardsPoint<>(field.getZero(), field.getIdentity());
+  }
+
+  /**
+   * Return an elliptic curve in Montgomery form which is birationally equivalent to this curve and a mapping from
+   * points on this curve to points on the Montgomery curve.
+   */
+  public Pair<MontgomeryCurve<E>, Function<EdwardsPoint<E>, AffinePoint<E>>> getCorrespondingMontgomeryCurve() {
+    E e = field.subtract(field.getIdentity(), d);
+    E A = field.subtract(field.divide(field.integer(4), e), field.integer(2));
+    E B = field.invert(e);
+    return Pair.of(new MontgomeryCurve<>(field, A, B),
+            p -> {
+              E py = field.add(field.getIdentity(), p.y);
+              E my = field.subtract(field.getIdentity(), p.y);
+              E u = field.divide(py, my);
+              E v = field.divide(field.add(py, py), field.multiply(p.x, my));
+              return new AffinePoint<>(u, v);
+            });
   }
 
 }

@@ -2,7 +2,7 @@ package dk.jonaslindstrom.math.algebra.algorithms;
 
 import dk.jonaslindstrom.math.algebra.abstractions.Ring;
 import dk.jonaslindstrom.math.algebra.concretisations.PolynomialRingOverRing;
-import dk.jonaslindstrom.math.algebra.elements.Polynomial;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.Polynomial;
 import dk.jonaslindstrom.math.algebra.elements.matrix.Matrix;
 import java.util.Objects;
 import java.util.function.Function;

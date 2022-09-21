@@ -23,13 +23,4 @@ public class VectorSpaceOverField<E, F extends Field<E>> extends
     return new DotProduct<>(getScalars()).apply(v, u);
   }
 
-  @Override
-  public String toString(Vector<E> a) {
-    return a.toString();
-  }
-
-  @Override
-  public boolean equals(Vector<E> a, Vector<E> b) {
-    return a.equals(b, getScalars()::equals);
-  }
 }

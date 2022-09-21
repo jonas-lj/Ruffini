@@ -1,19 +1,19 @@
-package dk.jonaslindstrom.math.algebra.elements;
+package dk.jonaslindstrom.math.algebra.elements.curves;
 
 import java.util.Objects;
 
-public class ECPoint<E> {
+public class AffinePoint<E> {
 
   public final E x;
   public final E y;
 
-  public ECPoint(E x, E y) {
+  public AffinePoint(E x, E y) {
     this.x = x;
     this.y = y;
   }
 
-  public static <F> ECPoint<F> pointAtInfinity() {
-    return new ECPoint<>(null, null);
+  public static <F> AffinePoint<F> pointAtInfinity() {
+    return new AffinePoint<>(null, null);
   }
 
   public boolean isPointAtInfinity() {

@@ -2,7 +2,7 @@ package dk.jonaslindstrom.math.algebra.concretisations;
 
 import dk.jonaslindstrom.math.algebra.abstractions.EuclideanDomain;
 import dk.jonaslindstrom.math.algebra.abstractions.Field;
-import dk.jonaslindstrom.math.algebra.elements.Polynomial;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.Polynomial;
 import dk.jonaslindstrom.math.util.Pair;
 
 /**

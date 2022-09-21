@@ -2,7 +2,7 @@ package dk.jonaslindstrom.math.algebra.concretisations;
 
 import dk.jonaslindstrom.math.algebra.abstractions.Field;
 import dk.jonaslindstrom.math.algebra.algorithms.EuclideanAlgorithm;
-import dk.jonaslindstrom.math.algebra.elements.Polynomial;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.Polynomial;
 import dk.jonaslindstrom.math.algebra.exceptions.NotInvertibleException;
 import dk.jonaslindstrom.math.util.StringUtils;
 import dk.jonaslindstrom.math.util.Triple;
@@ -26,7 +26,7 @@ public class PrimeField extends IntegersModuloN implements Field<Integer> {
 
   @Override
   public String toString() {
-    return "𝔽" + StringUtils.subscript(super.mod.toString());
+    return "\\mathbb{F}_{" + super.mod.toString() + "}";
   }
 
   public FiniteField asFiniteField() {

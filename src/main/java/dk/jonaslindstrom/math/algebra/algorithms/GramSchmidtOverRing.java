@@ -24,7 +24,7 @@ public class GramSchmidtOverRing<E> implements UnaryOperator<List<Vector<E>>> {
   }
 
   private Vector<E> sub(Vector<E> v, Vector<E> u) {
-    return new ConcreteVector<>(v.getDimension(), i -> ring.add(v.get(i), ring.negate(u.get(i))));
+    return new ConcreteVector<>(v.size(), i -> ring.add(v.get(i), ring.negate(u.get(i))));
   }
 
   private E gcd(E a, E b) {

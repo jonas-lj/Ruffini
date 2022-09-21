@@ -1,32 +1,33 @@
 package dk.jonaslindstrom.math.algebra.concretisations;
 
+import dk.jonaslindstrom.math.algebra.abstractions.AdditiveGroup;
 import dk.jonaslindstrom.math.algebra.abstractions.Field;
 import dk.jonaslindstrom.math.algebra.algorithms.IntegerRingEmbedding;
 import dk.jonaslindstrom.math.algebra.algorithms.Multiply;
 import dk.jonaslindstrom.math.algebra.algorithms.Power;
-import dk.jonaslindstrom.math.algebra.elements.ECPoint;
-import dk.jonaslindstrom.math.algebra.elements.Polynomial;
+import dk.jonaslindstrom.math.algebra.elements.curves.AffinePoint;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.Polynomial;
 
-public class WeierstrassForm<E> implements EllipticCurve<ECPoint<E>> {
+public class WeierstrassCurve<E> implements AdditiveGroup<AffinePoint<E>> {
 
   private final E a, b;
+  private final E three;
 
   public Field<E> getField() {
     return field;
   }
 
   private final Field<E> field;
-  private final IntegerRingEmbedding<E> embedding;
 
   /**
    * Curve on Weierstrass form. Field should have characteristics not equal to 2 or 3.
    */
-  public WeierstrassForm(Field<E> field, E a, E b) {
+  public WeierstrassCurve(Field<E> field, E a, E b) {
     this.field = field;
     this.a = a;
     this.b = b;
     assert (!field.equals(discriminant(), field.getZero()));
-    this.embedding = new IntegerRingEmbedding<>(field);
+    this.three = new IntegerRingEmbedding<>(field).apply(3);
   }
 
   public E discriminant() {
@@ -40,12 +41,12 @@ public class WeierstrassForm<E> implements EllipticCurve<ECPoint<E>> {
   }
 
   @Override
-  public String toString(ECPoint<E> a) {
+  public String toString(AffinePoint<E> a) {
     return a.toString();
   }
 
   @Override
-  public boolean equals(ECPoint<E> a, ECPoint<E> b) {
+  public boolean equals(AffinePoint<E> a, AffinePoint<E> b) {
     if (a.isPointAtInfinity()) {
       return b.isPointAtInfinity();
     } else if (b.isPointAtInfinity()) {
@@ -55,7 +56,7 @@ public class WeierstrassForm<E> implements EllipticCurve<ECPoint<E>> {
   }
 
   @Override
-  public ECPoint<E> add(ECPoint<E> p, ECPoint<E> q) {
+  public AffinePoint<E> add(AffinePoint<E> p, AffinePoint<E> q) {
     if (p.isPointAtInfinity()) {
       return q;
     }
@@ -67,9 +68,9 @@ public class WeierstrassForm<E> implements EllipticCurve<ECPoint<E>> {
     E s;
     if (field.equals(p.x, q.x)) {
       if (field.equals(p.y, field.negate(q.y))) {
-        return ECPoint.pointAtInfinity();
+        return AffinePoint.pointAtInfinity();
       }
-      s = field.divide(field.add(field.multiply(embedding.apply(3), p.x, p.x), a),
+      s = field.divide(field.add(field.multiply(three, p.x, p.x), a),
           field.add(p.y, p.y));
     } else {
       s = field.divide(field.subtract(q.y, p.y), field.subtract(q.x, p.x));
@@ -77,17 +78,17 @@ public class WeierstrassForm<E> implements EllipticCurve<ECPoint<E>> {
 
     E x = field.subtract(field.multiply(s, s), field.add(p.x, q.x));
     E y = field.subtract(field.multiply(s, field.subtract(p.x, x)), p.y);
-    return new ECPoint<>(x, y);
+    return new AffinePoint<>(x, y);
   }
 
   @Override
-  public ECPoint<E> negate(ECPoint<E> p) {
-    return new ECPoint<>(p.x, field.negate(p.y));
+  public AffinePoint<E> negate(AffinePoint<E> p) {
+    return new AffinePoint<>(p.x, field.negate(p.y));
   }
 
   @Override
-  public ECPoint<E> getZero() {
-    return ECPoint.pointAtInfinity();
+  public AffinePoint<E> getZero() {
+    return AffinePoint.pointAtInfinity();
   }
 
   public String toString() {

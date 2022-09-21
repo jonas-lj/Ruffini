@@ -2,11 +2,11 @@ package dk.jonaslindstrom.math.algebra.algorithms;
 
 import dk.jonaslindstrom.math.algebra.abstractions.Field;
 import dk.jonaslindstrom.math.algebra.concretisations.MultivariatePolynomialRing;
-import dk.jonaslindstrom.math.algebra.concretisations.WeierstrassForm;
-import dk.jonaslindstrom.math.algebra.elements.ECPoint;
+import dk.jonaslindstrom.math.algebra.concretisations.WeierstrassCurve;
+import dk.jonaslindstrom.math.algebra.elements.curves.AffinePoint;
 import dk.jonaslindstrom.math.algebra.elements.Fraction;
-import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial;
-import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial.Builder;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.MultivariatePolynomial;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.MultivariatePolynomial.Builder;
 import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
 import dk.jonaslindstrom.math.functional.TriFunction;
 import java.math.BigInteger;
@@ -19,13 +19,13 @@ import java.util.stream.IntStream;
  * div(f) = [m]P - m[O]. It is used in {@link WeilPairing}.
  */
 public class MillersAlgorithm<E> implements
-    TriFunction<ECPoint<E>, ECPoint<E>, BigInteger, E> {
+    TriFunction<AffinePoint<E>, AffinePoint<E>, BigInteger, E> {
 
-  private final WeierstrassForm<E> curve;
+  private final WeierstrassCurve<E> curve;
   private final Field<E> field;
   private final MultivariatePolynomialRing<E> polynomialRing;
 
-  public MillersAlgorithm(WeierstrassForm<E> curve) {
+  public MillersAlgorithm(WeierstrassCurve<E> curve) {
     this.curve = curve;
     this.field = curve.getField();
     this.polynomialRing = new MultivariatePolynomialRing<>(field, 2);
@@ -36,11 +36,11 @@ public class MillersAlgorithm<E> implements
   }
 
   @Override
-  public E apply(ECPoint<E> P, ECPoint<E> Q, BigInteger m) {
+  public E apply(AffinePoint<E> P, AffinePoint<E> Q, BigInteger m) {
 
     List<Boolean> mBits = toBits(m);
 
-    ECPoint<E> T = P;
+    AffinePoint<E> T = P;
     E f = field.getIdentity();
 
     // Miller's algorithm in its general form
@@ -56,7 +56,7 @@ public class MillersAlgorithm<E> implements
     return f;
   }
 
-  private Fraction<MultivariatePolynomial<E>> g(ECPoint<E> p, ECPoint<E> q) {
+  private Fraction<MultivariatePolynomial<E>> g(AffinePoint<E> p, AffinePoint<E> q) {
 
     if (field.equals(p.x, q.x) && !curve.equals(p, q)) {
 
@@ -67,23 +67,29 @@ public class MillersAlgorithm<E> implements
       return Fraction.of(builder.build(), polynomialRing.getIdentity());
 
     } else {
+
       E lambda;
       if (curve.equals(p, q)) {
         // Compute tangent
         E xSquare = field.multiply(p.x, p.x);
-        lambda = field.divide(field.add(field.add(xSquare, xSquare, xSquare), curve.getA()),
+        lambda = field.divide(
+            field.add(xSquare, xSquare, xSquare, curve.getA()),
             field.add(p.y, p.y));
       } else {
         // Compute slope
-        lambda = field.divide(field.subtract(q.y, p.y), field.subtract(q.x, p.x));
+        lambda = field.divide(
+            field.subtract(q.y, p.y),
+            field.subtract(q.x, p.x));
       }
 
+      // y - l x - l px - py
       MultivariatePolynomial.Builder<E> builder = new Builder<>(2, field);
       builder.add(field.getIdentity(), 0, 1);
       builder.add(field.negate(lambda), 1, 0);
       builder.add(field.subtract(field.multiply(lambda, p.x), p.y), 0, 0);
       MultivariatePolynomial<E> numerator = builder.build();
 
+      // x + px + qx - l^2
       builder = new Builder<>(2, field);
       builder.add(field.getIdentity(), 1, 0);
       builder.add(field.subtract(field.add(p.x, q.x), field.multiply(lambda, lambda)), 0, 0);
@@ -93,9 +99,9 @@ public class MillersAlgorithm<E> implements
     }
   }
 
-  private E evaluate(Fraction<MultivariatePolynomial<E>> polynomial, ECPoint<E> point) {
+  private E evaluate(Fraction<MultivariatePolynomial<E>> polynomial, AffinePoint<E> point) {
     Vector<E> v = Vector.of(point.x, point.y);
-    return field.divide(polynomial.getNominator().apply(v, field),
+    return field.divide(polynomial.getNumerator().apply(v, field),
         polynomial.getDenominator().apply(v, field));
   }
 

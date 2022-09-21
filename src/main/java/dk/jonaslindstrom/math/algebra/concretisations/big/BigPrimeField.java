@@ -25,7 +25,8 @@ public class BigPrimeField extends BigIntegersModuloN implements Field<BigIntege
 
   @Override
   public String toString() {
-    return "𝔽" + StringUtils.subscript(super.mod.toString());
+    return "\\mathbb{F}_{" + super.mod.toString() + "}";
   }
+
 
 }

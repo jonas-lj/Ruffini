@@ -1,8 +1,8 @@
 package dk.jonaslindstrom.math.algebra.algorithms;
 
 import dk.jonaslindstrom.math.algebra.abstractions.Field;
-import dk.jonaslindstrom.math.algebra.elements.Polynomial;
-import dk.jonaslindstrom.math.algebra.elements.Polynomial.Builder;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.Polynomial;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.Polynomial.Builder;
 import dk.jonaslindstrom.math.algebra.elements.matrix.Matrix;
 import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
 import dk.jonaslindstrom.math.util.Pair;
@@ -27,7 +27,7 @@ public class PolynomialInterpolation<E> implements Function<List<Pair<E, E>>, Po
     Vector<E> a = inverse.apply(Vector.of(n, i -> points.get(i).second), field);
 
     Polynomial.Builder<E> builder = new Builder<>(field);
-    for (int i = 0; i < a.getDimension(); i++) {
+    for (int i = 0; i < a.size(); i++) {
       builder.set(i, a.get(i));
     }
     return builder.build();

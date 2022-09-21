@@ -1,7 +1,7 @@
 package dk.jonaslindstrom.math.algebra.concretisations;
 
 import dk.jonaslindstrom.math.algebra.elements.Fraction;
-import dk.jonaslindstrom.math.algebra.elements.Polynomial;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.Polynomial;
 
 public class QuadraticField extends AlgebraicFieldExtension<Fraction<Integer>> {
 

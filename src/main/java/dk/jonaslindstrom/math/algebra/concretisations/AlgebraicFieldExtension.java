@@ -2,7 +2,7 @@ package dk.jonaslindstrom.math.algebra.concretisations;
 
 import dk.jonaslindstrom.math.algebra.abstractions.Field;
 import dk.jonaslindstrom.math.algebra.algorithms.EuclideanAlgorithm;
-import dk.jonaslindstrom.math.algebra.elements.Polynomial;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.Polynomial;
 import dk.jonaslindstrom.math.util.Triple;
 
 public class AlgebraicFieldExtension<E> extends QuotientRing<Polynomial<E>> implements

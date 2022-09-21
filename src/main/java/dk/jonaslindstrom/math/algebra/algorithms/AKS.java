@@ -5,7 +5,7 @@ import dk.jonaslindstrom.math.algebra.abstractions.Ring;
 import dk.jonaslindstrom.math.algebra.concretisations.PolynomialRing;
 import dk.jonaslindstrom.math.algebra.concretisations.QuotientRing;
 import dk.jonaslindstrom.math.algebra.concretisations.big.BigPrimeField;
-import dk.jonaslindstrom.math.algebra.elements.Polynomial;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.Polynomial;
 import dk.jonaslindstrom.math.util.Pair;
 import java.math.BigInteger;
 import java.math.RoundingMode;

@@ -32,7 +32,7 @@ public class MatrixRing<E> implements Ring<Matrix<E>> {
   @Override
   public Matrix<E> getIdentity() {
     return Matrix.of(dimension, dimension,
-        (i, j) -> i == j ? baseRing.getIdentity() : baseRing.getZero());
+        (i, j) -> i.equals(j) ? baseRing.getIdentity() : baseRing.getZero());
   }
 
   @Override

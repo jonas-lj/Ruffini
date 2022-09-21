@@ -2,9 +2,9 @@ package dk.jonaslindstrom.math.algebra.algorithms;
 
 import dk.jonaslindstrom.math.algebra.abstractions.Field;
 import dk.jonaslindstrom.math.algebra.concretisations.MultivariatePolynomialRing;
-import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial;
-import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial.Builder;
-import dk.jonaslindstrom.math.algebra.elements.MultivariatePolynomial.Monomial;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.MultivariatePolynomial;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.MultivariatePolynomial.Builder;
+import dk.jonaslindstrom.math.algebra.elements.polynomial.Monomial;
 import dk.jonaslindstrom.math.algebra.elements.vector.Vector;
 import dk.jonaslindstrom.math.util.Pair;
 import java.util.Comparator;
@@ -42,7 +42,7 @@ public class MultivariatePolynomialDivision<E> implements
     MultivariatePolynomial<E> ĝ = g;
     MultivariatePolynomial<E> r = R.getZero();
 
-    int n = f.getDimension();
+    int n = f.size();
 
     Vector<MultivariatePolynomial.Builder<E>> h =
         Vector.of(n, i -> new MultivariatePolynomial.Builder<>(g.variables(), R.getField()));
