@@ -100,8 +100,7 @@ public class GramSchmidt<V, S, F extends Field<S>> implements Function<List<V>, 
 }
 ```
 
-There are a few demo applications showing some capabilities of the library. They are found
-in `src/main/java/dk/jonaslindstrom/math/demo`.
+There are a few demo applications showing some capabilities of the library in the `demos` module.
 
 <!-- CONTRIBUTING -->
 
