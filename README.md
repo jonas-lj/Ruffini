@@ -27,7 +27,7 @@
 <p>
 The Ruffini library is developed to make it easy to implement dk.jonaslindstrom.ruffini.integers.algorithms in Java involving various 
 algebraic structures such as finite fields, polynomial rings, field extensions etc. The library includes 
-an extensive library of already implemented dk.jonaslindstrom.ruffini.integers.algorithms such as the Euclidean algorithm, polynomial 
+an extensive library of already implemented algorithms such as the Euclidean algorithm, polynomial 
 division etc. to make implementation even easier.
 </p>
 <p>
