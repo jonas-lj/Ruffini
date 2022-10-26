@@ -12,6 +12,7 @@
     <li><a href="#about-the-project">About The Project</a></li>
     <li><a href="#built-with">Built With</a></li>
     <li><a href="#usage">Usage</a></li>
+    <li><a href="#demos">Demos</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#referencing">Referencing</a></li>
@@ -100,6 +101,7 @@ public class GramSchmidt<V, S, F extends Field<S>> implements Function<List<V>, 
 }
 ```
 
+## Demos
 There are a few demo applications showing some capabilities of the library in the `demos` module.
 
 <!-- CONTRIBUTING -->
