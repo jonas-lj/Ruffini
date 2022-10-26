@@ -21,12 +21,13 @@
 
 
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
 <p>
-The Ruffini library is developed to make it easy to implement algorithms in Java involving various 
+The Ruffini library is developed to make it easy to implement dk.jonaslindstrom.ruffini.integers.algorithms in Java involving various 
 algebraic structures such as finite fields, polynomial rings, field extensions etc. The library includes 
-an extensive library of already implemented algorithms such as the Euclidean algorithm, polynomial 
+an extensive library of already implemented dk.jonaslindstrom.ruffini.integers.algorithms such as the Euclidean algorithm, polynomial 
 division etc. to make implementation even easier.
 </p>
 <p>
@@ -38,25 +39,35 @@ general formula to solve quintic (and higher order) equations.
 [<img src="https://upload.wikimedia.org/wikipedia/commons/2/22/Ruffini_paolo.jpg">](https://en.wikipedia.org/wiki/Paolo_Ruffini)
 
 ## Built With
+
 The project may be build using maven,
+
 ```
 mvn clean install
 ```
+
 and the documentation with
+
 ```
 mvn javadoc:javadoc
 ```
 
 <!-- USAGE EXAMPLES -->
+
 ## Usage
 
-The Ruffini library is organized analogous of how abstract algebra is presented in mathematics. The base of the library are a number of interfaces representing abstract algebraic structures. They are organized in an inheritance hierachy as seen in figure below. Note that `E` is a generic class, representing the element of the given structure.
+The Ruffini library is organized analogous of how abstract algebra is presented in mathematics. The base of the library
+are a number of interfaces representing abstract algebraic structures. They are organized in an inheritance hierachy as
+seen in figure below. Note that `E` is a generic class, representing the element of the given structure.
 
 <p align="center">
   <img src="abstractions.svg" align="center" alt="Inheritance diagram for abstract algebraic structures">
 </p>
 
-As in abstract algebra, an algorithm may be defined for an abstract structure and then be used with any concrete structure satisfying the definition of the abstract structure. As an example, consider the implementation of the Gram-Schmidt process definded over vectors of type `V` and scalars of type `S`. Now, this code may be used with any concrete implementations of a vector space over a field.
+As in abstract algebra, an algorithm may be defined for an abstract structure and then be used with any concrete
+structure satisfying the definition of the abstract structure. As an example, consider the implementation of the
+Gram-Schmidt process definded over vectors of type `V` and scalars of type `S`. Now, this code may be used with any
+concrete implementations of a vector space over a field.
 
 ```
 public class GramSchmidt<V, S, F extends Field<S>> implements Function<List<V>, List<V>> {
@@ -89,12 +100,15 @@ public class GramSchmidt<V, S, F extends Field<S>> implements Function<List<V>, 
 }
 ```
 
-There are a few demo applications showing some capabilities of the library. They are found in `src/main/java/dk/jonaslindstrom/math/demo`.
+There are a few demo applications showing some capabilities of the library. They are found
+in `src/main/java/dk/jonaslindstrom/math/demo`.
 
 <!-- CONTRIBUTING -->
+
 ## Contributing
 
-If you want to help out developing new features for Ruffini or fix a bug you've stumbled upon, it may be done as follows:
+If you want to help out developing new features for Ruffini or fix a bug you've stumbled upon, it may be done as
+follows:
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/MyFeature`)
@@ -102,15 +116,17 @@ If you want to help out developing new features for Ruffini or fix a bug you've 
 4. Push to the Branch (`git push origin feature/MyFeature`)
 5. Open a Pull Request
 
-
 <!-- LICENSE -->
+
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
 
 <!-- REFERENCING -->
+
 ## Referencing
+
 If you are using the Ruffini ilbrary in a research project, please cite it as (setting the `date` field accordingly):
 
 ```
