@@ -5,7 +5,7 @@
     <groupId>dk.jonaslindstrom</groupId>
     <artifactId>ruffini</artifactId>
     <packaging>pom</packaging>
-    <version>0.1</version>
+    <version>0.2</version>
     <modules>
         <module>polynomials</module>
         <module>reals</module>
