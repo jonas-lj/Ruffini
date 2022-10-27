@@ -1,4 +1,4 @@
-package dk.jonaslindstrom.ruffini.common.helpers;
+package dk.jonaslindstrom.ruffini.common.algorithms;
 
 import java.util.function.IntBinaryOperator;
 

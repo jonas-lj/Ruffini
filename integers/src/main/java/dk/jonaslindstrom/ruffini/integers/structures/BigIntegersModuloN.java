@@ -1,7 +1,7 @@
 package dk.jonaslindstrom.ruffini.integers.structures;
 
 import dk.jonaslindstrom.ruffini.common.structures.QuotientRing;
-import dk.jonaslindstrom.ruffini.common.helpers.BarrettReduction;
+import dk.jonaslindstrom.ruffini.common.algorithms.BarrettReduction;
 
 import java.math.BigInteger;
 
