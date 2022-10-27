@@ -69,7 +69,7 @@ structure satisfying the definition of the abstract structure. As an example, co
 Gram-Schmidt process definded over vectors of type `V` and scalars of type `S`. Now, this code may be used with any
 concrete implementations of a vector space over a field.
 
-```
+```java
 public class GramSchmidt<V, S, F extends Field<S>> implements Function<List<V>, List<V>> {
 
   private final VectorSpace<V, S, F> vectorSpace;
