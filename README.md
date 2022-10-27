@@ -14,7 +14,6 @@
     <li><a href="#usage">Usage</a></li>
     <li><a href="#demos">Demos</a></li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
     <li><a href="#referencing">Referencing</a></li>
   </ol>
 </details>
@@ -109,12 +108,6 @@ There are a few demo applications showing some capabilities of the library in th
 ## Contributing
 
 We welcome any help from the community, both if you want to help out developing new features for Ruffini or fix a bug you've stumbled upon. Simply open a pull request with the suggested changes.
-<!-- LICENSE -->
-
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
 
 <!-- REFERENCING -->
 
