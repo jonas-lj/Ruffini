@@ -108,15 +108,7 @@ There are a few demo applications showing some capabilities of the library in th
 
 ## Contributing
 
-If you want to help out developing new features for Ruffini or fix a bug you've stumbled upon, it may be done as
-follows:
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/MyFeature`)
-3. Commit your Changes (`git commit -m 'Add MyFeature'`)
-4. Push to the Branch (`git push origin feature/MyFeature`)
-5. Open a Pull Request
-
+We welcome any help from the community, both if you want to help out developing new features for Ruffini or fix a bug you've stumbled upon. Simply open a pull request with the suggested changes.
 <!-- LICENSE -->
 
 ## License
