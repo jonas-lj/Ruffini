@@ -2,10 +2,10 @@ import dk.jonaslindstrom.ruffini.common.abstractions.AdditiveGroup;
 import dk.jonaslindstrom.ruffini.common.abstractions.EuclideanDomain;
 import dk.jonaslindstrom.ruffini.common.abstractions.Ring;
 import dk.jonaslindstrom.ruffini.common.algorithms.*;
+import dk.jonaslindstrom.ruffini.common.util.MathUtils;
 import dk.jonaslindstrom.ruffini.common.util.SamplingUtils;
 import dk.jonaslindstrom.ruffini.common.util.TestUtils;
 import dk.jonaslindstrom.ruffini.common.vector.Vector;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,7 +13,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 public class AlgorithmsTests {
 
@@ -23,7 +22,7 @@ public class AlgorithmsTests {
         Random random = new Random(1234);
         int tests = 100;
         for (int i = 0; i < tests; i++) {
-            BigInteger x= new BigInteger(64, random);
+            BigInteger x = new BigInteger(64, random);
             BigInteger s = new BigInteger(64, random);
             BigInteger result = new BigMultiply<>(integers).apply(s, x);
             BigInteger expected = s.multiply(x);
@@ -119,4 +118,5 @@ public class AlgorithmsTests {
             Assert.assertEquals(terms.stream().reduce(BigInteger::add).orElse(BigInteger.ZERO), result);
         }
     }
+
 }

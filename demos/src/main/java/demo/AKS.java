@@ -2,7 +2,7 @@ package demo;
 
 import com.google.common.math.BigIntegerMath;
 import dk.jonaslindstrom.ruffini.common.abstractions.Ring;
-import dk.jonaslindstrom.ruffini.common.algorithms.BigPower;
+import dk.jonaslindstrom.ruffini.common.algorithms.Power;
 import dk.jonaslindstrom.ruffini.common.structures.QuotientRing;
 import dk.jonaslindstrom.ruffini.common.util.Pair;
 import dk.jonaslindstrom.ruffini.finitefields.BigPrimeField;
@@ -56,7 +56,7 @@ public class AKS {
                 ℤₙx.subtract(Polynomial.monomial(BigInteger.ONE, r), Polynomial.constant(BigInteger.ONE)));
 
         // A witness built from a should be not equal to xⁿ + a, so we compute xⁿ and reuse it
-        BigPower<Polynomial<BigInteger>> power = new BigPower<>(ℤₙxmodP);
+        Power<Polynomial<BigInteger>> power = new Power<>(ℤₙxmodP);
         Polynomial<BigInteger> xⁿ = power.apply(Polynomial.monomial(BigInteger.ONE, 1), n);
 
         // Compute Euler's totient function of r

@@ -47,7 +47,7 @@ public class Curve25519 extends MontgomeryCurve<BigInteger> {
     }
 
     public static byte[] encodePoint(AffinePoint<BigInteger> point) {
-        return reverse(point.x.toByteArray());
+        return reverse(point.x().toByteArray());
     }
 
     /**

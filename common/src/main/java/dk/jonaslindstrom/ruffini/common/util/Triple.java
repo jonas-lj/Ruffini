@@ -1,16 +1,6 @@
 package dk.jonaslindstrom.ruffini.common.util;
 
-public class Triple<E, F, G> {
-
-    public E first;
-    public F second;
-    public G third;
-
-    public Triple(E first, F second, G third) {
-        this.first = first;
-        this.second = second;
-        this.third = third;
-    }
+public record Triple<E, F, G>(E first, F second, G third) {
 
     public E getFirst() {
         return first;

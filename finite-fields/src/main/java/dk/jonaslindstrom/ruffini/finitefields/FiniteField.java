@@ -99,7 +99,7 @@ public class FiniteField extends QuotientRing<Polynomial<Integer>>
     @Override
     public Polynomial<Integer> invert(Polynomial<Integer> a) {
         return new EuclideanAlgorithm<>((PolynomialRing<Integer>) super.ring)
-                .extendedGcd(a, mod).second;
+                .extendedGcd(a, mod).getSecond();
     }
 
     @Override

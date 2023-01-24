@@ -1,4 +1,4 @@
-package dk.jonaslindstrom.ruffini.finitefields;
+package dk.jonaslindstrom.ruffini.integers.structures;
 
 import dk.jonaslindstrom.ruffini.common.abstractions.Field;
 import dk.jonaslindstrom.ruffini.common.algorithms.EuclideanAlgorithm;

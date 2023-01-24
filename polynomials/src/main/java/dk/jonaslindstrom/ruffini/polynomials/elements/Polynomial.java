@@ -4,7 +4,6 @@ import dk.jonaslindstrom.ruffini.common.abstractions.Ring;
 import dk.jonaslindstrom.ruffini.common.algorithms.Power;
 import dk.jonaslindstrom.ruffini.common.vector.ConstructiveVector;
 import dk.jonaslindstrom.ruffini.common.vector.Vector;
-import dk.jonaslindstrom.ruffini.integers.structures.Integers;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -51,56 +50,6 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
             p.set(i, coefficients[i]);
         }
         return p.build();
-    }
-
-    public static Polynomial<Integer> of(Integer... coefficients) {
-        return of(Integers.getInstance(), coefficients);
-    }
-
-    private static Polynomial<Integer> parsePolynomial(String string, String variable) {
-        String[] terms = string.replaceAll("-", "+-").replace(" ", "").split("\\+");
-
-        Builder<Integer> p = new Builder<>(Integers.getInstance());
-
-        for (String term : terms) {
-            String[] s = term.split(variable);
-
-            int power = -1;
-            int coefficient;
-
-            if (s.length == 0) {
-                // A term of just "x"
-                power = 1;
-                coefficient = 1;
-            } else {
-                if (s.length == 2) {
-                    power = Integer.parseInt(s[1].replaceAll("\\^", ""));
-                } else if (s.length == 1) {
-                    if (term.contains(variable)) {
-                        power = 1;
-                    } else {
-                        power = 0;
-                    }
-                }
-
-                if (s[0].length() > 0) {
-                    coefficient = Integer.parseInt(s[0]);
-                } else {
-                    coefficient = 1;
-                }
-            }
-            p.set(power, coefficient);
-        }
-
-        return p.build();
-    }
-
-    public static Polynomial<Integer> parse(String polynomial, String variable) {
-        return parsePolynomial(polynomial, variable);
-    }
-
-    public static Polynomial<Integer> parse(String polynomial) {
-        return parsePolynomial(polynomial, "x");
     }
 
     public void forEach(BiConsumer<Integer, E> consumer) {

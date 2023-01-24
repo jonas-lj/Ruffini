@@ -222,5 +222,5 @@ public interface Matrix<E> extends BiFunction<Vector<E>, Ring<E>, Vector<E>> {
                 .flatMap(i -> IntStream.range(0, getWidth()).mapToObj(j -> get(i, j)));
     }
 
-
+    String toString(Function<E, String> toString);
 }

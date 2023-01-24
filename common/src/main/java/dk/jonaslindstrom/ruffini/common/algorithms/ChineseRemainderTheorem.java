@@ -29,8 +29,8 @@ public class ChineseRemainderTheorem<E> implements BiFunction<Vector<E>, Vector<
 
         Calculator<E> c = new Calculator<>(domain);
 
-        E x = c.sum(c.mul(a.get(0), bezout.third, m.get(1)),
-                c.mul(a.get(1), bezout.second, m.get(0)));
+        E x = c.sum(c.mul(a.get(0), bezout.getThird(), m.get(1)),
+                c.mul(a.get(1), bezout.getSecond(), m.get(0)));
 
         x = domain.divisionWithRemainder(x, domain.multiply(m.get(0), m.get(1))).second;
 

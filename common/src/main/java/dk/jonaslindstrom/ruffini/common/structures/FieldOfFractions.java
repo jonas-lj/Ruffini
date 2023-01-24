@@ -23,13 +23,13 @@ public class FieldOfFractions<E> implements Field<Fraction<E>> {
 
     @Override
     public Fraction<E> invert(Fraction<E> a) {
-        return reduce(a.getDenominator(), a.getNumerator());
+        return reduce(a.denominator(), a.numerator());
     }
 
     @Override
     public Fraction<E> multiply(Fraction<E> a, Fraction<E> b) {
-        E nominator = baseRing.multiply(a.getNumerator(), b.getNumerator());
-        E denominator = baseRing.multiply(a.getDenominator(), b.getDenominator());
+        E nominator = baseRing.multiply(a.numerator(), b.numerator());
+        E denominator = baseRing.multiply(a.denominator(), b.denominator());
         return reduce(nominator, denominator);
     }
 
@@ -40,20 +40,20 @@ public class FieldOfFractions<E> implements Field<Fraction<E>> {
 
     @Override
     public String toString(Fraction<E> a) {
-        return baseRing.toString(a.getNumerator()) + " / " + baseRing.toString(a.getDenominator());
+        return baseRing.toString(a.numerator()) + " / " + baseRing.toString(a.denominator());
     }
 
     @Override
     public Fraction<E> add(Fraction<E> a, Fraction<E> b) {
-        E nominator = baseRing.add(baseRing.multiply(a.getNumerator(), b.getDenominator()),
-                baseRing.multiply(a.getDenominator(), b.getNumerator()));
-        E denominator = baseRing.multiply(a.getDenominator(), b.getDenominator());
+        E nominator = baseRing.add(baseRing.multiply(a.numerator(), b.denominator()),
+                baseRing.multiply(a.denominator(), b.numerator()));
+        E denominator = baseRing.multiply(a.denominator(), b.denominator());
         return reduce(nominator, denominator);
     }
 
     @Override
     public Fraction<E> negate(Fraction<E> a) {
-        return reduce(baseRing.negate(a.getNumerator()), a.getDenominator());
+        return reduce(baseRing.negate(a.numerator()), a.denominator());
     }
 
     @Override
@@ -63,8 +63,8 @@ public class FieldOfFractions<E> implements Field<Fraction<E>> {
 
     @Override
     public boolean equals(Fraction<E> a, Fraction<E> b) {
-        E lhs = baseRing.multiply(a.getNumerator(), b.getDenominator());
-        E rhs = baseRing.multiply(b.getNumerator(), a.getDenominator());
+        E lhs = baseRing.multiply(a.numerator(), b.denominator());
+        E rhs = baseRing.multiply(b.numerator(), a.denominator());
         return baseRing.equals(lhs, rhs);
     }
 

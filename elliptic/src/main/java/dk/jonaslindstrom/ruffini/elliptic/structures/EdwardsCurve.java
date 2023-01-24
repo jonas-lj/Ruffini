@@ -29,7 +29,7 @@ public class EdwardsCurve<E> implements AdditiveGroup<EdwardsPoint<E>> {
 
     @Override
     public boolean equals(EdwardsPoint<E> a, EdwardsPoint<E> b) {
-        return field.equals(a.x, b.x) && field.equals(a.y, b.y);
+        return field.equals(a.x(), b.x()) && field.equals(a.y(), b.y());
     }
 
     @SafeVarargs
@@ -47,10 +47,10 @@ public class EdwardsCurve<E> implements AdditiveGroup<EdwardsPoint<E>> {
     @Override
     public EdwardsPoint<E> add(EdwardsPoint<E> a, EdwardsPoint<E> b) {
 
-        E n1 = field.add(field.multiply(a.x, b.y), field.multiply(a.y, b.x));
-        E n2 = field.subtract(field.multiply(a.y, b.y), field.multiply(a.x, b.x));
+        E n1 = field.add(field.multiply(a.x(), b.y()), field.multiply(a.y(), b.x()));
+        E n2 = field.subtract(field.multiply(a.y(), b.y()), field.multiply(a.x(), b.x()));
 
-        E p = multiply(d, a.x, b.x, a.y, b.y);
+        E p = multiply(d, a.x(), b.x(), a.y(), b.y());
         E d1 = field.add(field.getIdentity(), p);
         E d2 = field.subtract(field.getIdentity(), p);
 
@@ -59,7 +59,7 @@ public class EdwardsCurve<E> implements AdditiveGroup<EdwardsPoint<E>> {
 
     @Override
     public EdwardsPoint<E> negate(EdwardsPoint<E> a) {
-        return new EdwardsPoint<>(field.negate(a.x), a.y);
+        return new EdwardsPoint<>(field.negate(a.x()), a.y());
     }
 
     @Override
@@ -77,10 +77,10 @@ public class EdwardsCurve<E> implements AdditiveGroup<EdwardsPoint<E>> {
         E B = field.invert(e);
         return Pair.of(new MontgomeryCurve<>(field, A, B),
                 p -> {
-                    E py = field.add(field.getIdentity(), p.y);
-                    E my = field.subtract(field.getIdentity(), p.y);
+                    E py = field.add(field.getIdentity(), p.y());
+                    E my = field.subtract(field.getIdentity(), p.y());
                     E u = field.divide(py, my);
-                    E v = field.divide(field.add(py, py), field.multiply(p.x, my));
+                    E v = field.divide(field.add(py, py), field.multiply(p.x(), my));
                     return new AffinePoint<>(u, v);
                 });
     }

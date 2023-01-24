@@ -6,7 +6,9 @@ import dk.jonaslindstrom.ruffini.common.algorithms.DotProduct;
 import dk.jonaslindstrom.ruffini.common.vector.ConcreteVector;
 import dk.jonaslindstrom.ruffini.common.vector.Vector;
 
+import java.util.Objects;
 import java.util.function.BiPredicate;
+import java.util.function.Function;
 import java.util.stream.IntStream;
 
 public abstract class BaseMatrix<E> implements Matrix<E> {
@@ -27,15 +29,19 @@ public abstract class BaseMatrix<E> implements Matrix<E> {
         return new ConcreteVector<>(getHeight(), i -> innerProduct.apply(getRow(i), b));
     }
 
+
     @Override
     public String toString() {
+        return toString(Objects::toString);
+    }
 
+    public String toString(Function<E, String> toString) {
         // Assume LaTeX asmmath package is loaded
         StringBuilder sb = new StringBuilder();
         sb.append("\\begin{pmatrix}\n");
         for (int i = 0; i < getHeight(); i++) {
             for (int j = 0; j < getWidth(); j++) {
-                sb.append(get(i, j).toString());
+                sb.append(toString.apply(get(i, j)));
                 sb.append(" ");
                 if (j < getWidth() - 1) {
                     sb.append("& ");

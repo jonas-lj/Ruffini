@@ -47,7 +47,7 @@ public class ShortWeierstrassCurveProjective<E> implements AdditiveGroup<Project
 
     @Override
     public ProjectivePoint<E> negate(ProjectivePoint<E> p) {
-        return new ProjectivePoint<>(p.X, field.negate(p.Y), p.Z);
+        return new ProjectivePoint<>(p.X(), field.negate(p.Y()), p.Z());
     }
 
     @Override
@@ -55,19 +55,19 @@ public class ShortWeierstrassCurveProjective<E> implements AdditiveGroup<Project
 
         // add-2007-bl by Bernstein and Lange
         //compute U1 = X1 Z2
-        E u1 = field.multiply(p.X, q.Z);
+        E u1 = field.multiply(p.X(), q.Z());
 
         //compute U2 = X2 Z1
-        E u2 = field.multiply(q.X, p.Z);
+        E u2 = field.multiply(q.X(), p.Z());
 
         //compute S1 = Y1 Z2
-        E s1 = field.multiply(p.Y, q.Z);
+        E s1 = field.multiply(p.Y(), q.Z());
 
         //compute S2 = Y2 Z1
-        E s2 = field.multiply(q.Y, p.Z);
+        E s2 = field.multiply(q.Y(), p.Z());
 
         //compute ZZ = Z1 Z2
-        E zz = field.multiply(p.Z, q.Z);
+        E zz = field.multiply(p.Z(), q.Z());
 
         //compute T = U1+U2
         E t = field.add(u1, u2);
@@ -124,22 +124,22 @@ public class ShortWeierstrassCurveProjective<E> implements AdditiveGroup<Project
 
     @Override
     public boolean equals(ProjectivePoint<E> p, ProjectivePoint<E> q) {
-        return field.equals(field.multiply(p.X, q.Z), field.multiply(q.X, p.Z)) && field.equals(field.multiply(p.Y, q.Z), field.multiply(q.Y, p.Z));
+        return field.equals(field.multiply(p.X(), q.Z()), field.multiply(q.X(), p.Z())) && field.equals(field.multiply(p.Y(), q.Z()), field.multiply(q.Y(), p.Z()));
     }
 
     @Override
     public ProjectivePoint<E> doubling(ProjectivePoint<E> p) {
         //compute XX = X1^2
-        E xx = field.multiply(p.X, p.X);
+        E xx = field.multiply(p.X(), p.X());
 
         //compute ZZ = Z1^2
-        E zz = field.multiply(p.Z, p.Z);
+        E zz = field.multiply(p.Z(), p.Z());
 
         //compute w = a ZZ+3 XX
         E w = field.add(field.multiply(a, zz), field.add(xx, xx, xx));
 
         //compute s = 2 Y1 Z1
-        E yz = field.multiply(p.Y, p.Z);
+        E yz = field.multiply(p.Y(), p.Z());
         E s = field.doubling(yz);
 
         //compute ss = s^2
@@ -149,13 +149,13 @@ public class ShortWeierstrassCurveProjective<E> implements AdditiveGroup<Project
         E sss = field.multiply(s, ss);
 
         //compute R = Y1 s
-        E r = field.multiply(p.Y, s);
+        E r = field.multiply(p.Y(), s);
 
         //compute RR = R^2
         E rr = field.multiply(r, r);
 
         //compute B = (X1+R)^2-XX-RR
-        E xpr = field.add(p.X, r);
+        E xpr = field.add(p.X(), r);
         E b = field.subtract(field.multiply(xpr, xpr), field.add(xx, rr));
 
         //compute h = w^2-2 B

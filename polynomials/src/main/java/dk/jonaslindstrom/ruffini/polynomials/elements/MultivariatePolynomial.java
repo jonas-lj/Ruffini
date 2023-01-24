@@ -11,6 +11,7 @@ import dk.jonaslindstrom.ruffini.polynomials.ordering.MonomialOrdering;
 import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 
 public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>, E> {
@@ -98,16 +99,33 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
         return new MultivariatePolynomial<>(variables, newTerms);
     }
 
+    private String getVariable(int i) {
+        if (this.variables < 4) {
+            if (i == 0) {
+                return "x";
+            } else if (i == 1) {
+                return "y";
+            } else if (i == 2) {
+                return "z";
+            }
+        }
+        return "x_" + (i + 1);
+    }
+
     @Override
     public String toString() {
+        return toString(this::getVariable);
+    }
+
+    public String toString(IntFunction<String> variables) {
         List<String> termsAsString = terms.keySet().stream().map(monomial -> {
             String coefficient = terms.get(monomial).toString();
             if (coefficient.equals("1")) {
-                return monomial.toString();
+                return monomial.toString(variables);
             } else if (coefficient.equals("-1")) {
-                return "-" + monomial.toString();
+                return "-" + monomial.toString(variables);
             }
-            return coefficient + " " + monomial.toString();
+            return coefficient + " " + monomial.toString(variables);
         }).collect(Collectors.toList());
         return StringUtils.sumToString(termsAsString);
     }

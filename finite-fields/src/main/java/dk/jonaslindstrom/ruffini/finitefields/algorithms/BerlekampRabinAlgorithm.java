@@ -4,6 +4,7 @@ import dk.jonaslindstrom.ruffini.common.algorithms.EuclideanAlgorithm;
 import dk.jonaslindstrom.ruffini.common.algorithms.Power;
 import dk.jonaslindstrom.ruffini.common.structures.QuotientRing;
 import dk.jonaslindstrom.ruffini.finitefields.PrimeField;
+import dk.jonaslindstrom.ruffini.integers.IntegerPolynomial;
 import dk.jonaslindstrom.ruffini.polynomials.elements.Polynomial;
 import dk.jonaslindstrom.ruffini.polynomials.structures.PolynomialRing;
 
@@ -61,11 +62,11 @@ public class BerlekampRabinAlgorithm implements Function<Polynomial<Integer>, In
 
             // fₖ = f(x - k)
             Polynomial<Integer> fₖ = f.mapCoefficients(Polynomial::constant)
-                    .apply(Polynomial.of(𝔽ₚ.negate(k), 1), 𝔽ₚx);
+                    .apply(IntegerPolynomial.of(𝔽ₚ.negate(k), 1), 𝔽ₚx);
 
             QuotientRing<Polynomial<Integer>> 𝔽ₚxmodf = new QuotientRing<>(𝔽ₚx, f);
 
-            Polynomial<Integer> gₖ = new Power<>(𝔽ₚxmodf).apply(Polynomial.of(0, 1), (p - 1) / 2);
+            Polynomial<Integer> gₖ = new Power<>(𝔽ₚxmodf).apply(IntegerPolynomial.of(0, 1), (p - 1) / 2);
             if (𝔽ₚx.equals(gₖ, Polynomial.constant(-1)) || 𝔽ₚx.equals(gₖ, Polynomial.constant(1))) {
                 continue;
             }
@@ -75,7 +76,7 @@ public class BerlekampRabinAlgorithm implements Function<Polynomial<Integer>, In
                     𝔽ₚx.subtract(gₖ, 𝔽ₚx.getIdentity()));
 
             for (Polynomial<Integer> candidate : candidates) {
-                Polynomial<Integer> g = gcd.extendedGcd(fₖ, candidate).first;
+                Polynomial<Integer> g = gcd.extendedGcd(fₖ, candidate).getFirst();
                 if (g.degree() > 0) {
                     return 𝔽ₚ.subtract(apply(g), k);
                 }

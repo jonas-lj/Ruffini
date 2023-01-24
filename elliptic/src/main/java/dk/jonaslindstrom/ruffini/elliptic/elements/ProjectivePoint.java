@@ -4,15 +4,7 @@ import dk.jonaslindstrom.ruffini.common.abstractions.Field;
 
 import java.util.function.Predicate;
 
-public class ProjectivePoint<E> {
-
-    public final E X, Y, Z;
-
-    public ProjectivePoint(E X, E Y, E Z) {
-        this.X = X;
-        this.Y = Y;
-        this.Z = Z;
-    }
+public record ProjectivePoint<E>(E X, E Y, E Z) {
 
     public static <F> ProjectivePoint<F> pointAtInfinity(Field<F> field) {
         return new ProjectivePoint<>(field.getZero(), field.getIdentity(), field.getZero());

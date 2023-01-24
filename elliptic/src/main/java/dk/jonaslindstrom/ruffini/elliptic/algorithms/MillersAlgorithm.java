@@ -58,41 +58,41 @@ public class MillersAlgorithm<E> implements
 
     private Fraction<MultivariatePolynomial<E>> g(AffinePoint<E> p, AffinePoint<E> q) {
 
-        if (field.equals(p.x, q.x) && !curve.equals(p, q)) {
+        if (field.equals(p.x(), q.x()) && !curve.equals(p, q)) {
 
             // Vertical slope
             MultivariatePolynomial.Builder<E> builder = new MultivariatePolynomial.Builder<>(2, field);
             builder.add(field.getIdentity(), 1, 0);
-            builder.add(field.negate(p.x), 0, 0);
+            builder.add(field.negate(p.x()), 0, 0);
             return new Fraction<>(builder.build(), polynomialRing.getIdentity());
 
         } else {
 
-            E lambda;
+            E λ;
             if (curve.equals(p, q)) {
                 // Compute tangent
-                E xSquare = field.multiply(p.x, p.x);
-                lambda = field.divide(
+                E xSquare = field.multiply(p.x(), p.x());
+                λ = field.divide(
                         field.add(xSquare, xSquare, xSquare, curve.getA()),
-                        field.add(p.y, p.y));
+                        field.add(p.y(), p.y()));
             } else {
                 // Compute slope
-                lambda = field.divide(
-                        field.subtract(q.y, p.y),
-                        field.subtract(q.x, p.x));
+                λ = field.divide(
+                        field.subtract(q.y(), p.y()),
+                        field.subtract(q.x(), p.x()));
             }
 
-            // y - l x - l px - py
+            // y - λ x - λ px - py
             MultivariatePolynomial.Builder<E> builder = new MultivariatePolynomial.Builder<>(2, field);
             builder.add(field.getIdentity(), 0, 1);
-            builder.add(field.negate(lambda), 1, 0);
-            builder.add(field.subtract(field.multiply(lambda, p.x), p.y), 0, 0);
+            builder.add(field.negate(λ), 1, 0);
+            builder.add(field.subtract(field.multiply(λ, p.x()), p.y()), 0, 0);
             MultivariatePolynomial<E> numerator = builder.build();
 
-            // x + px + qx - l^2
+            // x + px + qx - λ^2
             builder = new MultivariatePolynomial.Builder<>(2, field);
             builder.add(field.getIdentity(), 1, 0);
-            builder.add(field.subtract(field.add(p.x, q.x), field.multiply(lambda, lambda)), 0, 0);
+            builder.add(field.subtract(field.add(p.x(), q.x()), field.multiply(λ, λ)), 0, 0);
             MultivariatePolynomial<E> denominator = builder.build();
 
             return new Fraction<>(numerator, denominator);
@@ -100,9 +100,9 @@ public class MillersAlgorithm<E> implements
     }
 
     private E evaluate(Fraction<MultivariatePolynomial<E>> polynomial, AffinePoint<E> point) {
-        Vector<E> v = Vector.of(point.x, point.y);
-        return field.divide(polynomial.getNumerator().apply(v, field),
-                polynomial.getDenominator().apply(v, field));
+        Vector<E> v = Vector.of(point.x(), point.y());
+        return field.divide(polynomial.numerator().apply(v, field),
+                polynomial.denominator().apply(v, field));
     }
 
 }

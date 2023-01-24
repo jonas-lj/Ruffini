@@ -2,6 +2,8 @@ package dk.jonaslindstrom.ruffini.elliptic.structures;
 
 import dk.jonaslindstrom.ruffini.common.abstractions.AdditiveGroup;
 import dk.jonaslindstrom.ruffini.common.abstractions.Field;
+import dk.jonaslindstrom.ruffini.common.algorithms.Multiply;
+import dk.jonaslindstrom.ruffini.common.algorithms.Power;
 import dk.jonaslindstrom.ruffini.common.util.Pair;
 import dk.jonaslindstrom.ruffini.elliptic.elements.AffinePoint;
 import dk.jonaslindstrom.ruffini.polynomials.elements.Polynomial;
@@ -32,6 +34,13 @@ public class MontgomeryCurve<E> implements AdditiveGroup<AffinePoint<E>> {
         return field.multiply(B, field.subtract(field.multiply(A, A), field.integer(4)));
     }
 
+    public E jInvariant() {
+        Multiply<E> multiply = new Multiply<>(field);
+        Power<E> power = new Power<>(field);
+        return field.divide(multiply.apply(1728 * 4, power.apply(this.A, 3)),
+                field.add(multiply.apply(4, power.apply(this.A, 3)), multiply.apply(27, power.apply(this.B, 2))));
+    }
+
     @Override
     public String toString(AffinePoint<E> a) {
         return a.toString();
@@ -44,7 +53,7 @@ public class MontgomeryCurve<E> implements AdditiveGroup<AffinePoint<E>> {
         } else if (b.isPointAtInfinity()) {
             return a.isPointAtInfinity();
         }
-        return field.equals(a.x, b.x) && field.equals(a.y, b.y);
+        return field.equals(a.x(), b.x()) && field.equals(a.y(), b.y());
     }
 
     @Override
@@ -58,28 +67,28 @@ public class MontgomeryCurve<E> implements AdditiveGroup<AffinePoint<E>> {
         }
 
         E λ;
-        if (!p.x.equals(q.x)) {
-            λ = field.divide(field.subtract(q.y, p.y), field.subtract(q.x, p.x));
-        } else if (field.equals(p.y, field.negate(q.y))) {
+        if (!p.x().equals(q.x())) {
+            λ = field.divide(field.subtract(q.y(), p.y()), field.subtract(q.x(), p.x()));
+        } else if (field.equals(p.y(), field.negate(q.y()))) {
             return AffinePoint.pointAtInfinity();
         } else {
             λ = field.divide(
                     field.add(
-                            field.multiply(field.integer(3), field.multiply(p.x, p.x)),
-                            field.multiply(field.integer(2), A, p.x),
+                            field.multiply(field.integer(3), field.multiply(p.x(), p.x())),
+                            field.multiply(field.integer(2), A, p.x()),
                             field.getIdentity()),
-                    field.multiply(field.integer(2), B, p.y));
+                    field.multiply(field.integer(2), B, p.y()));
         }
 
-        E x = field.subtract(field.multiply(B, field.multiply(λ, λ)), field.add(p.x, q.x, A));
-        E y = field.subtract(field.multiply(λ, field.subtract(p.x, x)), p.y);
+        E x = field.subtract(field.multiply(B, field.multiply(λ, λ)), field.add(p.x(), q.x(), A));
+        E y = field.subtract(field.multiply(λ, field.subtract(p.x(), x)), p.y());
 
         return new AffinePoint<>(x, y);
     }
 
     @Override
     public AffinePoint<E> negate(AffinePoint<E> p) {
-        return new AffinePoint<>(p.x, field.negate(p.y));
+        return new AffinePoint<>(p.x(), field.negate(p.y()));
     }
 
     @Override
@@ -108,7 +117,7 @@ public class MontgomeryCurve<E> implements AdditiveGroup<AffinePoint<E>> {
                 field.multiply(27, field.power(B, 3)));
 
         return Pair.of(new ShortWeierstrassCurveAffine<>(field, a, b),
-                p -> new AffinePoint<>(field.add(field.divide(p.x, B), field.divide(A, field.multiply(3, B))),
-                        field.divide(p.y, B)));
+                p -> new AffinePoint<>(field.add(field.divide(p.x(), B), field.divide(A, field.multiply(3, B))),
+                        field.divide(p.y(), B)));
     }
 }

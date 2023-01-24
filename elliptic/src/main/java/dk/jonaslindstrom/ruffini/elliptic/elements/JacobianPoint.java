@@ -4,15 +4,7 @@ import dk.jonaslindstrom.ruffini.common.abstractions.Field;
 
 import java.util.function.Predicate;
 
-public class JacobianPoint<E> {
-
-    public final E X, Y, Z;
-
-    public JacobianPoint(E X, E Y, E Z) {
-        this.X = X;
-        this.Y = Y;
-        this.Z = Z;
-    }
+public record JacobianPoint<E>(E X, E Y, E Z) {
 
     public static <F> JacobianPoint<F> pointAtInfinity(Field<F> field) {
         return new JacobianPoint<>(field.getZero(), field.getIdentity(), field.getZero());

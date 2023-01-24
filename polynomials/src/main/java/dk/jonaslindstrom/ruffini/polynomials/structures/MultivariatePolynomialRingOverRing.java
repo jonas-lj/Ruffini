@@ -5,6 +5,7 @@ import dk.jonaslindstrom.ruffini.common.util.Pair;
 import dk.jonaslindstrom.ruffini.polynomials.elements.Monomial;
 import dk.jonaslindstrom.ruffini.polynomials.elements.MultivariatePolynomial;
 
+import java.util.List;
 import java.util.Objects;
 
 /**

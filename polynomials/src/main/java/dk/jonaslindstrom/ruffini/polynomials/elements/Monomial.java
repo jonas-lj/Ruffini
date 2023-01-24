@@ -6,6 +6,7 @@ import dk.jonaslindstrom.ruffini.common.vector.Vector;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.function.IntFunction;
 import java.util.stream.IntStream;
 
 public class Monomial implements Iterable<Integer> {
@@ -124,13 +125,17 @@ public class Monomial implements Iterable<Integer> {
     }
 
     public String toString() {
+        return toString(this::getVariable);
+    }
+
+    public String toString(IntFunction<String> variables) {
 
         StringBuilder sb = new StringBuilder();
         int[] nonZero = IntStream.range(0, degree.length).filter(i -> degree[i] > 0).toArray();
 
         for (int i = 0; i < nonZero.length; i++) {
             int termIndex = nonZero[i];
-            sb.append(getVariable(termIndex));
+            sb.append(variables.apply(termIndex));
             if (degree[termIndex] > 1) {
                 sb.append("^").append(degree[termIndex]);
             }

@@ -7,7 +7,7 @@ import java.math.BigInteger;
 import java.util.Objects;
 
 public class TestUtils {
-    public static class TestIntegers implements Ring<Integer> {
+    public static class TestIntegers implements EuclideanDomain<Integer> {
 
         @Override
         public Integer negate(Integer a) {
@@ -42,6 +42,18 @@ public class TestUtils {
         @Override
         public boolean equals(Integer a, Integer b) {
             return Objects.equals(a, b);
+        }
+
+        @Override
+        public Pair<Integer, Integer> divisionWithRemainder(Integer a, Integer b) {
+            int q =  Math.floorDiv(a, b);
+            int r = a - q*b;
+            return Pair.of(q, r);
+        }
+
+        @Override
+        public BigInteger norm(Integer a) {
+            return BigInteger.valueOf(a >= 0 ? a : -a);
         }
     }
 

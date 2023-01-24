@@ -51,7 +51,7 @@ public class ShortWeierstrassCurveAffine<E> implements AdditiveGroup<AffinePoint
         } else if (b.isPointAtInfinity()) {
             return a.isPointAtInfinity();
         }
-        return field.equals(a.x, b.x) && field.equals(a.y, b.y);
+        return field.equals(a.x(), b.x()) && field.equals(a.y(), b.y());
     }
 
     @Override
@@ -65,24 +65,24 @@ public class ShortWeierstrassCurveAffine<E> implements AdditiveGroup<AffinePoint
         }
 
         E s;
-        if (field.equals(p.x, q.x)) {
-            if (field.equals(p.y, field.negate(q.y))) {
+        if (field.equals(p.x(), q.x())) {
+            if (field.equals(p.y(), field.negate(q.y()))) {
                 return AffinePoint.pointAtInfinity();
             }
-            s = field.divide(field.add(field.multiply(three, p.x, p.x), a),
-                    field.add(p.y, p.y));
+            s = field.divide(field.add(field.multiply(three, p.x(), p.x()), a),
+                    field.add(p.y(), p.y()));
         } else {
-            s = field.divide(field.subtract(q.y, p.y), field.subtract(q.x, p.x));
+            s = field.divide(field.subtract(q.y(), p.y()), field.subtract(q.x(), p.x()));
         }
 
-        E x = field.subtract(field.multiply(s, s), field.add(p.x, q.x));
-        E y = field.subtract(field.multiply(s, field.subtract(p.x, x)), p.y);
+        E x = field.subtract(field.multiply(s, s), field.add(p.x(), q.x()));
+        E y = field.subtract(field.multiply(s, field.subtract(p.x(), x)), p.y());
         return new AffinePoint<>(x, y);
     }
 
     @Override
     public AffinePoint<E> negate(AffinePoint<E> p) {
-        return new AffinePoint<>(p.x, field.negate(p.y));
+        return new AffinePoint<>(p.x(), field.negate(p.y()));
     }
 
     @Override

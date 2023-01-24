@@ -6,14 +6,7 @@ package dk.jonaslindstrom.ruffini.elliptic.elements;
  *
  * @param <E> The element type for the underlying field.
  */
-public class EdwardsPoint<E> {
-
-    public final E x, y;
-
-    public EdwardsPoint(E x, E y) {
-        this.x = x;
-        this.y = y;
-    }
+public record EdwardsPoint<E>(E x, E y) {
 
     public String toString() {
         return String.format("(%s, %s)", x.toString(), y.toString());

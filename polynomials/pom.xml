@@ -23,12 +23,6 @@
             <artifactId>common</artifactId>
             <version>0.2</version>
         </dependency>
-        <dependency>
-            <groupId>dk.jonaslindstrom</groupId>
-            <artifactId>integers</artifactId>
-            <version>0.2</version>
-            <scope>compile</scope>
-        </dependency>
     </dependencies>
 
 </project>
