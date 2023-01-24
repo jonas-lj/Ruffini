@@ -51,7 +51,7 @@ mvn clean install
 and the documentation with
 
 ```
-mvn javadoc:javadoc
+mvn javadoc:aggregate
 ```
 
 <!-- USAGE EXAMPLES -->
