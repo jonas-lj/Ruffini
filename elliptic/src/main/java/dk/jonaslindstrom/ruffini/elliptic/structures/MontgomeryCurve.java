@@ -16,8 +16,8 @@ import java.util.function.UnaryOperator;
  */
 public class MontgomeryCurve<E> implements AdditiveGroup<AffinePoint<E>> {
 
-    private final E A, B;
-    private final Field<E> field;
+    protected final E A, B;
+    protected final Field<E> field;
 
     public MontgomeryCurve(Field<E> field, E A, E B) {
         this.field = field;

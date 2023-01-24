@@ -24,7 +24,7 @@ public class AlgorithmsTests {
         for (int i = 0; i < tests; i++) {
             BigInteger x = new BigInteger(64, random);
             BigInteger s = new BigInteger(64, random);
-            BigInteger result = new BigMultiply<>(integers).apply(s, x);
+            BigInteger result = new Multiply<>(integers).apply(s, x);
             BigInteger expected = s.multiply(x);
             Assert.assertEquals(expected, result);
         }

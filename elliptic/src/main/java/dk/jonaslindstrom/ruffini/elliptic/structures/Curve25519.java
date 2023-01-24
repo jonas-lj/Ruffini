@@ -1,10 +1,16 @@
 package dk.jonaslindstrom.ruffini.elliptic.structures;
 
+import dk.jonaslindstrom.ruffini.common.exceptions.InvalidParametersException;
+import dk.jonaslindstrom.ruffini.common.exceptions.NotASquareException;
+import dk.jonaslindstrom.ruffini.common.util.EncodingUtils;
 import dk.jonaslindstrom.ruffini.elliptic.elements.AffinePoint;
 import dk.jonaslindstrom.ruffini.finitefields.BigPrimeField;
+import dk.jonaslindstrom.ruffini.finitefields.algorithms.BigTonelliShanks;
 
 import java.math.BigInteger;
 import java.util.Arrays;
+
+import static dk.jonaslindstrom.ruffini.common.util.ArrayUtils.reverse;
 
 public class Curve25519 extends MontgomeryCurve<BigInteger> {
 
@@ -18,12 +24,13 @@ public class Curve25519 extends MontgomeryCurve<BigInteger> {
     public static BigInteger A = new BigInteger("486662");
 
     private static BigInteger A24 = new BigInteger("121665"); // = (A - 2) / 4
+    private Curve25519 curve25519;
 
     public Curve25519() {
         super(new BigPrimeField(P), A, BigInteger.ONE);
     }
 
-    public static BigInteger decodeScalar(byte[] bytes) {
+    public BigInteger decodeScalar(byte[] bytes) {
         if (bytes.length != 32) {
             throw new IllegalArgumentException("Input array must contain exactly 32 bytes");
         }
@@ -32,10 +39,10 @@ public class Curve25519 extends MontgomeryCurve<BigInteger> {
         clamped[31] &= 127;
         clamped[31] |= 64;
 
-        return new BigInteger(1, reverse(clamped)).mod(P);
+        return EncodingUtils.decode(clamped, true).mod(P);
     }
 
-    public static BigInteger decodePoint(byte[] bytes) {
+    public AffinePoint<BigInteger> decodePoint(byte[] bytes) throws InvalidParametersException {
         if (bytes.length != 32) {
             throw new IllegalArgumentException("Input array must contain exactly 32 bytes");
         }
@@ -43,21 +50,21 @@ public class Curve25519 extends MontgomeryCurve<BigInteger> {
         byte[] inputBytes = Arrays.copyOf(bytes, bytes.length);
         inputBytes[31] &= 127;
 
-        return new BigInteger(reverse(inputBytes)).mod(P);
+        BigInteger x = EncodingUtils.decode(inputBytes, true).mod(P);
+        BigInteger ySquared = field.add(field.multiply(x, x, x), field.multiply(A, x, x), x);
+        BigTonelliShanks squareRoot = new BigTonelliShanks((BigPrimeField) field);
+        try {
+            BigInteger y = squareRoot.apply(ySquared);
+            return new AffinePoint<>(x, y);
+
+        } catch (NotASquareException e) {
+            throw new InvalidParametersException("The given encoding is not a valid point");
+        }
     }
 
     public static byte[] encodePoint(AffinePoint<BigInteger> point) {
         return reverse(point.x().toByteArray());
     }
 
-    /**
-     * Return a copy of the given array with the entries in reversed order
-     */
-    private static byte[] reverse(byte[] bytes) {
-        byte[] reversed = new byte[bytes.length];
-        for (int i = 0; i < bytes.length; i++) {
-            reversed[i] = bytes[bytes.length - i - 1];
-        }
-        return reversed;
-    }
+
 }

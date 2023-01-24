@@ -1,6 +1,5 @@
 package dk.jonaslindstrom.ruffini.common.abstractions;
 
-import dk.jonaslindstrom.ruffini.common.algorithms.BigMultiply;
 import dk.jonaslindstrom.ruffini.common.algorithms.Multiply;
 
 import java.math.BigInteger;
@@ -27,7 +26,7 @@ public interface AdditiveGroup<E> extends CommutativeMonoid<E> {
      * Return <i>e</i> added to it self <i>n</i> times in this monoid
      */
     default E scale(BigInteger n, E e) {
-        return new BigMultiply<>(this).apply(n, e);
+        return new Multiply<>(this).apply(n, e);
     }
 
     /**

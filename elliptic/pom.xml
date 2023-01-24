@@ -12,6 +12,11 @@
     <artifactId>elliptic</artifactId>
     <dependencies>
         <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.15</version>
+        </dependency>
+        <dependency>
             <groupId>dk.jonaslindstrom</groupId>
             <artifactId>common</artifactId>
             <version>0.3-SNAPSHOT</version>

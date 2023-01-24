@@ -2,16 +2,14 @@ package demo;
 
 import dk.jonaslindstrom.ruffini.common.abstractions.AdditiveGroup;
 import dk.jonaslindstrom.ruffini.common.abstractions.Field;
-import dk.jonaslindstrom.ruffini.common.algorithms.BigMultiply;
+import dk.jonaslindstrom.ruffini.common.algorithms.Multiply;
 import dk.jonaslindstrom.ruffini.common.exceptions.NotInvertibleException;
 import dk.jonaslindstrom.ruffini.elliptic.elements.AffinePoint;
 import dk.jonaslindstrom.ruffini.elliptic.structures.ShortWeierstrassCurveAffine;
 import dk.jonaslindstrom.ruffini.finitefields.BigPrimeField;
 
 import java.math.BigInteger;
-import java.util.List;
 import java.util.Random;
-import java.util.function.UnaryOperator;
 
 /**
  * Implementation of the elliptic-curve factorization method (ECM). See
@@ -57,9 +55,7 @@ public class ECMDemo {
 
                 AdditiveGroup<AffinePoint<BigInteger>> E = new ShortWeierstrassCurveAffine<>(ℤn, a, b);
                 AffinePoint<BigInteger> P = new AffinePoint<>(x, y);
-                BigMultiply<AffinePoint<BigInteger>> multiply = new BigMultiply<>(E);
-
-
+                Multiply<AffinePoint<BigInteger>> multiply = new Multiply<>(E);
 
                 try {
                     AffinePoint<BigInteger> Q = multiply.apply(k, P);

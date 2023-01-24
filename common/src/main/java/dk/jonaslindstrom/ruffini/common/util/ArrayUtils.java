@@ -238,4 +238,15 @@ public class ArrayUtils {
         S = Arrays.copyOfRange(S, 0, s);
         return S;
     }
+
+    /**
+     * Return a copy of the given array with the entries in reversed order
+     */
+    public static byte[] reverse(byte[] bytes) {
+        byte[] reversed = new byte[bytes.length];
+        for (int i = 0; i < bytes.length; i++) {
+            reversed[i] = bytes[bytes.length - i - 1];
+        }
+        return reversed;
+    }
 }
