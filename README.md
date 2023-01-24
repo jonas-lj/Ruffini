@@ -1,3 +1,5 @@
+[![Javadoc](https://img.shields.io/badge/JavaDoc-Online-green)](https://jonas-lj.github.io/Ruffini/overview-tree.html)
+
 <!-- PROJECT LOGO -->
 <h1>Ruffini</h1>
 
