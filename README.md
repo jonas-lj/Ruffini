@@ -1,3 +1,5 @@
+![Maven](https://github.com/jonas-lj/Ruffini/actions/workflows/maven.yml/badge.svg) [![Javadoc](https://img.shields.io/badge/JavaDoc-Online-green)](https://jonas-lj.github.io/Ruffini/overview-tree.html)
+
 <!-- PROJECT LOGO -->
 <h1>Ruffini</h1>
 
