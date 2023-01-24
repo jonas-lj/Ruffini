@@ -15,6 +15,6 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           javadoc-branch: javadoc
-          java-version: 13
+          java-version: 16
           target-folder: javadoc # url will be https://<username>.github.io/<repo>/javadoc
           project: maven # or gradle
