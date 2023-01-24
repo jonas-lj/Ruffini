@@ -31,7 +31,7 @@ jobs:
       run: mvn -B package --file pom.xml
 
     - name: Build javadoc
-      run: mvn javadoc:aggregate
+      run: mvn -B javadoc:aggregate --file pom.xml
     
     - name: Deploy javadoc 🚀
       uses: JamesIves/github-pages-deploy-action@v4
