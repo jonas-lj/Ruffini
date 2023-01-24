@@ -28,6 +28,7 @@ public class AKS {
         test(new BigInteger("14197"));
         test(new BigInteger("4294967297"));
     }
+
     private static void test(BigInteger n) {
         System.out.println(n + " is " + (aks(n) ? "" : "not ") + "a prime.");
     }

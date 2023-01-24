@@ -1,7 +1,6 @@
 package dk.jonaslindstrom.ruffini.common.util;
 
 import dk.jonaslindstrom.ruffini.common.abstractions.EuclideanDomain;
-import dk.jonaslindstrom.ruffini.common.abstractions.Ring;
 
 import java.math.BigInteger;
 import java.util.Objects;
@@ -46,8 +45,8 @@ public class TestUtils {
 
         @Override
         public Pair<Integer, Integer> divisionWithRemainder(Integer a, Integer b) {
-            int q =  Math.floorDiv(a, b);
-            int r = a - q*b;
+            int q = Math.floorDiv(a, b);
+            int r = a - q * b;
             return Pair.of(q, r);
         }
 

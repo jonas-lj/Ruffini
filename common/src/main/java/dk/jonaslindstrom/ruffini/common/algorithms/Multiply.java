@@ -3,12 +3,11 @@ package dk.jonaslindstrom.ruffini.common.algorithms;
 import dk.jonaslindstrom.ruffini.common.abstractions.AdditiveGroup;
 
 import java.math.BigInteger;
-import java.util.function.BiFunction;
 
 /**
  * Compute <i>e a</i> for and integer <i>e</i> and an element from an additive group, <i>a</i>.
  */
-public class Multiply<E>  {
+public class Multiply<E> {
 
     private final AdditiveGroup<E> group;
 

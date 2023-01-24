@@ -30,6 +30,10 @@ public class Curve25519 extends MontgomeryCurve<BigInteger> {
         super(new BigPrimeField(P), A, BigInteger.ONE);
     }
 
+    public static byte[] encodePoint(AffinePoint<BigInteger> point) {
+        return reverse(point.x().toByteArray());
+    }
+
     public BigInteger decodeScalar(byte[] bytes) {
         if (bytes.length != 32) {
             throw new IllegalArgumentException("Input array must contain exactly 32 bytes");
@@ -60,10 +64,6 @@ public class Curve25519 extends MontgomeryCurve<BigInteger> {
         } catch (NotASquareException e) {
             throw new InvalidParametersException("The given encoding is not a valid point");
         }
-    }
-
-    public static byte[] encodePoint(AffinePoint<BigInteger> point) {
-        return reverse(point.x().toByteArray());
     }
 
 

@@ -1,7 +1,6 @@
 package dk.jonaslindstrom.ruffini.integers.structures;
 
 import dk.jonaslindstrom.ruffini.common.elements.Fraction;
-import dk.jonaslindstrom.ruffini.integers.structures.Rationals;
 import dk.jonaslindstrom.ruffini.polynomials.elements.Polynomial;
 
 public class GaussianRationals extends AlgebraicFieldExtension<Fraction<Integer>> {

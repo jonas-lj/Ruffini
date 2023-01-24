@@ -17,7 +17,7 @@ public class BigTonelliShanks {
         this.power = new Power<>(field);
     }
 
-    public BigInteger apply(BigInteger a) throws NotASquareException  {
+    public BigInteger apply(BigInteger a) throws NotASquareException {
 
         // Algorithm 1.5.1 in "A Course in Computational Algebraic Number Theory", Cohen (1993)
 
@@ -53,7 +53,7 @@ public class BigTonelliShanks {
                 }
             }
 
-            BigInteger t = power.apply(y, 1 << (r-m-1));
+            BigInteger t = power.apply(y, 1 << (r - m - 1));
             y = field.multiply(t, t);
             r = m;
             x = field.multiply(t, x);
@@ -62,7 +62,9 @@ public class BigTonelliShanks {
         return x;
     }
 
-    /** Write a number <i>n</i> as <i>n = 2^even * odd</i>. */
+    /**
+     * Write a number <i>n</i> as <i>n = 2^even * odd</i>.
+     */
     private record EvenOddPart(int even, BigInteger odd) {
 
         private static EvenOddPart from(BigInteger n) {

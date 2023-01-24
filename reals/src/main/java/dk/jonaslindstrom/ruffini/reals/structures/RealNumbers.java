@@ -2,7 +2,9 @@ package dk.jonaslindstrom.ruffini.reals.structures;
 
 import dk.jonaslindstrom.ruffini.common.abstractions.Field;
 
-/** Real numbers represented by {@link Double}s. */
+/**
+ * Real numbers represented by {@link Double}s.
+ */
 public class RealNumbers implements Field<Double> {
 
     private static final RealNumbers instance = new RealNumbers();

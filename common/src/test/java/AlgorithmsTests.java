@@ -2,7 +2,6 @@ import dk.jonaslindstrom.ruffini.common.abstractions.AdditiveGroup;
 import dk.jonaslindstrom.ruffini.common.abstractions.EuclideanDomain;
 import dk.jonaslindstrom.ruffini.common.abstractions.Ring;
 import dk.jonaslindstrom.ruffini.common.algorithms.*;
-import dk.jonaslindstrom.ruffini.common.util.MathUtils;
 import dk.jonaslindstrom.ruffini.common.util.SamplingUtils;
 import dk.jonaslindstrom.ruffini.common.util.TestUtils;
 import dk.jonaslindstrom.ruffini.common.vector.Vector;

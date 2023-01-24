@@ -68,7 +68,8 @@ seen in figure below. Note that `E` is a generic class, representing the element
 
 As in abstract algebra, an algorithm may be defined for an abstract structure and then be used with any concrete
 structure satisfying the definition of the abstract structure. As an example, consider the implementation of the
-<a href="https://en.wikipedia.org/wiki/Gram–Schmidt_process">Gram-Schmidt process</a> definded over vectors of type `V` and scalars of type `S`. Now, this code may be used with any
+<a href="https://en.wikipedia.org/wiki/Gram–Schmidt_process">Gram-Schmidt process</a> definded over vectors of type `V`
+and scalars of type `S`. Now, this code may be used with any
 concrete implementations of a vector space over a field.
 
 ```java
@@ -103,13 +104,15 @@ public class GramSchmidt<V, S, F extends Field<S>> implements Function<List<V>, 
 ```
 
 ## Demos
+
 There are a few demo applications showing some capabilities of the library in the `demos` module.
 
 <!-- CONTRIBUTING -->
 
 ## Contributing
 
-We welcome any help from the community, both if you want to help out developing new features for Ruffini or fix a bug you've stumbled upon. Simply open a pull request with the suggested changes.
+We welcome any help from the community, both if you want to help out developing new features for Ruffini or fix a bug
+you've stumbled upon. Simply open a pull request with the suggested changes.
 
 <!-- REFERENCING -->
 

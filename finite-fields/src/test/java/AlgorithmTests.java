@@ -1,5 +1,4 @@
 import dk.jonaslindstrom.ruffini.common.exceptions.NotASquareException;
-import dk.jonaslindstrom.ruffini.common.util.Pair;
 import dk.jonaslindstrom.ruffini.finitefields.BigPrimeField;
 import dk.jonaslindstrom.ruffini.finitefields.algorithms.BigTonelliShanks;
 import org.junit.Assert;

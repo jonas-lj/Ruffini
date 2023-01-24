@@ -4,9 +4,9 @@ import dk.jonaslindstrom.ruffini.common.abstractions.EuclideanDomain;
 import dk.jonaslindstrom.ruffini.common.abstractions.Field;
 import dk.jonaslindstrom.ruffini.common.util.Pair;
 import dk.jonaslindstrom.ruffini.common.vector.Vector;
+import dk.jonaslindstrom.ruffini.polynomials.algorithms.MultivariatePolynomialDivision;
 import dk.jonaslindstrom.ruffini.polynomials.elements.Monomial;
 import dk.jonaslindstrom.ruffini.polynomials.elements.MultivariatePolynomial;
-import dk.jonaslindstrom.ruffini.polynomials.algorithms.MultivariatePolynomialDivision;
 
 import java.math.BigInteger;
 import java.util.Comparator;

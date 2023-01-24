@@ -1,8 +1,6 @@
 package dk.jonaslindstrom.ruffini.common.algorithms;
 
 import java.math.BigInteger;
-import java.util.function.ToIntFunction;
-import java.util.function.UnaryOperator;
 
 public class BigLegendreSymbol {
 
