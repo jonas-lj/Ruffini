@@ -33,13 +33,13 @@ an extensive library of already implemented algorithms such as the Euclidean alg
 division etc. to make implementation even easier.
 </p>
 <p>
-The project is named after the italian mathematician Paolo Ruffini (1765-1822) who, among other 
+The project is named after the italian mathematician [Paolo Ruffini (1765-1822)](https://en.wikipedia.org/wiki/Paolo_Ruffini) who, among other 
 things, contributed to group theory and was the first to give a proof (although incomplete) that there is no 
 general formula to solve quintic (and higher order) equations.
 </p>
 
 <p align="center">
-    [<img src="https://upload.wikimedia.org/wikipedia/commons/2/22/Ruffini_paolo.jpg">](https://en.wikipedia.org/wiki/Paolo_Ruffini)
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/22/Ruffini_paolo.jpg">
 </p>
 
 ## Built With
@@ -127,7 +127,7 @@ you've stumbled upon. Simply open a pull request with the suggested changes.
 
 ## Referencing
 
-If you are using the Ruffini ilbrary in a research project, please cite it as (setting the `date` field accordingly):
+If you are using the Ruffini library in a research project, please cite it as (setting the `date` field accordingly):
 
 ```
 @software{Ruffini,
