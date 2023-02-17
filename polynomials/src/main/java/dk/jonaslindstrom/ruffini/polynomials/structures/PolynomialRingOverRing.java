@@ -32,8 +32,8 @@ public class PolynomialRingOverRing<E> implements Ring<Polynomial<E>> {
     @Override
     public Polynomial<E> multiply(Polynomial<E> a, Polynomial<E> b) {
         Polynomial.Builder<E> result = new Polynomial.Builder<>(ring);
-        a.forEachInParallel(
-                (i, ai) -> b.forEachInParallel((j, bj) -> result.addTo(i + j, ring.multiply(ai, bj))));
+        a.forEach(
+                (i, ai) -> b.forEach((j, bj) -> result.addTo(i + j, ring.multiply(ai, bj))));
         return result.build();
     }
 

@@ -8,16 +8,16 @@ import dk.jonaslindstrom.ruffini.common.algorithms.Power;
 import dk.jonaslindstrom.ruffini.elliptic.elements.AffinePoint;
 
 
-public class ShortWeierstrassCurveAffine<E> implements AdditiveGroup<AffinePoint<E>> {
+public class ShortWeierstrassCurveAffine<E, F extends Field<E>> implements AdditiveGroup<AffinePoint<E>> {
 
     private final E a, b;
     private final E three;
-    private final Field<E> field;
+    private final F field;
 
     /**
      * Curve on Weierstrass form. Field should have characteristics not equal to 2 or 3.
      */
-    public ShortWeierstrassCurveAffine(Field<E> field, E a, E b) {
+    public ShortWeierstrassCurveAffine(F field, E a, E b) {
         this.field = field;
         this.a = a;
         this.b = b;
@@ -25,7 +25,7 @@ public class ShortWeierstrassCurveAffine<E> implements AdditiveGroup<AffinePoint
         this.three = new IntegerRingEmbedding<>(field).apply(3);
     }
 
-    public Field<E> getField() {
+    public F getField() {
         return field;
     }
 

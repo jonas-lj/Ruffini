@@ -4,7 +4,7 @@ import dk.jonaslindstrom.ruffini.common.elements.Fraction;
 import dk.jonaslindstrom.ruffini.integers.structures.Rationals;
 import dk.jonaslindstrom.ruffini.polynomials.elements.Polynomial;
 
-public class QuadraticField extends AlgebraicFieldExtension<Fraction<Integer>> {
+public class QuadraticField extends AlgebraicFieldExtension<Fraction<Integer>, Rationals> {
 
     public QuadraticField(Integer d) {
         super(Rationals.getInstance(), "\\sqrt{" + d + "}", Polynomial.of(

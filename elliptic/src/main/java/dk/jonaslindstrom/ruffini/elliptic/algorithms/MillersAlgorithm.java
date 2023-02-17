@@ -21,11 +21,11 @@ import java.util.stream.IntStream;
 public class MillersAlgorithm<E> implements
         TriFunction<AffinePoint<E>, AffinePoint<E>, BigInteger, E> {
 
-    private final ShortWeierstrassCurveAffine<E> curve;
+    private final ShortWeierstrassCurveAffine<E, ?> curve;
     private final Field<E> field;
     private final MultivariatePolynomialRing<E> polynomialRing;
 
-    public MillersAlgorithm(ShortWeierstrassCurveAffine<E> curve) {
+    public MillersAlgorithm(ShortWeierstrassCurveAffine<E, ?> curve) {
         this.curve = curve;
         this.field = curve.getField();
         this.polynomialRing = new MultivariatePolynomialRing<>(field, 2);

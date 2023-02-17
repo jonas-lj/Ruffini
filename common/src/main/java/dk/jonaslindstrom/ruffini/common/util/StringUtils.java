@@ -55,4 +55,31 @@ public class StringUtils {
         }
         return sb.toString();
     }
+
+    public static String productToString(List<String> factors) {
+        StringBuilder sb = new StringBuilder();
+        factors.removeIf(String::isEmpty);
+
+        int start = 0;
+        if (factors.get(0).startsWith("-")) {
+            if (factors.get(0).equals("-1")) {
+                sb.append("-");
+            } else {
+                sb.append(factors.get(0));
+            }
+            start = 1;
+        }
+        for (int i = start; i < factors.size(); i++) {
+            String currentFactor = factors.get(i);
+            if (currentFactor.equals("1") && factors.size() > 1) {
+                continue;
+            }
+            if (currentFactor.startsWith("-")) {
+                sb.append("(").append(currentFactor).append(")");
+            } else {
+                sb.append(currentFactor);
+            }
+        }
+        return sb.toString();
+    }
 }

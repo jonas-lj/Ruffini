@@ -12,12 +12,12 @@ import java.util.function.Function;
  * Instances of this class represents a curve over a field over elements of type <code>E</code> satisfying the equation
  * <i>x<sup>2</sup> + y<sup>2</sup> = 1 + d x<sup>2</sup> y<sup>2</sup></i>.
  */
-public class EdwardsCurve<E> implements AdditiveGroup<EdwardsPoint<E>> {
+public class EdwardsCurve<E, F extends Field<E>> implements AdditiveGroup<EdwardsPoint<E>> {
 
-    private final Field<E> field;
+    private final F field;
     private final E d;
 
-    public EdwardsCurve(Field<E> field, E d) {
+    public EdwardsCurve(F field, E d) {
         this.field = field;
         this.d = d;
     }
@@ -71,7 +71,7 @@ public class EdwardsCurve<E> implements AdditiveGroup<EdwardsPoint<E>> {
      * Return an elliptic curve in Montgomery form which is birationally equivalent to this curve and a mapping from
      * points on this curve to points on the Montgomery curve.
      */
-    public Pair<MontgomeryCurve<E>, Function<EdwardsPoint<E>, AffinePoint<E>>> getCorrespondingMontgomeryCurve() {
+    public Pair<MontgomeryCurve<E, F>, Function<EdwardsPoint<E>, AffinePoint<E>>> getCorrespondingMontgomeryCurve() {
         E e = field.subtract(field.getIdentity(), d);
         E A = field.subtract(field.divide(field.integer(4), e), field.integer(2));
         E B = field.invert(e);

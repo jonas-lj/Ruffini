@@ -1,5 +1,9 @@
 package dk.jonaslindstrom.ruffini.common.abstractions;
 
+import dk.jonaslindstrom.ruffini.common.algorithms.Product;
+
+import java.util.Arrays;
+
 public interface Semigroup<E> extends Set<E> {
 
     /**
@@ -20,4 +24,5 @@ public interface Semigroup<E> extends Set<E> {
     default E multiply(E a, E b, E c, E d) {
         return multiply(multiply(a, b), multiply(c, d));
     }
+
 }

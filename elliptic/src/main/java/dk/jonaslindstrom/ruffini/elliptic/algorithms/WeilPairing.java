@@ -11,10 +11,10 @@ import java.math.BigInteger;
  */
 public class WeilPairing<E> {
 
-    private final ShortWeierstrassCurveAffine<E> curve;
+    private final ShortWeierstrassCurveAffine<E, ?> curve;
     private final Field<E> field;
 
-    public WeilPairing(ShortWeierstrassCurveAffine<E> curve) {
+    public WeilPairing(ShortWeierstrassCurveAffine<E, ?> curve) {
         this.curve = curve;
         this.field = curve.getField();
     }

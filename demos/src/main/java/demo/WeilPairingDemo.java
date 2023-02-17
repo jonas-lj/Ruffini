@@ -16,7 +16,7 @@ public class WeilPairingDemo {
 
         Field<Integer> field = new PrimeField(p);
 
-        ShortWeierstrassCurveAffine<Integer> curve = new ShortWeierstrassCurveAffine<>(field, a, b);
+        ShortWeierstrassCurveAffine<Integer, ?  > curve = new ShortWeierstrassCurveAffine<>(field, a, b);
 
         // Example from Hoffstein, "Mathematical Foundations of Cryptography"
         AffinePoint<Integer> P1 = new AffinePoint<>(36, 60);

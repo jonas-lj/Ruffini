@@ -14,19 +14,19 @@ import java.util.function.UnaryOperator;
  * Curve on Montgomery form <i>By<sup>2</sup> = x<sup>3</sup> + Ax<sup>2</sup> + x</i>. The field should have
  * characteristics not equal to 2, <i>A &ne; &mp; 2</i> and <i>B &ne; 0</i>.
  */
-public class MontgomeryCurve<E> implements AdditiveGroup<AffinePoint<E>> {
+public class MontgomeryCurve<E, F extends Field<E>> implements AdditiveGroup<AffinePoint<E>> {
 
     protected final E A, B;
-    protected final Field<E> field;
+    protected final F field;
 
-    public MontgomeryCurve(Field<E> field, E A, E B) {
+    public MontgomeryCurve(F field, E A, E B) {
         this.field = field;
         this.A = A;
         this.B = B;
         assert (!field.equals(discriminant(), field.getZero()));
     }
 
-    public Field<E> getField() {
+    public F getField() {
         return field;
     }
 
@@ -110,7 +110,7 @@ public class MontgomeryCurve<E> implements AdditiveGroup<AffinePoint<E>> {
         return B;
     }
 
-    public Pair<ShortWeierstrassCurveAffine<E>, UnaryOperator<AffinePoint<E>>> getCorrespondingWeierstrassCurve() {
+    public Pair<ShortWeierstrassCurveAffine<E, F>, UnaryOperator<AffinePoint<E>>> getCorrespondingWeierstrassCurve() {
         E a = field.divide(field.subtract(field.integer(3), field.power(A, 2)),
                 field.multiply(3, field.power(B, 2)));
         E b = field.divide(field.subtract(field.multiply(2, field.power(A, 3)), field.multiply(9, A)),

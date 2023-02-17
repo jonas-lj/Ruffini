@@ -1,8 +1,10 @@
 package dk.jonaslindstrom.ruffini.elliptic.elements;
 
 import dk.jonaslindstrom.ruffini.common.abstractions.Field;
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 public record AffinePoint<E>(E x, E y) {
 
@@ -26,6 +28,10 @@ public record AffinePoint<E>(E x, E y) {
             return ProjectivePoint.pointAtInfinity(field);
         }
         return new ProjectivePoint<>(x, y, field.getIdentity());
+    }
+
+    public <F> AffinePoint<F> apply(Function<E, F> function) {
+        return new AffinePoint<>(function.apply(x), function.apply(y));
     }
 
 }

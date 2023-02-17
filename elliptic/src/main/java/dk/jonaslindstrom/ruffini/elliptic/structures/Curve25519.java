@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 import static dk.jonaslindstrom.ruffini.common.util.ArrayUtils.reverse;
 
-public class Curve25519 extends MontgomeryCurve<BigInteger> {
+public class Curve25519 extends MontgomeryCurve<BigInteger, BigPrimeField> {
 
     public static AffinePoint<BigInteger> BASE_POINT = new AffinePoint<>(BigInteger.valueOf(9),
             new BigInteger("14781619447589544791020593568409986887264606134616475288964881837755586237401"));
@@ -31,7 +31,7 @@ public class Curve25519 extends MontgomeryCurve<BigInteger> {
     }
 
     public static byte[] encodePoint(AffinePoint<BigInteger> point) {
-        return reverse(point.x().toByteArray());
+        return EncodingUtils.encode(point.x(), true);
     }
 
     public BigInteger decodeScalar(byte[] bytes) {
@@ -46,23 +46,40 @@ public class Curve25519 extends MontgomeryCurve<BigInteger> {
         return EncodingUtils.decode(clamped, true).mod(P);
     }
 
-    public AffinePoint<BigInteger> decodePoint(byte[] bytes) throws InvalidParametersException {
+    private BigInteger decodeCoordinate(byte[] bytes) throws InvalidParametersException {
         if (bytes.length != 32) {
-            throw new IllegalArgumentException("Input array must contain exactly 32 bytes");
+            throw new InvalidParametersException("Coordinates should be encoded with 32 bytes");
         }
+        byte[] inputBytes = Arrays.copyOf(bytes, 32);
         // Ignore unused bit
-        byte[] inputBytes = Arrays.copyOf(bytes, bytes.length);
         inputBytes[31] &= 127;
+        return EncodingUtils.decode(inputBytes, true).mod(P);
+    }
 
-        BigInteger x = EncodingUtils.decode(inputBytes, true).mod(P);
-        BigInteger ySquared = field.add(field.multiply(x, x, x), field.multiply(A, x, x), x);
-        BigTonelliShanks squareRoot = new BigTonelliShanks((BigPrimeField) field);
-        try {
-            BigInteger y = squareRoot.apply(ySquared);
+    public AffinePoint<BigInteger> decodePoint(byte[] bytes) throws InvalidParametersException {
+        if (bytes.length == 65) {
+            if (bytes[0] != 0x04) {
+                throw new InvalidParametersException("The given encoding is not a valid point");
+            }
+            BigInteger x = decodeCoordinate(Arrays.copyOfRange(bytes, 1, 33));
+            BigInteger y = decodeCoordinate(Arrays.copyOfRange(bytes, 33, 65));
             return new AffinePoint<>(x, y);
+        } else if (bytes.length == 33) {
+            if (bytes[0] != 0x02 && bytes[0] != 0x03) {
+                throw new InvalidParametersException("The given encoding is not a valid point");
+            }
 
-        } catch (NotASquareException e) {
-            throw new InvalidParametersException("The given encoding is not a valid point");
+            BigInteger x = decodeCoordinate(Arrays.copyOfRange(bytes, 1, 33));
+            BigInteger ySquared = field.add(field.multiply(x, x, x), field.multiply(A, x, x), x);
+            BigTonelliShanks squareRoot = new BigTonelliShanks((BigPrimeField) field);
+            try {
+                BigInteger y = squareRoot.apply(ySquared);
+                return new AffinePoint<>(x, y);
+            } catch (NotASquareException e) {
+                throw new InvalidParametersException("The given encoding is not a valid point");
+            }
+        } else {
+                throw new IllegalArgumentException("Input array must contain 33 or 65 bytes");
         }
     }
 
