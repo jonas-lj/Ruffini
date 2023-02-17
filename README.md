@@ -102,10 +102,16 @@ public class GramSchmidt<V, S, F extends Field<S>> implements Function<List<V>, 
 
 }
 ```
+The library also contains some concrete instantiations of algebraic structures such as prime fields, finite fields and 
+certain elliptic curve constructions (Curve25519 and BLS12-381). 
+
 
 ## Demos
 
 There are a few demo applications showing some capabilities of the library in the `demos` module.
+
+These includes an implementation of the AKS algorithm for factorisation, computing the optimal Ate pairing over the BLS12-381 
+elliptic construction and a demonstration of arbitrary precision arithmetic with real numbers.
 
 <!-- CONTRIBUTING -->
 
