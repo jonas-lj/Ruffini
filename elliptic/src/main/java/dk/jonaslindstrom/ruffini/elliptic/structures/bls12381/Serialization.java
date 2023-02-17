@@ -17,15 +17,18 @@ import static dk.jonaslindstrom.ruffini.elliptic.structures.bls12381.Serializati
 
 public class Serialization {
 
-    public enum Group {
-        G1,
-        G2,
-    }
+    private static Map<Group, Integer> size = Map.of(G1, 2, G2, 4);
     private final boolean C, I, S;
     private final List<BigInteger> integers;
     private final Group g;
 
-    private static Map<Group, Integer> size = Map.of(G1, 2, G2, 4);
+    private Serialization(boolean C, boolean I, boolean S, List<BigInteger> integers, Group g) {
+        this.C = C;
+        this.I = I;
+        this.S = S;
+        this.integers = integers;
+        this.g = g;
+    }
 
     private static Serialization fromBytes(byte[] bytes, Group g) {
         return new Serialization(
@@ -40,14 +43,6 @@ public class Serialization {
         byte[] copyOfBytes = Arrays.copyOf(bytes, bytes.length);
         copyOfBytes[0] &= 0x1F;
         return copyOfBytes;
-    }
-
-    private Serialization(boolean C, boolean I, boolean S, List<BigInteger> integers, Group g) {
-        this.C = C;
-        this.I = I;
-        this.S = S;
-        this.integers = integers;
-        this.g = g;
     }
 
     private static Serialization fromG2Point(AffinePoint<Polynomial<BigInteger>> point) {
@@ -70,66 +65,12 @@ public class Serialization {
                 point.y()), G1);
     }
 
-    private boolean isInfinity() {
-        return I;
-    }
-
-    private boolean isCompressed() {
-        return C;
-    }
-
-    private boolean yLargerThanX() {
-        return S;
-    }
-
-    private byte[] getBytes(boolean compressed) {
-        int integersToEncode = size.get(g);
-        if (compressed) {
-            integersToEncode /= 2;
-        }
-        byte[] buffer = new byte[integersToEncode * 48];
-        for (int i = 0; i < integersToEncode; i++) {
-            System.arraycopy(I2OSP(integers.get(i), 48), 0, buffer, 48 * i, 48);
-        }
-        buffer[0] |= (byte) ((C ? (1 << 7) : 0)
-                + (I ? (1 << 6) : 0)
-                + (S ? (1 << 5) : 0));
-        return buffer;
-    }
-
     private static List<BigInteger> getIntegers(byte[] bytes) {
         List<BigInteger> integers = new ArrayList<>();
         for (int i = 0; i < bytes.length; i += 48) {
             integers.add(OS2IP(Arrays.copyOfRange(bytes, i * 48, (i + 1) * 48)));
         }
         return integers;
-    }
-
-    private AffinePoint<BigInteger> pointAsG1() {
-        if (isInfinity()) {
-            return AffinePoint.pointAtInfinity();
-        }
-        BigInteger x = integers.get(0);
-        BigInteger y;
-        if (!isCompressed()) {
-            y = integers.get(1);
-        } else {
-            ModularSquareRoot sqrt = new ModularSquareRoot(BLS12381.p);
-            y = sqrt.apply(x.modPow(BigInteger.valueOf(3), BLS12381.p).add(BigInteger.valueOf(4)).mod(BLS12381.p));
-            if (yLargerThanX() && y.compareTo(x) <= 0) {
-                y = BLS12381.p.subtract(y);
-            }
-        }
-        return new AffinePoint<>(x, y);
-    }
-
-    private AffinePoint<Polynomial<BigInteger>> pointAsG2() {
-        if (isInfinity()) {
-            return AffinePoint.pointAtInfinity();
-        }
-        Polynomial<BigInteger> x = Polynomial.of(BLS12381.FP, integers.get(0), integers.get(1));
-        Polynomial<BigInteger> y = Polynomial.of(BLS12381.FP, integers.get(2), integers.get(3));
-        return new AffinePoint<>(x, y);
     }
 
     public static byte[] serializeG1(AffinePoint<BigInteger> point, boolean compress) {
@@ -166,5 +107,64 @@ public class Serialization {
 
     public static byte[] serializeG2(AffinePoint<Polynomial<BigInteger>> point, boolean compressed) {
         return Serialization.fromG2Point(point).getBytes(compressed);
+    }
+
+    private boolean isInfinity() {
+        return I;
+    }
+
+    private boolean isCompressed() {
+        return C;
+    }
+
+    private boolean yLargerThanX() {
+        return S;
+    }
+
+    private byte[] getBytes(boolean compressed) {
+        int integersToEncode = size.get(g);
+        if (compressed) {
+            integersToEncode /= 2;
+        }
+        byte[] buffer = new byte[integersToEncode * 48];
+        for (int i = 0; i < integersToEncode; i++) {
+            System.arraycopy(I2OSP(integers.get(i), 48), 0, buffer, 48 * i, 48);
+        }
+        buffer[0] |= (byte) ((C ? (1 << 7) : 0)
+                + (I ? (1 << 6) : 0)
+                + (S ? (1 << 5) : 0));
+        return buffer;
+    }
+
+    private AffinePoint<BigInteger> pointAsG1() {
+        if (isInfinity()) {
+            return AffinePoint.pointAtInfinity();
+        }
+        BigInteger x = integers.get(0);
+        BigInteger y;
+        if (!isCompressed()) {
+            y = integers.get(1);
+        } else {
+            ModularSquareRoot sqrt = new ModularSquareRoot(BLS12381.p);
+            y = sqrt.apply(x.modPow(BigInteger.valueOf(3), BLS12381.p).add(BigInteger.valueOf(4)).mod(BLS12381.p));
+            if (yLargerThanX() && y.compareTo(x) <= 0) {
+                y = BLS12381.p.subtract(y);
+            }
+        }
+        return new AffinePoint<>(x, y);
+    }
+
+    private AffinePoint<Polynomial<BigInteger>> pointAsG2() {
+        if (isInfinity()) {
+            return AffinePoint.pointAtInfinity();
+        }
+        Polynomial<BigInteger> x = Polynomial.of(BLS12381.FP, integers.get(0), integers.get(1));
+        Polynomial<BigInteger> y = Polynomial.of(BLS12381.FP, integers.get(2), integers.get(3));
+        return new AffinePoint<>(x, y);
+    }
+
+    public enum Group {
+        G1,
+        G2,
     }
 }

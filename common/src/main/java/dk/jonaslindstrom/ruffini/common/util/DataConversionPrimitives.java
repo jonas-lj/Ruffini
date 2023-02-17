@@ -4,12 +4,16 @@ import java.math.BigInteger;
 
 public class DataConversionPrimitives {
 
-    /** Implementation of Integer-to-Octet-String primitive (OS2IP) as defined in RFC 8017. */
-    public static BigInteger OS2IP(byte[] bytes){
+    /**
+     * Implementation of Integer-to-Octet-String primitive (OS2IP) as defined in RFC 8017.
+     */
+    public static BigInteger OS2IP(byte[] bytes) {
         return new BigInteger(1, bytes);
     }
 
-    /** Implementation of Octet-String-to-Integer primitive (I2OSP) as defined in RFC 8017. */
+    /**
+     * Implementation of Octet-String-to-Integer primitive (I2OSP) as defined in RFC 8017.
+     */
     public static byte[] I2OSP(BigInteger x, int len) {
         byte[] bytes = x.toByteArray();
 

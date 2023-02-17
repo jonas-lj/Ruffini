@@ -1,7 +1,6 @@
 package dk.jonaslindstrom.ruffini.elliptic.elements;
 
 import dk.jonaslindstrom.ruffini.common.abstractions.Field;
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.Objects;
 import java.util.function.Function;

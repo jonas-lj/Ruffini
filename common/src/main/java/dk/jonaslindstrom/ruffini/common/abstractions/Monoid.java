@@ -1,9 +1,6 @@
 package dk.jonaslindstrom.ruffini.common.abstractions;
 
 import dk.jonaslindstrom.ruffini.common.algorithms.Power;
-import dk.jonaslindstrom.ruffini.common.algorithms.Product;
-
-import java.util.Arrays;
 
 public interface Monoid<E> extends Semigroup<E> {
 

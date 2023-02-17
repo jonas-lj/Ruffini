@@ -10,8 +10,6 @@ import dk.jonaslindstrom.ruffini.finitefields.algorithms.BigTonelliShanks;
 import java.math.BigInteger;
 import java.util.Arrays;
 
-import static dk.jonaslindstrom.ruffini.common.util.ArrayUtils.reverse;
-
 public class Curve25519 extends MontgomeryCurve<BigInteger, BigPrimeField> {
 
     public static AffinePoint<BigInteger> BASE_POINT = new AffinePoint<>(BigInteger.valueOf(9),
@@ -79,7 +77,7 @@ public class Curve25519 extends MontgomeryCurve<BigInteger, BigPrimeField> {
                 throw new InvalidParametersException("The given encoding is not a valid point");
             }
         } else {
-                throw new IllegalArgumentException("Input array must contain 33 or 65 bytes");
+            throw new IllegalArgumentException("Input array must contain 33 or 65 bytes");
         }
     }
 

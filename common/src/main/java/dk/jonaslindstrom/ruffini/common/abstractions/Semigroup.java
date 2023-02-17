@@ -1,9 +1,5 @@
 package dk.jonaslindstrom.ruffini.common.abstractions;
 
-import dk.jonaslindstrom.ruffini.common.algorithms.Product;
-
-import java.util.Arrays;
-
 public interface Semigroup<E> extends Set<E> {
 
     /**

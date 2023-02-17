@@ -3,7 +3,6 @@ package dk.jonaslindstrom.ruffini.finitefields;
 import dk.jonaslindstrom.ruffini.common.abstractions.Field;
 import dk.jonaslindstrom.ruffini.common.algorithms.EuclideanAlgorithm;
 import dk.jonaslindstrom.ruffini.common.structures.QuotientRing;
-import dk.jonaslindstrom.ruffini.integers.structures.Integers;
 import dk.jonaslindstrom.ruffini.polynomials.elements.Polynomial;
 import dk.jonaslindstrom.ruffini.polynomials.structures.PolynomialRing;
 

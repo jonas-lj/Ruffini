@@ -10,7 +10,9 @@ public class CyclicGroup<E> implements Group<E> {
     private final Group<E> group;
     private final E generator;
 
-    /** Create a cyclic subgroup of the given group with generator <i>g</i>. */
+    /**
+     * Create a cyclic subgroup of the given group with generator <i>g</i>.
+     */
     public CyclicGroup(Group<E> group, E g) {
         this.group = group;
         this.generator = g;
@@ -41,12 +43,16 @@ public class CyclicGroup<E> implements Group<E> {
         return group.equals(a, b);
     }
 
-    /** Return the generator <i>g</i> for this cyclic group */
+    /**
+     * Return the generator <i>g</i> for this cyclic group
+     */
     public E getGenerator() {
         return generator;
     }
 
-    /** Compute <i>g<sup>e</sup></i> in this group. */
+    /**
+     * Compute <i>g<sup>e</sup></i> in this group.
+     */
     public E generatorExponent(BigInteger e) {
         return new Power<>(this).apply(generator, e);
     }

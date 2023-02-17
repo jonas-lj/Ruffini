@@ -10,7 +10,9 @@ import java.math.BigInteger;
 import java.util.List;
 import java.util.function.Function;
 
-/** Compute the optimal Ate pairing. Methodology is taken from Appendix A in draft-irtf-cfrg-pairing-friendly-curves-11. */
+/**
+ * Compute the optimal Ate pairing. Methodology is taken from Appendix A in draft-irtf-cfrg-pairing-friendly-curves-11.
+ */
 public class OptimalAtePairing<
         E1,
         E2,
@@ -26,15 +28,14 @@ public class OptimalAtePairing<
     private final Function<AffinePoint<E1>, SamePair<ET>> twist;
 
     /**
-     *
      * @param g1embedding Embedding from F1 to F2.
-     * @param curve2 Elliptic curve over F2.
+     * @param curve2      Elliptic curve over F2.
      * @param g2embedding Embedding from F2 to FT.
-     * @param ft The field extension FT = F1<sup>k</sup>. Note that the target group GT is the multiplicative group of FT.
-     * @param twist A function computing the isomorphism from E1 to the twist E' over FT.
-     * @param p The characteristic of the fields.
-     * @param r The order of the groups G1, G2 and GT.
-     * @param k The embedding degree of the elliptic curve E1 over F1, eg. the smallest <i>k</i> such that <i>r | p<sup>k</sup>-1</i>.
+     * @param ft          The field extension FT = F1<sup>k</sup>. Note that the target group GT is the multiplicative group of FT.
+     * @param twist       A function computing the isomorphism from E1 to the twist E' over FT.
+     * @param p           The characteristic of the fields.
+     * @param r           The order of the groups G1, G2 and GT.
+     * @param k           The embedding degree of the elliptic curve E1 over F1, eg. the smallest <i>k</i> such that <i>r | p<sup>k</sup>-1</i>.
      */
     public OptimalAtePairing(Function<E1, E2> g1embedding,
                              ShortWeierstrassCurveAffine<E2, ?> curve2,
