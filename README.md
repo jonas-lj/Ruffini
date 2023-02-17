@@ -33,7 +33,7 @@ an extensive library of already implemented algorithms such as the Euclidean alg
 division etc. to make implementation even easier.
 </p>
 <p>
-The project is named after the italian mathematician [Paolo Ruffini (1765-1822)](https://en.wikipedia.org/wiki/Paolo_Ruffini) who, among other 
+The project is named after the italian mathematician <a href="https://en.wikipedia.org/wiki/Paolo_Ruffini">Paolo Ruffini (1765-1822)</a> who, among other 
 things, contributed to group theory and was the first to give a proof (although incomplete) that there is no 
 general formula to solve quintic (and higher order) equations.
 </p>
