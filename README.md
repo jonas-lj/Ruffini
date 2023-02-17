@@ -38,7 +38,9 @@ things, contributed to group theory and was the first to give a proof (although 
 general formula to solve quintic (and higher order) equations.
 </p>
 
-[<img src="https://upload.wikimedia.org/wikipedia/commons/2/22/Ruffini_paolo.jpg">](https://en.wikipedia.org/wiki/Paolo_Ruffini)
+<p align="center">
+    [<img src="https://upload.wikimedia.org/wikipedia/commons/2/22/Ruffini_paolo.jpg">](https://en.wikipedia.org/wiki/Paolo_Ruffini)
+</p>
 
 ## Built With
 
@@ -110,8 +112,9 @@ certain elliptic curve constructions (Curve25519 and BLS12-381).
 
 There are a few demo applications showing some capabilities of the library in the `demos` module.
 
-These includes an implementation of the AKS algorithm for factorisation, computing the optimal Ate pairing over the BLS12-381 
-elliptic construction and a demonstration of arbitrary precision arithmetic with real numbers.
+These include an implementation of the [AKS primality testing algorithm](https://en.wikipedia.org/wiki/AKS_primality_test),
+computing the [optimal Ate pairing over the BLS12-381 elliptic construction](https://hackmd.io/@benjaminion/bls12-381) and a 
+demonstration of arbitrary precision arithmetic with real numbers inspired by [the work of Hans-J Boehm](https://www.hboehm.info/new_crcalc/CRCalc.html).
 
 <!-- CONTRIBUTING -->
 
