@@ -1,4 +1,5 @@
 demo
+dk.jonaslindstrom.arithmeticparser
 dk.jonaslindstrom.ruffini.common.abstractions
 dk.jonaslindstrom.ruffini.common.algorithms
 dk.jonaslindstrom.ruffini.common.elements
@@ -14,6 +15,7 @@ dk.jonaslindstrom.ruffini.common.vector
 dk.jonaslindstrom.ruffini.elliptic.algorithms
 dk.jonaslindstrom.ruffini.elliptic.elements
 dk.jonaslindstrom.ruffini.elliptic.structures
+dk.jonaslindstrom.ruffini.elliptic.structures.bls12381
 dk.jonaslindstrom.ruffini.finitefields
 dk.jonaslindstrom.ruffini.finitefields.algorithms
 dk.jonaslindstrom.ruffini.integers
@@ -25,6 +27,7 @@ dk.jonaslindstrom.ruffini.permutations.elements
 dk.jonaslindstrom.ruffini.permutations.structures
 dk.jonaslindstrom.ruffini.polynomials.algorithms
 dk.jonaslindstrom.ruffini.polynomials.elements
+dk.jonaslindstrom.ruffini.polynomials.elements.recursive
 dk.jonaslindstrom.ruffini.polynomials.ordering
 dk.jonaslindstrom.ruffini.polynomials.structures
 dk.jonaslindstrom.ruffini.reals.algorithms
