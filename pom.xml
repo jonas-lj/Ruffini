@@ -15,6 +15,7 @@
         <module>common</module>
         <module>demos</module>
         <module>finite-fields</module>
+        <module>parser</module>
     </modules>
 
     <properties>
