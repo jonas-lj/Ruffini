@@ -8,12 +8,13 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.*;
 import java.util.function.BinaryOperator;
 
 /**
  * This class can evaluate expressions parsed to reverse polish notation using the {@link Parser}
  * class.
- * 
+ *
  * @param <NumberT>
  */
 public class Evaluator<NumberT> {
@@ -148,5 +149,4 @@ public class Evaluator<NumberT> {
     NumberT result = stack.pop();
     return result;
   }
-
 }
