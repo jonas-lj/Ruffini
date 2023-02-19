@@ -101,7 +101,7 @@ public class BLS12381 {
      */
     private static List<Integer> ci = binaryExpansion(t.negate()).stream().map(x -> -x).collect(Collectors.toList());
     /**
-     * The optimal Ate pairing which is a bilinear function <i>e: G1 x G2 &rarr GT</i>.
+     * The optimal Ate pairing which is a bilinear function <i>e: G1 x G2 &rarr; GT</i>.
      */
     public static BiFunction<AffinePoint<BigInteger>, AffinePoint<Polynomial<BigInteger>>, Polynomial<Polynomial<Polynomial<BigInteger>>>> PAIRING =
             (a, b) -> new OptimalAtePairing<>(
