@@ -188,6 +188,4 @@ public class Parser<NumberT> {
 
         return output;
     }
-
-
 }

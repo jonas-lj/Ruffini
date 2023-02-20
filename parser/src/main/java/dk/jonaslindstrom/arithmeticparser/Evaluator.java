@@ -168,5 +168,4 @@ public class Evaluator<NumberT> {
         NumberT result = stack.pop();
         return result;
     }
-
 }
