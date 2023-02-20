@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.function.Function;
 
 /**
- * Compute the Lagrange interpolation polynomial which is the polynomial of lowest degree which
+ * Compute the Lagrange interpolation polynomial which is the polynomial of the lowest degree which
  * assumes a given set of points.
  */
 public class LagrangePolynomial<E> implements Function<List<Pair<E, E>>, Polynomial<E>> {
@@ -37,7 +37,7 @@ public class LagrangePolynomial<E> implements Function<List<Pair<E, E>>, Polynom
                 }
                 E xm = points.get(m).first;
 
-                Polynomial<E> f = Polynomial.of(field, field.negate(xm), field.getIdentity());
+                Polynomial<E> f = Polynomial.of(field.negate(xm), field.getIdentity());
                 f = f.scale(field.invert(field.subtract(xj, xm)), field);
                 l = ring.multiply(l, f);
             }

@@ -35,7 +35,7 @@ public class BLS12381 {
      * <code>FP2</code><i> = FP(u) / (u<sup>2</sup> + 1)</i> is a quadratic field extension of base field <code>FP</code>.
      */
     public static AlgebraicFieldExtension<BigInteger, BigPrimeField> FP2 =
-            new AlgebraicFieldExtension<>(FP, "u", Polynomial.of(FP,
+            new AlgebraicFieldExtension<>(FP, "u", Polynomial.of(
                     FP.getIdentity(),
                     FP.getZero(),
                     FP.getIdentity()));
@@ -44,8 +44,8 @@ public class BLS12381 {
      * <code>FP6</code><i> = FP2(v) / (v<sup>3</sup> - (u + 1))</i> is a cubic field extension of <code>FP2</code>.
      */
     public static AlgebraicFieldExtension<Polynomial<BigInteger>, AlgebraicFieldExtension<BigInteger, BigPrimeField>> FP6 =
-            new AlgebraicFieldExtension<>(FP2, "v", Polynomial.of(FP2,
-                    FP2.negate(Polynomial.of(FP, FP.getIdentity(), FP.getIdentity())),
+            new AlgebraicFieldExtension<>(FP2, "v", Polynomial.of(
+                    FP2.negate(Polynomial.of(FP.getIdentity(), FP.getIdentity())),
                     FP2.getZero(),
                     FP2.getZero(),
                     FP2.getIdentity()));
@@ -55,8 +55,8 @@ public class BLS12381 {
      */
     public static AlgebraicFieldExtension<Polynomial<Polynomial<BigInteger>>,
             AlgebraicFieldExtension<Polynomial<BigInteger>, AlgebraicFieldExtension<BigInteger, BigPrimeField>>> FP12 =
-            new AlgebraicFieldExtension<>(FP6, "w", Polynomial.of(FP6,
-                    Polynomial.of(FP2, FP2.getZero(), FP2.negate(FP2.getIdentity())),
+            new AlgebraicFieldExtension<>(FP6, "w", Polynomial.of(
+                    Polynomial.of(FP2.getZero(), FP2.negate(FP2.getIdentity())),
                     FP6.getZero(),
                     FP6.getIdentity()));
     public static Group<Polynomial<Polynomial<Polynomial<BigInteger>>>> GT = FP12;
@@ -64,17 +64,17 @@ public class BLS12381 {
      * Curve over <code>FP2</code> containing the G2 subgroup.
      */
     public static ShortWeierstrassCurveAffine<Polynomial<BigInteger>, ?> G2 =
-            new ShortWeierstrassCurveAffine<>(FP2, FP2.getZero(), Polynomial.of(FP, BigInteger.valueOf(4), BigInteger.valueOf(4)));
+            new ShortWeierstrassCurveAffine<>(FP2, FP2.getZero(), Polynomial.of(BigInteger.valueOf(4), BigInteger.valueOf(4)));
     /**
      * Curve over <code>FP</code> containing the G1 subgroup.
      */
     public static ShortWeierstrassCurveAffine<BigInteger, ?> G1 =
             new ShortWeierstrassCurveAffine<>(FP, BigInteger.ZERO, BigInteger.valueOf(4));
     public static AffinePoint<Polynomial<BigInteger>> G2_GENERATOR = new AffinePoint<>(
-            Polynomial.of(FP,
+            Polynomial.of(
                     new BigInteger("024aa2b2f08f0a91260805272dc51051c6e47ad4fa403b02b4510b647ae3d1770bac0326a805bbefd48056c8c121bdb8", 16),
                     new BigInteger("13e02b6052719f607dacd3a088274f65596bd0d09920b61ab5da61bbdc7f5049334cf11213945d57e5ac7d055d042b7e", 16)),
-            Polynomial.of(FP,
+            Polynomial.of(
                     new BigInteger("0ce5d527727d6e118cc9cdc6da2e351aadfd9baa8cbdd3a76d429a695160d12c923ac9cc3baca289e193548608b82801", 16),
                     new BigInteger("0606c4a02ea734cc32acd2b02bc28b99cb3e287e85a763af267492ab572e99ab3f370d275cec1da1aaa9075ff05f79be", 16))
     );
@@ -114,11 +114,11 @@ public class BLS12381 {
 
     public static SamePair<Polynomial<Polynomial<Polynomial<BigInteger>>>> twist(AffinePoint<BigInteger> p) {
         return new SamePair<>(
-                Polynomial.of(FP6,
-                        Polynomial.of(FP2, FP2.getZero(), Polynomial.of(FP, p.x()), FP2.getZero()),
+                Polynomial.of(
+                        Polynomial.of(FP2.getZero(), Polynomial.of(p.x()), FP2.getZero()),
                         Polynomial.constant(FP2.getZero())),
-                Polynomial.of(FP6,
+                Polynomial.of(
                         Polynomial.constant(FP2.getZero()),
-                        Polynomial.of(FP2, FP2.getZero(), Polynomial.of(FP, p.y()), FP2.getZero())));
+                        Polynomial.of(FP2.getZero(), Polynomial.of(p.y()), FP2.getZero())));
     }
 }

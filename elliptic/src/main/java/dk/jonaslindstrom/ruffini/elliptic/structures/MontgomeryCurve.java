@@ -97,8 +97,8 @@ public class MontgomeryCurve<E, F extends Field<E>> implements AdditiveGroup<Aff
     }
 
     public String toString() {
-        Polynomial<E> rhs = Polynomial.of(field, field.getZero(), field.getIdentity(), A, field.getIdentity());
-        Polynomial<E> lhs = Polynomial.of(field, field.getZero(), field.getZero(), B);
+        Polynomial<E> rhs = Polynomial.of(field.getZero(), field.getIdentity(), A, field.getIdentity());
+        Polynomial<E> lhs = Polynomial.of(field.getZero(), field.getZero(), B);
         return "E: " + lhs.toString("y") + " = " + rhs.toString("x");
     }
 

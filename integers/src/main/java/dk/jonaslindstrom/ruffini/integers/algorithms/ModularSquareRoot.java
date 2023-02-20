@@ -34,8 +34,7 @@ public class ModularSquareRoot implements UnaryOperator<BigInteger> {
 
             case 1:
             default:
-                throw new IllegalArgumentException("Now implemented");
-
+                throw new IllegalArgumentException("Not implemented");
         }
     }
 }

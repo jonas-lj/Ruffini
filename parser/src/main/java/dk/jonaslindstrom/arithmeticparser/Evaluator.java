@@ -1,8 +1,13 @@
 package dk.jonaslindstrom.arithmeticparser;
 
+import dk.jonaslindstrom.ruffini.common.abstractions.Field;
+import dk.jonaslindstrom.ruffini.common.abstractions.Ring;
+import dk.jonaslindstrom.ruffini.common.algorithms.Power;
+
 import java.text.ParseException;
 import java.util.*;
 import java.util.function.BinaryOperator;
+import java.util.function.Function;
 
 /**
  * This class can evaluate expressions parsed to reverse polish notation using the {@link Parser}
@@ -39,6 +44,27 @@ public class Evaluator<NumberT> {
                 put("^", (x, y) -> Math.pow(x, y));
             }
         }, Double::parseDouble);
+    }
+
+    public static <E> Evaluator<E> getField(Field<E> field, Function<String, E> parser, Map<String, MultiOperator<E>> functions) {
+        return new Evaluator<E>(functions, new HashMap<>() {
+            {
+                put("+", field::add);
+                put("-", field::subtract);
+                put("*", field::multiply);
+                put("/", field::divide);
+            }
+        }, parser::apply);
+    }
+
+    public static <E> Evaluator<E> getRing(Ring<E> field, Function<String, E> parser, Map<String, MultiOperator<E>> functions) {
+        return new Evaluator<E>(functions, new HashMap<>() {
+            {
+                put("+", field::add);
+                put("-", field::subtract);
+                put("*", field::multiply);
+            }
+        }, parser::apply);
     }
 
     public static Double evaluate(String expression, Map<String, Double> variables,
