@@ -26,7 +26,7 @@ public class PolynomialRingOverRing<E> implements Ring<Polynomial<E>> {
 
     @SafeVarargs
     public final Polynomial<E> element(E... coefficients) {
-        return Polynomial.of(ring, coefficients);
+        return Polynomial.of(coefficients);
     }
 
     @Override

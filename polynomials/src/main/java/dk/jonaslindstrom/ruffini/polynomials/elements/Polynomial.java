@@ -44,12 +44,12 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
      * linear is second etc.
      */
     @SafeVarargs
-    public static <T> Polynomial<T> of(Ring<T> ring, T... coefficients) {
-        Builder<T> p = new Builder<>(ring);
+    public static <T> Polynomial<T> of(T... coefficients) {
+        SortedMap<Integer, T> map = new TreeMap<>();
         for (int i = 0; i < coefficients.length; i++) {
-            p.set(i, coefficients[i]);
+            map.put(i, coefficients[i]);
         }
-        return p.build();
+        return new Polynomial<>(map);
     }
 
     public void forEach(BiConsumer<Integer, E> consumer) {

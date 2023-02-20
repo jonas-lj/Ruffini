@@ -6,7 +6,7 @@ import dk.jonaslindstrom.ruffini.polynomials.elements.Polynomial;
 public class IntegerPolynomial {
 
     public static Polynomial<Integer> of(Integer... coefficients) {
-        return Polynomial.of(Integers.getInstance(), coefficients);
+        return Polynomial.of(coefficients);
     }
 
     private static Polynomial<Integer> parsePolynomial(String string, String variable) {

@@ -25,7 +25,7 @@ public class CharacteristicPolynomial<E> implements Function<Matrix<E>, Polynomi
 
         Matrix<Polynomial<E>> d = Matrix.of(a.getHeight(), a.getHeight(),
                 (i, j) -> (Objects.equals(i, j) ? Polynomial
-                        .of(ring, ring.negate(a.get(i, j)), ring.getIdentity())
+                        .of(ring.negate(a.get(i, j)), ring.getIdentity())
                         : Polynomial.constant(ring.negate(a.get(i, j)))));
 
         return new Determinant<>(polynomialRing).apply(d);

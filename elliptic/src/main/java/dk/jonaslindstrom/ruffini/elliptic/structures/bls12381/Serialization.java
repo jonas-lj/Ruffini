@@ -158,8 +158,8 @@ public class Serialization {
         if (isInfinity()) {
             return AffinePoint.pointAtInfinity();
         }
-        Polynomial<BigInteger> x = Polynomial.of(BLS12381.FP, integers.get(0), integers.get(1));
-        Polynomial<BigInteger> y = Polynomial.of(BLS12381.FP, integers.get(2), integers.get(3));
+        Polynomial<BigInteger> x = Polynomial.of(integers.get(0), integers.get(1));
+        Polynomial<BigInteger> y = Polynomial.of(integers.get(2), integers.get(3));
         return new AffinePoint<>(x, y);
     }
 

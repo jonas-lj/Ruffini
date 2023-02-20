@@ -3,7 +3,6 @@ package dk.jonaslindstrom.ruffini.finitefields;
 import dk.jonaslindstrom.ruffini.common.abstractions.Field;
 import dk.jonaslindstrom.ruffini.common.algorithms.EuclideanAlgorithm;
 import dk.jonaslindstrom.ruffini.common.structures.QuotientRing;
-import dk.jonaslindstrom.ruffini.integers.structures.Integers;
 import dk.jonaslindstrom.ruffini.polynomials.elements.Polynomial;
 import dk.jonaslindstrom.ruffini.polynomials.structures.PolynomialRing;
 
@@ -40,28 +39,28 @@ public class FiniteField extends QuotientRing<Polynomial<Integer>>
 
                 switch (degree) {
                     case 1:
-                        return Polynomial.of(Integers.getInstance(), 0, 1);
+                        return Polynomial.of(0, 1);
 
                     case 2:
-                        return Polynomial.of(Integers.getInstance(), 1, 1, 1);
+                        return Polynomial.of(1, 1, 1);
 
                     case 3:
-                        return Polynomial.of(Integers.getInstance(), 1, 0, 1, 1);
+                        return Polynomial.of(1, 0, 1, 1);
 
                     case 4:
-                        return Polynomial.of(Integers.getInstance(), 1, 1, 0, 0, 1);
+                        return Polynomial.of(1, 1, 0, 0, 1);
 
                     case 5:
-                        return Polynomial.of(Integers.getInstance(), 1, 0, 1, 0, 0, 1);
+                        return Polynomial.of(1, 0, 1, 0, 0, 1);
 
                     case 6:
-                        return Polynomial.of(Integers.getInstance(), 1, 1, 0, 0, 0, 0, 1);
+                        return Polynomial.of(1, 1, 0, 0, 0, 0, 1);
 
                     case 7:
-                        return Polynomial.of(Integers.getInstance(), 1, 1, 0, 0, 0, 0, 0, 1);
+                        return Polynomial.of(1, 1, 0, 0, 0, 0, 0, 1);
 
                     case 8:
-                        return Polynomial.of(Integers.getInstance(), 1, 1, 0, 1, 1, 0, 0, 0, 1);
+                        return Polynomial.of(1, 1, 0, 1, 1, 0, 0, 0, 1);
 
                     default:
                         return null;
@@ -70,16 +69,16 @@ public class FiniteField extends QuotientRing<Polynomial<Integer>>
             case 3:
                 switch (degree) {
                     case 1:
-                        return Polynomial.of(Integers.getInstance(), 0, 1);
+                        return Polynomial.of(0, 1);
 
                     case 2:
-                        return Polynomial.of(Integers.getInstance(), 2, 2, 1);
+                        return Polynomial.of(2, 2, 1);
 
                     case 3:
-                        return Polynomial.of(Integers.getInstance(), 1, 2, 0, 1);
+                        return Polynomial.of(1, 2, 0, 1);
 
                     case 4:
-                        return Polynomial.of(Integers.getInstance(), 2, 1, 0, 0, 1);
+                        return Polynomial.of(2, 1, 0, 0, 1);
 
                     default:
                         return null;
@@ -93,7 +92,7 @@ public class FiniteField extends QuotientRing<Polynomial<Integer>>
     }
 
     public Polynomial<Integer> element(Integer... coefficients) {
-        return Polynomial.of(baseField, coefficients);
+        return Polynomial.of(coefficients);
     }
 
     @Override
@@ -116,7 +115,7 @@ public class FiniteField extends QuotientRing<Polynomial<Integer>>
     }
 
     public Polynomial<Integer> createElement(Integer... c) {
-        return Polynomial.of(baseField, c);
+        return Polynomial.of(c);
     }
 
 }

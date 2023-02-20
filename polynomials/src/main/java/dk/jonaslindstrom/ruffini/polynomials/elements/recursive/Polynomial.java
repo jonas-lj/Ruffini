@@ -68,8 +68,8 @@ public class Polynomial<S> implements BiFunction<List<S>, Ring<S>, S> {
                 new Pair<>(i + j, this.coefficients.get(i).multiply(other.coefficients.get(j), ring)))).collect(
                 ImmutableSortedMap.toImmutableSortedMap(
                         Integer::compare,
-                        p -> p.first,
-                        p -> p.second,
+                        Pair::getFirst,
+                        Pair::getSecond,
                         (a, b) -> a.add(b, ring)));
         return new Polynomial<>(variables, coefficients, ring);
     }
