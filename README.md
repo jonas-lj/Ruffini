@@ -47,7 +47,6 @@ general formula to solve quintic (and higher order) equations.
 <p>
 The library contains multiple submodules:
 </p>
-<p>
 - __Common__: Definition of most commonly used abstract structures (groups, rings, fields, etc) and generic algorithms used throughout the library.
 - __Demos__: Example usages of the library. See also the <a href="#demos">Demos</a> section.
 - __Elliptic__: Elliptic curves over generic fields and a few concrete constructions (Curve25519 and BLS12-381).
@@ -57,7 +56,6 @@ The library contains multiple submodules:
 - __Permutations__: Construction and algoritms for  permutation groups.
 - __Polynomials__: Single- and multivariate polynomials over arbitrary rings or fields. Includes common algorithms such as the computation of Lagrange interpolation and Gröbner bases.
 - __Reals__: Arbitrary precision real numbers using a constructive representation.
-</p>
 
 ## Built With
 
