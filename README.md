@@ -27,7 +27,7 @@
 ## About The Project
 
 <p>
-The Ruffini library is developed to make it easy to algorithms in Java involving 
+The Ruffini library is developed to make it easy to write algorithms in Java involving 
 algebraic structures such as finite fields, polynomial rings, field extensions etc. The library includes 
 an extensive library of already implemented algorithms such as the Euclidean algorithm, polynomial 
 division etc. to make implementation even easier.
