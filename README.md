@@ -1,4 +1,4 @@
-![Maven](https://github.com/jonas-lj/Ruffini/actions/workflows/maven.yml/badge.svg) [![Javadoc](https://img.shields.io/badge/JavaDoc-Online-green)](https://jonas-lj.github.io/Ruffini/allclasses-index.html)
+![Maven central](https://img.shields.io/maven-central/v/dk.jonaslindstrom/ruffini) ![Maven](https://github.com/jonas-lj/Ruffini/actions/workflows/maven.yml/badge.svg) [![Javadoc](https://img.shields.io/badge/JavaDoc-Online-green)](https://jonas-lj.github.io/Ruffini/allclasses-index.html)
 
 <!-- PROJECT LOGO -->
 <h1>Ruffini</h1>
