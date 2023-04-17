@@ -7,6 +7,7 @@ public class Token {
 
     private final String representation;
     private final Type type;
+
     public Token(String representation, Type type) {
         this.representation = representation;
         this.type = type;

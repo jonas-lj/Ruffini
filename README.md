@@ -48,14 +48,16 @@ general formula to solve quintic (and higher order) equations.
 The library contains multiple submodules:
 </p>
 
-- __Common__: Definition of most commonly used abstract structures (groups, rings, fields, etc) and generic algorithms used throughout the library.
+- __Common__: Definition of most commonly used abstract structures (groups, rings, fields, etc) and generic algorithms
+  used throughout the library.
 - __Demos__: Example usages of the library. See also the <a href="#demos">Demos</a> section.
 - __Elliptic__: Elliptic curves over generic fields and a few concrete constructions (Curve25519 and BLS12-381).
 - __Finite-fields__: Constructions of finite fields and algebraic field extensions.
 - __Integers__: Concrete constructions of integers and rational numbers.
 - __Parser__: Algorithms to parse algebraic expressions from strings and evaluate them.
-- __Permutations__: Construction and algoritms for  permutation groups.
-- __Polynomials__: Single- and multivariate polynomials over arbitrary rings or fields. Includes common algorithms such as the computation of Lagrange interpolation and Gröbner bases.
+- __Permutations__: Construction and algoritms for permutation groups.
+- __Polynomials__: Single- and multivariate polynomials over arbitrary rings or fields. Includes common algorithms such
+  as the computation of Lagrange interpolation and Gröbner bases.
 - __Reals__: Arbitrary precision real numbers using a constructive representation.
 
 ## Built With
@@ -120,17 +122,20 @@ public class GramSchmidt<V, S, F extends Field<S>> implements Function<List<V>, 
 
 }
 ```
-The library also contains some concrete instantiations of algebraic structures such as prime fields, finite fields and 
-certain elliptic curve constructions (Curve25519 and BLS12-381). 
 
+The library also contains some concrete instantiations of algebraic structures such as prime fields, finite fields and
+certain elliptic curve constructions (Curve25519 and BLS12-381).
 
 ## Demos
 
 There are a few demo applications showing some capabilities of the library in the `demos` module.
 
-These include an implementation of the [AKS primality testing algorithm](https://en.wikipedia.org/wiki/AKS_primality_test),
-computing the [optimal Ate pairing over the BLS12-381 elliptic construction](https://hackmd.io/@benjaminion/bls12-381) and a 
-demonstration of arbitrary precision arithmetic with real numbers inspired by [the work of Hans-J Boehm](https://www.hboehm.info/new_crcalc/CRCalc.html).
+These include an implementation of
+the [AKS primality testing algorithm](https://en.wikipedia.org/wiki/AKS_primality_test),
+computing the [optimal Ate pairing over the BLS12-381 elliptic construction](https://hackmd.io/@benjaminion/bls12-381)
+and a
+demonstration of arbitrary precision arithmetic with real numbers inspired
+by [the work of Hans-J Boehm](https://www.hboehm.info/new_crcalc/CRCalc.html).
 
 <!-- CONTRIBUTING -->
 

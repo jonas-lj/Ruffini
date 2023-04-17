@@ -5,7 +5,6 @@ import dk.jonaslindstrom.ruffini.common.matrices.algorithms.MatrixMultiplication
 import dk.jonaslindstrom.ruffini.common.matrices.algorithms.StrassenMultiplication;
 import dk.jonaslindstrom.ruffini.common.matrices.elements.Matrix;
 import dk.jonaslindstrom.ruffini.integers.structures.Integers;
-import org.junit.Assert;
 
 import java.util.Random;
 
@@ -39,7 +38,7 @@ public class StrassenDemo {
         System.out.println("=======================");
         System.out.println(logger);
 
-        Assert.assertTrue(c.equals(d, logger::equals));
+        System.out.println("Equal = " + c.equals(d, logger::equals));
     }
 
 }

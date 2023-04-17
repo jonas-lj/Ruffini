@@ -1,7 +1,5 @@
 package dk.jonaslindstrom.arithmeticparser;
 
-import dk.jonaslindstrom.ruffini.common.abstractions.Field;
-import dk.jonaslindstrom.ruffini.finitefields.PrimeField;
 import org.junit.Assert;
 import org.junit.Test;
 

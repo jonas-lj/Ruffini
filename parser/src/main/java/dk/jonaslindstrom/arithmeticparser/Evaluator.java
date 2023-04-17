@@ -2,7 +2,6 @@ package dk.jonaslindstrom.arithmeticparser;
 
 import dk.jonaslindstrom.ruffini.common.abstractions.Field;
 import dk.jonaslindstrom.ruffini.common.abstractions.Ring;
-import dk.jonaslindstrom.ruffini.common.algorithms.Power;
 
 import java.text.ParseException;
 import java.util.*;
