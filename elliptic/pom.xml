@@ -5,7 +5,7 @@
     <parent>
         <artifactId>ruffini</artifactId>
         <groupId>dk.jonaslindstrom</groupId>
-        <version>0.4-SNAPSHOT</version>
+        <version>0.3</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -19,13 +19,13 @@
         <dependency>
             <groupId>dk.jonaslindstrom</groupId>
             <artifactId>common</artifactId>
-            <version>0.4-SNAPSHOT</version>
+            <version>0.3</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>dk.jonaslindstrom</groupId>
             <artifactId>finite-fields</artifactId>
-            <version>0.4-SNAPSHOT</version>
+            <version>0.3</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

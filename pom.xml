@@ -3,9 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>dk.jonaslindstrom</groupId>
-    <artifactId>ruffini</artifactId>
+    <artifactId>ruffini-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.3</version>
     <modules>
         <module>polynomials</module>
         <module>reals</module>
