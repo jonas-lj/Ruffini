@@ -1,4 +1,4 @@
-![Maven central](https://img.shields.io/maven-central/v/dk.jonaslindstrom/ruffini) ![Maven](https://github.com/jonas-lj/Ruffini/actions/workflows/maven.yml/badge.svg) [![Javadoc](https://img.shields.io/badge/JavaDoc-Online-green)](https://jonas-lj.github.io/Ruffini/allclasses-index.html)
+![Maven](https://img.shields.io/maven-central/v/dk.jonaslindstrom.ruffini/parent) ![Maven](https://github.com/jonas-lj/Ruffini/actions/workflows/maven.yml/badge.svg) [![Javadoc](https://img.shields.io/badge/JavaDoc-Online-green)](https://jonas-lj.github.io/Ruffini/allclasses-index.html) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 <!-- PROJECT LOGO -->
 <h1>Ruffini</h1>
