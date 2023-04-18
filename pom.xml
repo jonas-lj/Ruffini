@@ -2,8 +2,8 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>dk.jonaslindstrom</groupId>
-    <artifactId>ruffini-parent</artifactId>
+    <groupId>dk.jonaslindstrom.ruffini</groupId>
+    <artifactId>parent</artifactId>
     <packaging>pom</packaging>
     <version>0.3</version>
     <modules>
@@ -23,6 +23,27 @@
         <maven.compiler.source>16</maven.compiler.source>
         <maven.compiler.target>16</maven.compiler.target>
     </properties>
+
+    <name>Ruffini</name>
+    <description>
+        Computations over algebraic structures in Java made easy.
+    </description>
+    <url>https://github.com/jonas-lj/Ruffini</url>
+
+    <licenses>
+        <license>
+            <name>MIT-License</name>
+            <url>https://github.com/jonas-lj/Ruffini/blob/master/LICENSE</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Jonas Lindstrøm</name>
+            <email>mail@jonaslindstrom.dk</email>
+        </developer>
+    </developers>
 
     <scm>
         <connection>scm:git:git@github.com:jonas-lj/ruffini.git</connection>

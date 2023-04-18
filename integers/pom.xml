@@ -3,8 +3,8 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>ruffini</artifactId>
-        <groupId>dk.jonaslindstrom</groupId>
+        <artifactId>parent</artifactId>
+        <groupId>dk.jonaslindstrom.ruffini</groupId>
         <version>0.3</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -13,12 +13,12 @@
 
     <dependencies>
         <dependency>
-            <groupId>dk.jonaslindstrom</groupId>
+            <groupId>dk.jonaslindstrom.ruffini</groupId>
             <artifactId>common</artifactId>
             <version>0.3</version>
         </dependency>
         <dependency>
-            <groupId>dk.jonaslindstrom</groupId>
+            <groupId>dk.jonaslindstrom.ruffini</groupId>
             <artifactId>polynomials</artifactId>
             <version>0.3</version>
         </dependency>
