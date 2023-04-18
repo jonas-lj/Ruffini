@@ -13,25 +13,25 @@
 
     <dependencies>
         <dependency>
-            <groupId>dk.jonaslindstrom</groupId>
+            <groupId>dk.jonaslindstrom.ruffini</groupId>
             <artifactId>finite-fields</artifactId>
             <version>0.3</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>dk.jonaslindstrom</groupId>
+            <groupId>dk.jonaslindstrom.ruffini</groupId>
             <artifactId>reals</artifactId>
             <version>0.3</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>dk.jonaslindstrom</groupId>
+            <groupId>dk.jonaslindstrom.ruffini</groupId>
             <artifactId>elliptic</artifactId>
             <version>0.3</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>dk.jonaslindstrom</groupId>
+            <groupId>dk.jonaslindstrom.ruffini</groupId>
             <artifactId>common</artifactId>
             <version>0.3</version>
             <scope>compile</scope>
