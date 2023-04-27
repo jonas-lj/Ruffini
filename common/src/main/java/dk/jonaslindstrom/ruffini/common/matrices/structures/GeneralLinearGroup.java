@@ -30,7 +30,7 @@ public class GeneralLinearGroup<E, F extends Field<E>> implements Group<Matrix<E
     }
 
     @Override
-    public Matrix<E> getIdentity() {
+    public Matrix<E> identity() {
         return Matrix.eye(n, field);
     }
 

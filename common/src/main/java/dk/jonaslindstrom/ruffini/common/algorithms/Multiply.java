@@ -17,7 +17,7 @@ public class Multiply<E> {
 
     public E apply(Integer e, E a) {
         if (e == 0) {
-            return group.getZero();
+            return group.zero();
         } else if (e == 1) {
             return a;
         }
@@ -32,7 +32,7 @@ public class Multiply<E> {
 
     public E apply(BigInteger e, E a) {
         if (e.equals(BigInteger.ZERO)) {
-            return group.getZero();
+            return group.zero();
         } else if (e.equals(BigInteger.ONE)) {
             return a;
         }

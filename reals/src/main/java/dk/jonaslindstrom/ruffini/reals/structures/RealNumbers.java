@@ -27,7 +27,7 @@ public class RealNumbers implements Field<Double> {
     }
 
     @Override
-    public Double getIdentity() {
+    public Double identity() {
         return 1.0;
     }
 
@@ -57,7 +57,7 @@ public class RealNumbers implements Field<Double> {
     }
 
     @Override
-    public Double getZero() {
+    public Double zero() {
         return 0.0;
     }
 

@@ -4,7 +4,6 @@ import dk.jonaslindstrom.ruffini.common.abstractions.Ring;
 import dk.jonaslindstrom.ruffini.common.algorithms.*;
 import dk.jonaslindstrom.ruffini.common.util.SamplingUtils;
 import dk.jonaslindstrom.ruffini.common.util.TestUtils;
-import dk.jonaslindstrom.ruffini.common.util.Triple;
 import dk.jonaslindstrom.ruffini.common.vector.Vector;
 import org.junit.Assert;
 import org.junit.Test;
@@ -81,7 +80,7 @@ public class AlgorithmsTests {
         for (int i = 0; i < testSets; i++) {
 
             // Number of bases
-            int n = random.nextInt(4, 10);
+            int n = random.nextInt(6) + 4;
 
             // Generate random pseudo-prime bases
             List<BigInteger> bases = new ArrayList<>();
@@ -123,13 +122,23 @@ public class AlgorithmsTests {
     public void testEuclideanAlgorithm() {
         EuclideanDomain<BigInteger> integers = new TestUtils.TestBigIntegers();
         Random random = new Random(1234);
+
         int tests = 100;
         for (int i = 0; i < tests; i++) {
             BigInteger a = new BigInteger(16, random);
             BigInteger b = new BigInteger(16, random);
-            Triple<BigInteger, BigInteger, BigInteger> gcd = new EuclideanAlgorithm<>(integers).extendedGcd(a, b);
-            Assert.assertEquals(a.gcd(b), gcd.first());
-            Assert.assertEquals(gcd.first(), gcd.second().multiply(a).add(gcd.third().multiply(b)));
+            EuclideanAlgorithm.Result<BigInteger> gcd = new EuclideanAlgorithm<>(integers).gcd(a, b);
+            Assert.assertEquals(a.gcd(b), gcd.gcd());
+            Assert.assertEquals(gcd.gcd(), gcd.x().multiply(a).add(gcd.y().multiply(b)));
+        }
+
+        for (int i = 0; i < tests; i++) {
+            BigInteger a = new BigInteger(16, random);
+            BigInteger b = new BigInteger(16, random);
+            BigInteger c = new BigInteger(16, random);
+            EuclideanAlgorithm.ExtendedResult<BigInteger> gcd = new EuclideanAlgorithm<>(integers).gcd(a, b, c);
+            Assert.assertEquals(a.gcd(b).gcd(c), gcd.gcd());
+            Assert.assertEquals(gcd.gcd(), gcd.bezout().get(0).multiply(a).add(gcd.bezout().get(1).multiply(b)).add(gcd.bezout().get(2).multiply(c)));
         }
     }
 

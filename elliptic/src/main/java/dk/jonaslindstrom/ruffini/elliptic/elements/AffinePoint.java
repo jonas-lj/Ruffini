@@ -26,7 +26,7 @@ public record AffinePoint<E>(E x, E y) {
         if (isPointAtInfinity()) {
             return ProjectivePoint.pointAtInfinity(field);
         }
-        return new ProjectivePoint<>(x, y, field.getIdentity());
+        return new ProjectivePoint<>(x, y, field.identity());
     }
 
     public <F> AffinePoint<F> apply(Function<E, F> function) {

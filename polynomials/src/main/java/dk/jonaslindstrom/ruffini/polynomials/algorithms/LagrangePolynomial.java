@@ -29,7 +29,7 @@ public class LagrangePolynomial<E> implements Function<List<Pair<E, E>>, Polynom
 
         List<Polynomial<E>> lj = new ArrayList<>();
         for (int j = 0; j < k; j++) {
-            Polynomial<E> l = ring.getIdentity();
+            Polynomial<E> l = ring.identity();
             E xj = points.get(j).first;
             for (int m = 0; m < k; m++) {
                 if (m == j) {
@@ -37,14 +37,14 @@ public class LagrangePolynomial<E> implements Function<List<Pair<E, E>>, Polynom
                 }
                 E xm = points.get(m).first;
 
-                Polynomial<E> f = Polynomial.of(field.negate(xm), field.getIdentity());
+                Polynomial<E> f = Polynomial.of(field.negate(xm), field.identity());
                 f = f.scale(field.invert(field.subtract(xj, xm)), field);
                 l = ring.multiply(l, f);
             }
             lj.add(l);
         }
 
-        Polynomial<E> L = ring.getZero();
+        Polynomial<E> L = ring.zero();
         for (int j = 0; j < k; j++) {
             E yj = points.get(j).second;
             L = ring.add(L, lj.get(j).scale(yj, field));

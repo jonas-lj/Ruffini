@@ -31,8 +31,8 @@ public abstract class AbstractModule<V, S, R extends Ring<S>> implements
     }
 
     @Override
-    public V getZero() {
-        return vectors.getZero();
+    public V zero() {
+        return vectors.zero();
     }
 
     @Override

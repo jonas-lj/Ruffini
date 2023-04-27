@@ -31,9 +31,9 @@ public class MatrixRing<E> implements Ring<Matrix<E>> {
     }
 
     @Override
-    public Matrix<E> getIdentity() {
+    public Matrix<E> identity() {
         return Matrix.of(dimension, dimension,
-                (i, j) -> i.equals(j) ? baseRing.getIdentity() : baseRing.getZero());
+                (i, j) -> i.equals(j) ? baseRing.identity() : baseRing.zero());
     }
 
     @Override
@@ -57,8 +57,8 @@ public class MatrixRing<E> implements Ring<Matrix<E>> {
     }
 
     @Override
-    public Matrix<E> getZero() {
-        return Matrix.of(dimension, dimension, baseRing.getZero());
+    public Matrix<E> zero() {
+        return Matrix.of(dimension, dimension, baseRing.zero());
     }
 
     @Override

@@ -1,11 +1,13 @@
 package dk.jonaslindstrom.ruffini.integers.structures;
 
 import dk.jonaslindstrom.ruffini.common.abstractions.EuclideanDomain;
+import dk.jonaslindstrom.ruffini.common.abstractions.OrderedSet;
 import dk.jonaslindstrom.ruffini.common.util.Pair;
 
 import java.math.BigInteger;
+import java.util.Comparator;
 
-public class Integers implements EuclideanDomain<Integer> {
+public class Integers implements EuclideanDomain<Integer>, OrderedSet<Integer> {
 
     private static final Integers instance = new Integers();
 
@@ -23,7 +25,7 @@ public class Integers implements EuclideanDomain<Integer> {
     }
 
     @Override
-    public Integer getIdentity() {
+    public Integer identity() {
         return 1;
     }
 
@@ -43,7 +45,7 @@ public class Integers implements EuclideanDomain<Integer> {
     }
 
     @Override
-    public Integer getZero() {
+    public Integer zero() {
         return 0;
     }
 
@@ -53,7 +55,7 @@ public class Integers implements EuclideanDomain<Integer> {
     }
 
     @Override
-    public Pair<Integer, Integer> divisionWithRemainder(Integer a, Integer b) {
+    public Pair<Integer, Integer> divide(Integer a, Integer b) {
         int residue = Math.floorMod(a, b);
         int quotient = (a - residue) / b;
         return new Pair<>(quotient, residue);
@@ -67,5 +69,10 @@ public class Integers implements EuclideanDomain<Integer> {
     @Override
     public BigInteger norm(Integer a) {
         return BigInteger.valueOf(Math.abs(a));
+    }
+
+    @Override
+    public Comparator<Integer> getOrdering() {
+        return Comparator.naturalOrder();
     }
 }

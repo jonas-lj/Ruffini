@@ -36,7 +36,7 @@ public class QRDecomposition<E, F extends Field<E>> implements
 
         Matrix<E> Q = Matrix.of(A.getHeight(), A.getHeight(), (i, j) -> e.get(j).get(i));
         Matrix<E> R = Matrix.of(A.getHeight(), A.getWidth(), (i, j) ->
-                i <= j ? V.innerProduct(e.get(i), A.getColumn(j)) : V.getScalars().getZero()
+                i <= j ? V.innerProduct(e.get(i), A.getColumn(j)) : V.getScalars().zero()
         );
 
         return new Pair<>(Q, R);

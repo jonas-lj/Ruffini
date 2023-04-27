@@ -14,7 +14,7 @@ public class SymmetricGroup implements Group<Permutation> {
     }
 
     @Override
-    public Permutation getIdentity() {
+    public Permutation identity() {
         return new Permutation(n);
     }
 

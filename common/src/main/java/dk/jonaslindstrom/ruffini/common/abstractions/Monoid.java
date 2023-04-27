@@ -7,10 +7,10 @@ public interface Monoid<E> extends Semigroup<E> {
     /**
      * Return the identity element of this monoid.
      */
-    E getIdentity();
+    E identity();
 
     default boolean isIdentity(E a) {
-        return this.equals(a, this.getIdentity());
+        return this.equals(a, this.identity());
     }
 
     /**

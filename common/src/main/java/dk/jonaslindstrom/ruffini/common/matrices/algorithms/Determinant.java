@@ -20,8 +20,8 @@ public class Determinant<E> implements Function<Matrix<E>, E> {
         if (t.getHeight() == 1) {
             return t.get(0, 0);
         } else {
-            E d = ring.getZero();
-            E c = ring.getIdentity();
+            E d = ring.zero();
+            E c = ring.identity();
             Matrix<E> view = t.view();
             for (int i = 0; i < t.getHeight(); i++) {
                 d = ring.add(d, ring.multiply(t.get(i, 0), ring.multiply(c, apply(view.minor(i, 0)))));

@@ -1,11 +1,13 @@
 package dk.jonaslindstrom.ruffini.integers.structures;
 
 import dk.jonaslindstrom.ruffini.common.abstractions.EuclideanDomain;
+import dk.jonaslindstrom.ruffini.common.abstractions.OrderedSet;
 import dk.jonaslindstrom.ruffini.common.util.Pair;
 
 import java.math.BigInteger;
+import java.util.Comparator;
 
-public class BigIntegers implements EuclideanDomain<BigInteger> {
+public class BigIntegers implements EuclideanDomain<BigInteger>, OrderedSet<BigInteger> {
 
     private static final BigIntegers instance = new BigIntegers();
 
@@ -18,7 +20,7 @@ public class BigIntegers implements EuclideanDomain<BigInteger> {
     }
 
     @Override
-    public BigInteger getIdentity() {
+    public BigInteger identity() {
         return BigInteger.ONE;
     }
 
@@ -48,14 +50,15 @@ public class BigIntegers implements EuclideanDomain<BigInteger> {
     }
 
     @Override
-    public BigInteger getZero() {
+    public BigInteger zero() {
         return BigInteger.ZERO;
     }
 
     @Override
-    public Pair<BigInteger, BigInteger> divisionWithRemainder(BigInteger a, BigInteger b) {
-        BigInteger[] qr = a.divideAndRemainder(b);
-        return new Pair<>(qr[0], qr[1]);
+    public Pair<BigInteger, BigInteger> divide(BigInteger a, BigInteger b) {
+        BigInteger r = a.mod(b);
+        BigInteger q = a.subtract(r).divide(b);
+        return new Pair<>(q, r);
     }
 
     @Override
@@ -68,4 +71,8 @@ public class BigIntegers implements EuclideanDomain<BigInteger> {
         return "\\mathbb{Z}";
     }
 
+    @Override
+    public Comparator<BigInteger> getOrdering() {
+        return BigInteger::compareTo;
+    }
 }

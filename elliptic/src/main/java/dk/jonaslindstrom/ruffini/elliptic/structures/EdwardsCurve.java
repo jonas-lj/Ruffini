@@ -35,7 +35,7 @@ public class EdwardsCurve<E, F extends Field<E>> implements AdditiveGroup<Edward
     @SafeVarargs
     private E multiply(E... factors) {
         if (factors.length == 0) {
-            return field.getIdentity();
+            return field.identity();
         }
         E p = factors[0];
         for (int i = 1; i < factors.length; i++) {
@@ -51,8 +51,8 @@ public class EdwardsCurve<E, F extends Field<E>> implements AdditiveGroup<Edward
         E n2 = field.subtract(field.multiply(a.y(), b.y()), field.multiply(a.x(), b.x()));
 
         E p = multiply(d, a.x(), b.x(), a.y(), b.y());
-        E d1 = field.add(field.getIdentity(), p);
-        E d2 = field.subtract(field.getIdentity(), p);
+        E d1 = field.add(field.identity(), p);
+        E d2 = field.subtract(field.identity(), p);
 
         return new EdwardsPoint<>(field.divide(n1, d1), field.divide(n2, d2));
     }
@@ -63,8 +63,8 @@ public class EdwardsCurve<E, F extends Field<E>> implements AdditiveGroup<Edward
     }
 
     @Override
-    public EdwardsPoint<E> getZero() {
-        return new EdwardsPoint<>(field.getZero(), field.getIdentity());
+    public EdwardsPoint<E> zero() {
+        return new EdwardsPoint<>(field.zero(), field.identity());
     }
 
     /**
@@ -72,13 +72,13 @@ public class EdwardsCurve<E, F extends Field<E>> implements AdditiveGroup<Edward
      * points on this curve to points on the Montgomery curve.
      */
     public Pair<MontgomeryCurve<E, F>, Function<EdwardsPoint<E>, AffinePoint<E>>> getCorrespondingMontgomeryCurve() {
-        E e = field.subtract(field.getIdentity(), d);
+        E e = field.subtract(field.identity(), d);
         E A = field.subtract(field.divide(field.integer(4), e), field.integer(2));
         E B = field.invert(e);
         return Pair.of(new MontgomeryCurve<>(field, A, B),
                 p -> {
-                    E py = field.add(field.getIdentity(), p.y());
-                    E my = field.subtract(field.getIdentity(), p.y());
+                    E py = field.add(field.identity(), p.y());
+                    E my = field.subtract(field.identity(), p.y());
                     E u = field.divide(py, my);
                     E v = field.divide(field.add(py, py), field.multiply(p.x(), my));
                     return new AffinePoint<>(u, v);

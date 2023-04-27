@@ -3,7 +3,6 @@ package dk.jonaslindstrom.ruffini.finitefields;
 import dk.jonaslindstrom.ruffini.common.abstractions.Field;
 import dk.jonaslindstrom.ruffini.common.algorithms.EuclideanAlgorithm;
 import dk.jonaslindstrom.ruffini.common.exceptions.NotInvertibleException;
-import dk.jonaslindstrom.ruffini.common.util.Triple;
 import dk.jonaslindstrom.ruffini.integers.structures.BigIntegers;
 import dk.jonaslindstrom.ruffini.integers.structures.BigIntegersModuloN;
 
@@ -17,12 +16,12 @@ public class BigPrimeField extends BigIntegersModuloN implements Field<BigIntege
 
     @Override
     public BigInteger invert(BigInteger a) {
-        Triple<BigInteger, BigInteger, BigInteger> xgcd =
-                new EuclideanAlgorithm<>(BigIntegers.getInstance()).extendedGcd(a, super.getModulus());
-        if (!xgcd.getFirst().equals(BigInteger.ONE)) {
+        EuclideanAlgorithm.Result<BigInteger> xgcd =
+                new EuclideanAlgorithm<>(BigIntegers.getInstance()).gcd(a, super.getModulus());
+        if (!xgcd.gcd().equals(BigInteger.ONE)) {
             throw new NotInvertibleException(a);
         }
-        return xgcd.getSecond().mod(super.mod);
+        return xgcd.x().mod(super.mod);
     }
 
     @Override

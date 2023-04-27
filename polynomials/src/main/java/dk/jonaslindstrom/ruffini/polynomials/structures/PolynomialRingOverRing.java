@@ -38,8 +38,8 @@ public class PolynomialRingOverRing<E> implements Ring<Polynomial<E>> {
     }
 
     @Override
-    public Polynomial<E> getIdentity() {
-        return Polynomial.constant(ring.getIdentity());
+    public Polynomial<E> identity() {
+        return Polynomial.constant(ring.identity());
     }
 
     @Override
@@ -61,8 +61,8 @@ public class PolynomialRingOverRing<E> implements Ring<Polynomial<E>> {
     }
 
     @Override
-    public Polynomial<E> getZero() {
-        return Polynomial.constant(ring.getZero());
+    public Polynomial<E> zero() {
+        return Polynomial.constant(ring.zero());
     }
 
     @Override
@@ -75,7 +75,7 @@ public class PolynomialRingOverRing<E> implements Ring<Polynomial<E>> {
         for (int i = 0; i <= a.degree(); i++) {
             if (Objects.isNull(a.getCoefficient(i))) {
                 if (Objects.nonNull(b.getCoefficient(i))) {
-                    if (ring.equals(b.getCoefficient(i), ring.getZero())) {
+                    if (ring.equals(b.getCoefficient(i), ring.zero())) {
                         return false;
                     }
                 }
@@ -83,7 +83,7 @@ public class PolynomialRingOverRing<E> implements Ring<Polynomial<E>> {
             }
 
             if (Objects.isNull(b.getCoefficient(i))) {
-                if (ring.equals(a.getCoefficient(i), ring.getZero())) {
+                if (ring.equals(a.getCoefficient(i), ring.zero())) {
                     return false;
                 }
                 continue;
@@ -109,7 +109,7 @@ public class PolynomialRingOverRing<E> implements Ring<Polynomial<E>> {
         if (!ring.isIdentity(b.getCoefficient(b.degree()))) {
             throw new ArithmeticException("Divisor must be monic");
         }
-        return divisionWithRemainder(a, b, ring.getIdentity());
+        return divisionWithRemainder(a, b, ring.identity());
     }
 
     /**
@@ -122,12 +122,12 @@ public class PolynomialRingOverRing<E> implements Ring<Polynomial<E>> {
      */
     public Pair<Polynomial<E>, Polynomial<E>> divisionWithRemainder(Polynomial<E> a, Polynomial<E> b,
                                                                     E bLeadInverse) {
-        Polynomial<E> quotient = getZero();
+        Polynomial<E> quotient = zero();
         Polynomial<E> remainder = a;
 
         int divisorDegree = b.degree();
 
-        while (!equals(remainder, getZero())) {
+        while (!equals(remainder, zero())) {
 
             int remainderDegree = remainder.degree();
             if (remainderDegree < divisorDegree) {
@@ -135,7 +135,7 @@ public class PolynomialRingOverRing<E> implements Ring<Polynomial<E>> {
             }
 
             E l = remainder.getCoefficient(remainderDegree);
-            if (Objects.nonNull(l) && !ring.equals(l, ring.getZero())) {
+            if (Objects.nonNull(l) && !ring.equals(l, ring.zero())) {
                 E q = ring.multiply(remainder.getCoefficient(remainderDegree), bLeadInverse);
 
                 Polynomial<E> t = Polynomial.monomial(q, remainderDegree - divisorDegree);

@@ -43,8 +43,8 @@ public class MultivariatePolynomialRing<E>
     }
 
     @Override
-    public MultivariatePolynomial<E> getIdentity() {
-        return MultivariatePolynomial.constant(field.getIdentity(), variables);
+    public MultivariatePolynomial<E> identity() {
+        return MultivariatePolynomial.constant(field.identity(), variables);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class MultivariatePolynomialRing<E>
         for (Pair<Monomial, E> ai : a.coefficients()) {
             E bi = b.getCoefficient(ai.first);
             if (Objects.isNull(bi)) {
-                if (field.equals(ai.second, field.getZero())) {
+                if (field.equals(ai.second, field.zero())) {
                     continue;
                 } else {
                     return false;
@@ -78,7 +78,7 @@ public class MultivariatePolynomialRing<E>
         for (Pair<Monomial, E> bi : b.coefficients()) {
             E ai = b.getCoefficient(bi.first);
             if (Objects.isNull(ai)) {
-                if (field.equals(bi.second, field.getZero())) {
+                if (field.equals(bi.second, field.zero())) {
                     continue;
                 } else {
                     return false;
@@ -104,12 +104,12 @@ public class MultivariatePolynomialRing<E>
     }
 
     @Override
-    public MultivariatePolynomial<E> getZero() {
-        return MultivariatePolynomial.constant(field.getZero(), variables);
+    public MultivariatePolynomial<E> zero() {
+        return MultivariatePolynomial.constant(field.zero(), variables);
     }
 
     @Override
-    public Pair<MultivariatePolynomial<E>, MultivariatePolynomial<E>> divisionWithRemainder(
+    public Pair<MultivariatePolynomial<E>, MultivariatePolynomial<E>> divide(
             MultivariatePolynomial<E> a, MultivariatePolynomial<E> b) {
         Pair<Vector<MultivariatePolynomial<E>>, MultivariatePolynomial<E>> result = new MultivariatePolynomialDivision<>(
                 this, ordering).apply(a, Vector.of(b));

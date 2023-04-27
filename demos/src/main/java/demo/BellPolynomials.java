@@ -23,10 +23,10 @@ public class BellPolynomials {
 
         // Initial step in recursion, B_0 = 1
         List<MultivariatePolynomial<BigInteger>> polynomials = new ArrayList<>();
-        polynomials.add(ring.getIdentity());
+        polynomials.add(ring.identity());
 
         for (int n = 1; n < m; n++) {
-            MultivariatePolynomial<BigInteger> sum = ring.getZero();
+            MultivariatePolynomial<BigInteger> sum = ring.zero();
             for (int i = 0; i < n; i++) {
                 BigInteger binomial = binomial(n - 1, i);
                 MultivariatePolynomial<BigInteger> term = ring.multiply(polynomials.get(n - i - 1), monomial(i, m)).mapCoefficients(bi -> bi.multiply(binomial));

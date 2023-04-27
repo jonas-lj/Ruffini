@@ -108,7 +108,7 @@ public interface Matrix<E> extends BiFunction<Vector<E>, Ring<E>, Vector<E>> {
     }
 
     static <E> Matrix<E> eye(int n, Ring<E> ring) {
-        return eye(n, ring.getIdentity(), ring.getZero());
+        return eye(n, ring.identity(), ring.zero());
     }
 
     static <E> Matrix<E> fromBlocks(Matrix<Matrix<E>> blocks) {

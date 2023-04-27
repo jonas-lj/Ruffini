@@ -20,4 +20,11 @@ public interface SemiRing<E> extends Monoid<E>, CommutativeMonoid<E> {
         return this.multiply(integer(a), b);
     }
 
+    /**
+     * Return the element in this ring equal to <i>abc</i>.
+     */
+    default E multiply(int a, E b, E c) {
+        return this.multiply(integer(a), b, c);
+    }
+
 }

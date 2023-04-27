@@ -31,13 +31,13 @@ public class PerformanceLoggingRing<E> implements Ring<E> {
     }
 
     @Override
-    public E getZero() {
-        return ring.getZero();
+    public E zero() {
+        return ring.zero();
     }
 
     @Override
-    public E getIdentity() {
-        return ring.getIdentity();
+    public E identity() {
+        return ring.identity();
     }
 
     @Override

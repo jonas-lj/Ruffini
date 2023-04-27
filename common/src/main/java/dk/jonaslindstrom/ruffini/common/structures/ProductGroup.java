@@ -20,8 +20,8 @@ public class ProductGroup<E, F> implements Group<Pair<E, F>> {
     }
 
     @Override
-    public Pair<E, F> getIdentity() {
-        return new Pair<>(g.getIdentity(), h.getIdentity());
+    public Pair<E, F> identity() {
+        return new Pair<>(g.identity(), h.identity());
     }
 
     @Override

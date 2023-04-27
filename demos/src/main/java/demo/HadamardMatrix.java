@@ -78,7 +78,7 @@ public class HadamardMatrix {
                 partition.parallelStream().map(pn -> {
                     List<Polynomial<Integer>> Pi = ArrayUtils.sublist(Vj, pn.first);
                     List<Polynomial<Integer>> Ni = ArrayUtils.sublist(Vj, pn.second);
-                    return ring.subtract(ring.add(ring.getIdentity(), sum.apply(Pi)), sum.apply(Ni));
+                    return ring.subtract(ring.add(ring.identity(), sum.apply(Pi)), sum.apply(Ni));
                 }).collect(Collectors.toList())
         );
 

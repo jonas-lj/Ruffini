@@ -19,12 +19,12 @@ public class TestUtils {
         }
 
         @Override
-        public Integer getZero() {
+        public Integer zero() {
             return 0;
         }
 
         @Override
-        public Integer getIdentity() {
+        public Integer identity() {
             return 1;
         }
 
@@ -44,7 +44,7 @@ public class TestUtils {
         }
 
         @Override
-        public Pair<Integer, Integer> divisionWithRemainder(Integer a, Integer b) {
+        public Pair<Integer, Integer> divide(Integer a, Integer b) {
             int q = Math.floorDiv(a, b);
             int r = a - q * b;
             return Pair.of(q, r);
@@ -69,12 +69,12 @@ public class TestUtils {
         }
 
         @Override
-        public BigInteger getZero() {
+        public BigInteger zero() {
             return BigInteger.ZERO;
         }
 
         @Override
-        public BigInteger getIdentity() {
+        public BigInteger identity() {
             return BigInteger.ONE;
         }
 
@@ -94,7 +94,7 @@ public class TestUtils {
         }
 
         @Override
-        public Pair<BigInteger, BigInteger> divisionWithRemainder(BigInteger a, BigInteger b) {
+        public Pair<BigInteger, BigInteger> divide(BigInteger a, BigInteger b) {
             BigInteger[] qAndR = a.divideAndRemainder(b);
 
             if (qAndR[1].signum() == -1) {

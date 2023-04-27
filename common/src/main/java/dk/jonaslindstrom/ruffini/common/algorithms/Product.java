@@ -15,10 +15,10 @@ public class Product<E> {
     }
 
     public E apply(IntFunction<E> f, Integer n) {
-        return IntStream.range(0, n).mapToObj(f).reduce(group.getIdentity(), group::multiply);
+        return IntStream.range(0, n).mapToObj(f).reduce(group.identity(), group::multiply);
     }
 
     public E apply(List<E> inputs) {
-        return inputs.stream().reduce(group.getIdentity(), group::multiply);
+        return inputs.stream().reduce(group.identity(), group::multiply);
     }
 }

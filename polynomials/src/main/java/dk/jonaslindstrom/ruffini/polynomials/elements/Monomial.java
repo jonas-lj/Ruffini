@@ -150,7 +150,7 @@ public class Monomial implements Iterable<Integer> {
     public <S> S applyTerm(Vector<S> a, Ring<S> ring) {
         assert (a.size() == degree.length);
         Power<S> power = new Power<>(ring);
-        S result = ring.getIdentity();
+        S result = ring.identity();
         for (int i = 0; i < degree.length; i++) {
             result = ring.multiply(result, power.apply(a.get(i), degree[i]));
         }

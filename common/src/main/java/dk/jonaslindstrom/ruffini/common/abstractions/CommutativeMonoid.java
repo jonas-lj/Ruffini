@@ -24,6 +24,6 @@ public interface CommutativeMonoid<E> extends Set<E> {
     /**
      * Return the zero element.
      */
-    E getZero();
+    E zero();
 
 }

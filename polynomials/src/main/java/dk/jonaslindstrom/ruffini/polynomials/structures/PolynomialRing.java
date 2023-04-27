@@ -25,8 +25,8 @@ public class PolynomialRing<E> extends PolynomialRingOverRing<E>
     }
 
     @Override
-    public Pair<Polynomial<E>, Polynomial<E>> divisionWithRemainder(Polynomial<E> a,
-                                                                    Polynomial<E> b) {
+    public Pair<Polynomial<E>, Polynomial<E>> divide(Polynomial<E> a,
+                                                     Polynomial<E> b) {
         return super.divisionWithRemainder(a, b, field.invert(b.getCoefficient(b.degree())));
     }
 

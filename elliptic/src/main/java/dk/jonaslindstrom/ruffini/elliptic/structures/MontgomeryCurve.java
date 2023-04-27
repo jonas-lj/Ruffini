@@ -23,7 +23,7 @@ public class MontgomeryCurve<E, F extends Field<E>> implements AdditiveGroup<Aff
         this.field = field;
         this.A = A;
         this.B = B;
-        assert (!field.equals(discriminant(), field.getZero()));
+        assert (!field.equals(discriminant(), field.zero()));
     }
 
     public F getField() {
@@ -76,7 +76,7 @@ public class MontgomeryCurve<E, F extends Field<E>> implements AdditiveGroup<Aff
                     field.add(
                             field.multiply(field.integer(3), field.multiply(p.x(), p.x())),
                             field.multiply(field.integer(2), A, p.x()),
-                            field.getIdentity()),
+                            field.identity()),
                     field.multiply(field.integer(2), B, p.y()));
         }
 
@@ -92,13 +92,13 @@ public class MontgomeryCurve<E, F extends Field<E>> implements AdditiveGroup<Aff
     }
 
     @Override
-    public AffinePoint<E> getZero() {
+    public AffinePoint<E> zero() {
         return AffinePoint.pointAtInfinity();
     }
 
     public String toString() {
-        Polynomial<E> rhs = Polynomial.of(field.getZero(), field.getIdentity(), A, field.getIdentity());
-        Polynomial<E> lhs = Polynomial.of(field.getZero(), field.getZero(), B);
+        Polynomial<E> rhs = Polynomial.of(field.zero(), field.identity(), A, field.identity());
+        Polynomial<E> lhs = Polynomial.of(field.zero(), field.zero(), B);
         return "E: " + lhs.toString("y") + " = " + rhs.toString("x");
     }
 

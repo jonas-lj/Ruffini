@@ -22,7 +22,7 @@ public class ComplexNumbers implements Field<ComplexNumber> {
     }
 
     @Override
-    public ComplexNumber getIdentity() {
+    public ComplexNumber identity() {
         return new ComplexNumber(1, 0);
     }
 
@@ -52,7 +52,7 @@ public class ComplexNumbers implements Field<ComplexNumber> {
     }
 
     @Override
-    public ComplexNumber getZero() {
+    public ComplexNumber zero() {
         return new ComplexNumber(0, 0);
     }
 

@@ -36,7 +36,7 @@ public class GröbnerBasis<E> implements UnaryOperator<Vector<MultivariatePolyno
                 MultivariatePolynomial<E> S = sPolynomial.apply(f, g);
                 MultivariatePolynomial<E> r = division.apply(S, t).second;
 
-                if (!ring.equals(r, ring.getZero())) {
+                if (!ring.equals(r, ring.zero())) {
                     Vector<MultivariatePolynomial<E>> tNext = Vector.view(t.size() + 1, k -> {
                         if (k < t.size()) {
                             return t.get(k);

@@ -21,7 +21,7 @@ public class ShortWeierstrassCurveAffine<E, F extends Field<E>> implements Addit
         this.field = field;
         this.a = a;
         this.b = b;
-        assert (!field.equals(discriminant(), field.getZero()));
+        assert (!field.equals(discriminant(), field.zero()));
         this.three = new IntegerRingEmbedding<>(field).apply(3);
     }
 
@@ -86,7 +86,7 @@ public class ShortWeierstrassCurveAffine<E, F extends Field<E>> implements Addit
     }
 
     @Override
-    public AffinePoint<E> getZero() {
+    public AffinePoint<E> zero() {
         return AffinePoint.pointAtInfinity();
     }
 

@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 public record JacobianPoint<E>(E X, E Y, E Z) {
 
     public static <F> JacobianPoint<F> pointAtInfinity(Field<F> field) {
-        return new JacobianPoint<>(field.getZero(), field.getIdentity(), field.getZero());
+        return new JacobianPoint<>(field.zero(), field.identity(), field.zero());
     }
 
     public boolean isPointAtInfinity(Predicate<E> isZero) {

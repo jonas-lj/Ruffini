@@ -31,8 +31,8 @@ public class MultivariatePolynomialRingOverRing<E>
     }
 
     @Override
-    public MultivariatePolynomial<E> getIdentity() {
-        return MultivariatePolynomial.constant(ring.getIdentity(), variables);
+    public MultivariatePolynomial<E> identity() {
+        return MultivariatePolynomial.constant(ring.identity(), variables);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class MultivariatePolynomialRingOverRing<E>
         for (Pair<Monomial, E> ai : a.coefficients()) {
             E bi = b.getCoefficient(ai.first);
             if (Objects.isNull(bi)) {
-                if (ring.equals(ai.second, ring.getZero())) {
+                if (ring.equals(ai.second, ring.zero())) {
                     continue;
                 } else {
                     return false;
@@ -66,7 +66,7 @@ public class MultivariatePolynomialRingOverRing<E>
         for (Pair<Monomial, E> bi : b.coefficients()) {
             E ai = b.getCoefficient(bi.first);
             if (Objects.isNull(ai)) {
-                if (ring.equals(bi.second, ring.getZero())) {
+                if (ring.equals(bi.second, ring.zero())) {
                     continue;
                 } else {
                     return false;
@@ -92,8 +92,8 @@ public class MultivariatePolynomialRingOverRing<E>
     }
 
     @Override
-    public MultivariatePolynomial<E> getZero() {
-        return MultivariatePolynomial.constant(ring.getZero(), variables);
+    public MultivariatePolynomial<E> zero() {
+        return MultivariatePolynomial.constant(ring.zero(), variables);
     }
 
 }

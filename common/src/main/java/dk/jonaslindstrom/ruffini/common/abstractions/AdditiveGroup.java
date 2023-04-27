@@ -19,7 +19,7 @@ public interface AdditiveGroup<E> extends CommutativeMonoid<E> {
     }
 
     default boolean isZero(E a) {
-        return this.equals(a, this.getZero());
+        return this.equals(a, this.zero());
     }
 
     /**

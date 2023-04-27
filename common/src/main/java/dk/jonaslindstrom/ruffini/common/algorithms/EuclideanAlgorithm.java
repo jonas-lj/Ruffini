@@ -2,7 +2,10 @@ package dk.jonaslindstrom.ruffini.common.algorithms;
 
 import dk.jonaslindstrom.ruffini.common.abstractions.EuclideanDomain;
 import dk.jonaslindstrom.ruffini.common.util.Pair;
-import dk.jonaslindstrom.ruffini.common.util.Triple;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EuclideanAlgorithm<E> {
 
@@ -18,16 +21,16 @@ public class EuclideanAlgorithm<E> {
      *
      * @return The triple <i>(d, x, y)</i>.
      */
-    public Triple<E, E, E> extendedGcd(E a, E b) {
-        E s_1 = ring.getZero();
-        E s_0 = ring.getIdentity();
-        E t_1 = ring.getIdentity();
-        E t_0 = ring.getZero();
+    public Result<E> gcd(E a, E b) {
+        E s_1 = ring.zero();
+        E s_0 = ring.identity();
+        E t_1 = ring.identity();
+        E t_0 = ring.zero();
         E r_1 = b;
         E r_0 = a;
 
-        while (!ring.equals(r_1, ring.getZero())) {
-            Pair<E, E> division = ring.divisionWithRemainder(r_0, r_1);
+        while (!ring.equals(r_1, ring.zero())) {
+            Pair<E, E> division = ring.divide(r_0, r_1);
             E q = division.getFirst();
 
             r_0 = r_1;
@@ -41,7 +44,30 @@ public class EuclideanAlgorithm<E> {
             t_1 = ring.add(t_0, ring.negate(ring.multiply(q, tmpT)));
             t_0 = tmpT;
         }
-        return new Triple<>(r_0, s_0, t_0);
+        return new Result<>(r_0, s_0, t_0);
+    }
+
+    public ExtendedResult<E> gcd(List<E> inputs) {
+        if (inputs.size() == 1) {
+            return new ExtendedResult<>(inputs.get(0), List.of(this.ring.identity()));
+        }
+        ExtendedResult<E> recursion = gcd(inputs.subList(1, inputs.size()));
+        Result<E> result = gcd(inputs.get(0), recursion.gcd);
+        LinkedList<E> bezoutCoefficients = recursion.bezout.stream().map(bPrime -> ring.multiply(bPrime, result.y())).collect(Collectors.toCollection(LinkedList::new));
+        bezoutCoefficients.addFirst(result.x());
+        return new ExtendedResult<>(result.gcd, bezoutCoefficients);
+    }
+
+    public ExtendedResult<E> gcd(E ... inputs) {
+        return gcd(List.of(inputs));
+    }
+
+    public record Result<E>(E gcd, E x, E y) {
+
+    }
+
+    public record ExtendedResult<E>(E gcd, List<E> bezout) {
+
     }
 
 }

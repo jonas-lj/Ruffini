@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 public record ProjectivePoint<E>(E X, E Y, E Z) {
 
     public static <F> ProjectivePoint<F> pointAtInfinity(Field<F> field) {
-        return new ProjectivePoint<>(field.getZero(), field.getIdentity(), field.getZero());
+        return new ProjectivePoint<>(field.zero(), field.identity(), field.zero());
     }
 
     public boolean isPointAtInfinity(Predicate<E> isZero) {

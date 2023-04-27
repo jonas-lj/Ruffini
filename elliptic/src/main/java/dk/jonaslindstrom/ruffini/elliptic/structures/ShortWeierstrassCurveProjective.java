@@ -19,7 +19,7 @@ public class ShortWeierstrassCurveProjective<E> implements AdditiveGroup<Project
         this.field = field;
         this.a = a;
         this.b = b;
-        assert (!field.equals(discriminant(), field.getZero()));
+        assert (!field.equals(discriminant(), field.zero()));
         this.O = ProjectivePoint.pointAtInfinity(field);
     }
 
@@ -113,7 +113,7 @@ public class ShortWeierstrassCurveProjective<E> implements AdditiveGroup<Project
     }
 
     @Override
-    public ProjectivePoint<E> getZero() {
+    public ProjectivePoint<E> zero() {
         return O;
     }
 

@@ -21,20 +21,20 @@ public class Sum<E> {
     }
 
     public final E apply(IntFunction<E> f, Integer n0, Integer n1) {
-        return IntStream.range(n0, n1).mapToObj(f).reduce(group.getZero(), group::add);
+        return IntStream.range(n0, n1).mapToObj(f).reduce(group.zero(), group::add);
     }
 
     public final E apply(List<E> inputs) {
-        return inputs.stream().reduce(group.getZero(), group::add);
+        return inputs.stream().reduce(group.zero(), group::add);
     }
 
     @SafeVarargs
     public final E apply(E... inputs) {
-        return Arrays.stream(inputs).reduce(group.getZero(), group::add);
+        return Arrays.stream(inputs).reduce(group.zero(), group::add);
     }
 
     public final E apply(Iterable<E> inputs) {
-        return StreamSupport.stream(inputs.spliterator(), true).reduce(group.getZero(), group::add);
+        return StreamSupport.stream(inputs.spliterator(), true).reduce(group.zero(), group::add);
     }
 
 }

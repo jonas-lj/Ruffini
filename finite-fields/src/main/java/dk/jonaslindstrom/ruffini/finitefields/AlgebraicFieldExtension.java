@@ -3,7 +3,6 @@ package dk.jonaslindstrom.ruffini.finitefields;
 import dk.jonaslindstrom.ruffini.common.abstractions.Field;
 import dk.jonaslindstrom.ruffini.common.algorithms.EuclideanAlgorithm;
 import dk.jonaslindstrom.ruffini.common.structures.QuotientRing;
-import dk.jonaslindstrom.ruffini.common.util.Triple;
 import dk.jonaslindstrom.ruffini.polynomials.elements.Polynomial;
 import dk.jonaslindstrom.ruffini.polynomials.structures.PolynomialRing;
 
@@ -22,10 +21,10 @@ public class AlgebraicFieldExtension<E, F extends Field<E>> extends QuotientRing
 
     @Override
     public Polynomial<E> invert(Polynomial<E> a) {
-        Triple<Polynomial<E>, Polynomial<E>, Polynomial<E>> r =
-                new EuclideanAlgorithm<>((PolynomialRing<E>) super.ring).extendedGcd(a, super.mod);
-        assert (r.getFirst().degree() == 0);
-        return r.getSecond().scale(field.invert(r.getFirst().getCoefficient(0)), field);
+        EuclideanAlgorithm.Result<Polynomial<E>> r =
+                new EuclideanAlgorithm<>((PolynomialRing<E>) super.ring).gcd(a, super.mod);
+        assert (r.gcd().degree() == 0);
+        return r.x().scale(field.invert(r.gcd().getCoefficient(0)), field);
     }
 
     public F getBaseField() {

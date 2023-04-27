@@ -23,7 +23,7 @@ public class MatrixInversion<E> implements UnaryOperator<Matrix<E>> {
                 return a.get(i, j);
             } else {
                 int k = j - n;
-                return i == k ? field.getIdentity() : field.getZero();
+                return i == k ? field.identity() : field.zero();
             }
         });
 
@@ -31,7 +31,7 @@ public class MatrixInversion<E> implements UnaryOperator<Matrix<E>> {
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (i == j && !reduced.get(i, j).equals(field.getIdentity()) || i != j && !reduced.get(i, j).equals(field.getZero())) {
+                if (i == j && !reduced.get(i, j).equals(field.identity()) || i != j && !reduced.get(i, j).equals(field.zero())) {
                     throw new IllegalArgumentException("Matrix not invertible");
                 }
             }

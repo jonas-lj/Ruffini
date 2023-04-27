@@ -26,14 +26,14 @@ public class IntegerRingEmbedding<E> implements IntFunction<E> {
             }
             throw new IllegalArgumentException("Negative integers are only allowed for rings.");
         } else if (a == 0) {
-            return ring.getZero();
+            return ring.zero();
         } else if (a == 1) {
-            return ring.getIdentity();
+            return ring.identity();
         }
 
-        E b = ring.getZero();
-        E p = ring.getIdentity();
-        E two = ring.add(ring.getIdentity(), ring.getIdentity());
+        E b = ring.zero();
+        E p = ring.identity();
+        E two = ring.add(ring.identity(), ring.identity());
 
         while (a > 0) {
             if ((a & 1) != 0) {

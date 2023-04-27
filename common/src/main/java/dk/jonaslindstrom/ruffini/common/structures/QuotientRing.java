@@ -14,7 +14,7 @@ public class QuotientRing<E> implements Ring<E> {
     protected E mod;
 
     public QuotientRing(final EuclideanDomain<E> ring, final E mod) {
-        this(ring, e -> ring.divisionWithRemainder(e, mod).getSecond());
+        this(ring, e -> ring.divide(e, mod).getSecond());
         this.mod = mod;
     }
 
@@ -26,8 +26,8 @@ public class QuotientRing<E> implements Ring<E> {
     }
 
     @Override
-    public E getIdentity() {
-        return reduce(ring.getIdentity());
+    public E identity() {
+        return reduce(ring.identity());
     }
 
     @Override
@@ -56,8 +56,8 @@ public class QuotientRing<E> implements Ring<E> {
     }
 
     @Override
-    public E getZero() {
-        return reduce(ring.getZero());
+    public E zero() {
+        return reduce(ring.zero());
     }
 
     private E reduce(E e) {

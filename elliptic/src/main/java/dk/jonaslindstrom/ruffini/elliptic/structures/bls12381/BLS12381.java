@@ -36,19 +36,19 @@ public class BLS12381 {
      */
     public static AlgebraicFieldExtension<BigInteger, BigPrimeField> FP2 =
             new AlgebraicFieldExtension<>(FP, "u", Polynomial.of(
-                    FP.getIdentity(),
-                    FP.getZero(),
-                    FP.getIdentity()));
+                    FP.identity(),
+                    FP.zero(),
+                    FP.identity()));
 
     /**
      * <code>FP6</code><i> = FP2(v) / (v<sup>3</sup> - (u + 1))</i> is a cubic field extension of <code>FP2</code>.
      */
     public static AlgebraicFieldExtension<Polynomial<BigInteger>, AlgebraicFieldExtension<BigInteger, BigPrimeField>> FP6 =
             new AlgebraicFieldExtension<>(FP2, "v", Polynomial.of(
-                    FP2.negate(Polynomial.of(FP.getIdentity(), FP.getIdentity())),
-                    FP2.getZero(),
-                    FP2.getZero(),
-                    FP2.getIdentity()));
+                    FP2.negate(Polynomial.of(FP.identity(), FP.identity())),
+                    FP2.zero(),
+                    FP2.zero(),
+                    FP2.identity()));
 
     /**
      * <code>FP12</code><i> = FP6(w) / (w<sup>2</sup> - v))</i> is a quadratic field extension of <code>FP6</code>.
@@ -56,15 +56,15 @@ public class BLS12381 {
     public static AlgebraicFieldExtension<Polynomial<Polynomial<BigInteger>>,
             AlgebraicFieldExtension<Polynomial<BigInteger>, AlgebraicFieldExtension<BigInteger, BigPrimeField>>> FP12 =
             new AlgebraicFieldExtension<>(FP6, "w", Polynomial.of(
-                    Polynomial.of(FP2.getZero(), FP2.negate(FP2.getIdentity())),
-                    FP6.getZero(),
-                    FP6.getIdentity()));
+                    Polynomial.of(FP2.zero(), FP2.negate(FP2.identity())),
+                    FP6.zero(),
+                    FP6.identity()));
     public static Group<Polynomial<Polynomial<Polynomial<BigInteger>>>> GT = FP12;
     /**
      * Curve over <code>FP2</code> containing the G2 subgroup.
      */
     public static ShortWeierstrassCurveAffine<Polynomial<BigInteger>, ?> G2 =
-            new ShortWeierstrassCurveAffine<>(FP2, FP2.getZero(), Polynomial.of(BigInteger.valueOf(4), BigInteger.valueOf(4)));
+            new ShortWeierstrassCurveAffine<>(FP2, FP2.zero(), Polynomial.of(BigInteger.valueOf(4), BigInteger.valueOf(4)));
     /**
      * Curve over <code>FP</code> containing the G1 subgroup.
      */
@@ -115,10 +115,10 @@ public class BLS12381 {
     public static SamePair<Polynomial<Polynomial<Polynomial<BigInteger>>>> twist(AffinePoint<BigInteger> p) {
         return new SamePair<>(
                 Polynomial.of(
-                        Polynomial.of(FP2.getZero(), Polynomial.of(p.x()), FP2.getZero()),
-                        Polynomial.constant(FP2.getZero())),
+                        Polynomial.of(FP2.zero(), Polynomial.of(p.x()), FP2.zero()),
+                        Polynomial.constant(FP2.zero())),
                 Polynomial.of(
-                        Polynomial.constant(FP2.getZero()),
-                        Polynomial.of(FP2.getZero(), Polynomial.of(p.y()), FP2.getZero())));
+                        Polynomial.constant(FP2.zero()),
+                        Polynomial.of(FP2.zero(), Polynomial.of(p.y()), FP2.zero())));
     }
 }

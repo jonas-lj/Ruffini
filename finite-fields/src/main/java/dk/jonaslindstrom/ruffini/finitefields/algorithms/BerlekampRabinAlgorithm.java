@@ -72,11 +72,11 @@ public class BerlekampRabinAlgorithm implements Function<Polynomial<Integer>, In
             }
 
             List<Polynomial<Integer>> candidates = List.of(
-                    𝔽ₚx.add(gₖ, 𝔽ₚx.getIdentity()),
-                    𝔽ₚx.subtract(gₖ, 𝔽ₚx.getIdentity()));
+                    𝔽ₚx.add(gₖ, 𝔽ₚx.identity()),
+                    𝔽ₚx.subtract(gₖ, 𝔽ₚx.identity()));
 
             for (Polynomial<Integer> candidate : candidates) {
-                Polynomial<Integer> g = gcd.extendedGcd(fₖ, candidate).getFirst();
+                Polynomial<Integer> g = gcd.gcd(fₖ, candidate).gcd();
                 if (g.degree() > 0) {
                     return 𝔽ₚ.subtract(apply(g), k);
                 }

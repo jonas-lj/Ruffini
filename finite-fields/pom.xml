@@ -27,6 +27,12 @@
             <artifactId>polynomials</artifactId>
             <version>0.4-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>dk.jonaslindstrom.ruffini</groupId>
+            <artifactId>integers</artifactId>
+            <version>0.4-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 </project>

@@ -82,8 +82,8 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
     public E apply(E input, Ring<E> ring) {
         Power<E> repeatedSquaring = new Power<>(ring);
 
-        E result = ring.getZero();
-        E variable = ring.getIdentity();
+        E result = ring.zero();
+        E variable = ring.identity();
         int previous = 0;
         for (Integer current : terms.keySet()) {
             variable = ring.multiply(variable, repeatedSquaring.apply(input, current - previous));
@@ -201,9 +201,9 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
          * Remove zero terms.
          */
         private Builder<S> reduce() {
-            terms.entrySet().removeIf(e -> ring.equals(e.getValue(), ring.getZero()));
+            terms.entrySet().removeIf(e -> ring.equals(e.getValue(), ring.zero()));
             if (terms.isEmpty()) {
-                set(0, ring.getZero());
+                set(0, ring.zero());
             }
             return this;
         }

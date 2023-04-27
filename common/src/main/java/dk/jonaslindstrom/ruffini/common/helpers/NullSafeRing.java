@@ -28,7 +28,7 @@ public class NullSafeRing<E> implements Ring<E> {
         } else if (a != null && b == null) {
             return a;
         } else if (a == null) {
-            return ring.getZero();
+            return ring.zero();
         } else {
             return ring.add(a, b);
         }
@@ -42,14 +42,14 @@ public class NullSafeRing<E> implements Ring<E> {
     }
 
     @Override
-    public E getIdentity() {
-        return ring.getIdentity();
+    public E identity() {
+        return ring.identity();
     }
 
     @Override
     public String toString(E a) {
         if (Objects.isNull(a)) {
-            return ring.toString(ring.getZero());
+            return ring.toString(ring.zero());
         }
         return ring.toString(a);
     }
@@ -60,20 +60,20 @@ public class NullSafeRing<E> implements Ring<E> {
             if (Objects.isNull(b)) {
                 return true;
             } else {
-                return ring.equals(b, ring.getZero());
+                return ring.equals(b, ring.zero());
             }
         }
 
         if (Objects.isNull(b)) {
-            return ring.equals(a, ring.getZero());
+            return ring.equals(a, ring.zero());
         }
 
         return ring.equals(a, b);
     }
 
     @Override
-    public E getZero() {
-        return ring.getZero();
+    public E zero() {
+        return ring.zero();
     }
 
 }

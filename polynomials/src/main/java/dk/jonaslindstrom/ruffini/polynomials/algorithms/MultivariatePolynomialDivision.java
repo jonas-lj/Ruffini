@@ -40,7 +40,7 @@ public class MultivariatePolynomialDivision<E> implements
             MultivariatePolynomial<E> g, Vector<MultivariatePolynomial<E>> f) {
 
         MultivariatePolynomial<E> ĝ = g;
-        MultivariatePolynomial<E> r = R.getZero();
+        MultivariatePolynomial<E> r = R.zero();
 
         int n = f.size();
 
@@ -49,7 +49,7 @@ public class MultivariatePolynomialDivision<E> implements
 
         Field<E> K = R.getField();
 
-        while (!R.equals(ĝ, R.getZero())) {
+        while (!R.equals(ĝ, R.zero())) {
             Monomial λ = ĝ.leadingMonomial(ordering);
             E c = ĝ.leadingCoefficient(ordering);
 

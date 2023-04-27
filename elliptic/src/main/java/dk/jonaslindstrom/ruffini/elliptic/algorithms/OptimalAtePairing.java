@@ -73,7 +73,7 @@ public class OptimalAtePairing<
     }
 
     public ET pairing(AffinePoint<E1> P, AffinePoint<E2> Q, List<Integer> ci) {
-        ET f = ft.getIdentity();
+        ET f = ft.identity();
         AffinePoint<E2> T = Q;
 
         int L = ci.size() - 1;

@@ -132,7 +132,7 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
 
     @Override
     public E apply(Vector<E> x, Ring<E> ring) {
-        E result = ring.getZero();
+        E result = ring.zero();
         for (Monomial d : terms.keySet()) {
             E c = terms.get(d);
             result = ring.add(result, ring.multiply(c, d.applyTerm(x, ring)));
@@ -247,10 +247,10 @@ public class MultivariatePolynomial<E> implements BiFunction<Vector<E>, Ring<E>,
         }
 
         private void reduce() {
-            terms.entrySet().removeIf(e -> ring.equals(e.getValue(), ring.getZero()));
+            terms.entrySet().removeIf(e -> ring.equals(e.getValue(), ring.zero()));
 
             if (terms.isEmpty()) {
-                add(ring.getZero(), new int[variables]);
+                add(ring.zero(), new int[variables]);
             }
         }
 

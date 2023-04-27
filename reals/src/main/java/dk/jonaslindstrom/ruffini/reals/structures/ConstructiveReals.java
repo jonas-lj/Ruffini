@@ -21,7 +21,7 @@ public class ConstructiveReals implements Field<ConstructiveReal> {
     }
 
     @Override
-    public ConstructiveReal getZero() {
+    public ConstructiveReal zero() {
         return new ConstructiveReal(i -> BigInteger.ZERO, "0");
     }
 
@@ -31,7 +31,7 @@ public class ConstructiveReals implements Field<ConstructiveReal> {
     }
 
     @Override
-    public ConstructiveReal getIdentity() {
+    public ConstructiveReal identity() {
         return new ConstructiveReal(BigInteger.ONE::shiftLeft, "1");
     }
 

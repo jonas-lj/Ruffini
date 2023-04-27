@@ -24,8 +24,8 @@ public class CyclicGroup<E> implements Group<E> {
     }
 
     @Override
-    public E getIdentity() {
-        return group.getIdentity();
+    public E identity() {
+        return group.identity();
     }
 
     @Override

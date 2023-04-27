@@ -23,8 +23,8 @@ public class VectorGroup<E> implements AdditiveGroup<Vector<E>> {
     }
 
     @Override
-    public Vector<E> getZero() {
-        return Vector.of(n, i -> group.getZero());
+    public Vector<E> zero() {
+        return Vector.of(n, i -> group.zero());
     }
 
     @Override

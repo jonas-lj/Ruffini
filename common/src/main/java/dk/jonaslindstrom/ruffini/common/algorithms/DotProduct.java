@@ -19,7 +19,7 @@ public class DotProduct<E> implements BiFunction<Vector<E>, Vector<E>, E> {
     public E apply(Vector<E> a, Vector<E> b) {
         assert (a.size() == b.size());
         return Streams.zip(a.stream(), b.stream(), SamePair::new).parallel().map(
-                p -> ring.multiply(p.first, p.second)).reduce(ring.getZero(), ring::add);
+                p -> ring.multiply(p.first, p.second)).reduce(ring.zero(), ring::add);
     }
 
 }

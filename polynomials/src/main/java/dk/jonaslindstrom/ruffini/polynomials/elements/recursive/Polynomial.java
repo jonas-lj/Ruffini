@@ -112,7 +112,7 @@ public class Polynomial<S> implements BiFunction<List<S>, Ring<S>, S> {
             throw new IllegalArgumentException();
         }
         return coefficients.keySet().stream().map(i -> ring.multiply(power.apply(x.get(0), i),
-                coefficients.get(i).apply(x.subList(1, x.size()), ring))).reduce(ring.getZero(), ring::add);
+                coefficients.get(i).apply(x.subList(1, x.size()), ring))).reduce(ring.zero(), ring::add);
     }
 
     public boolean isZero(AdditiveGroup<S> group) {

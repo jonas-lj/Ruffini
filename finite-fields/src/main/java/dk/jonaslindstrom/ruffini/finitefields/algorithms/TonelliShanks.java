@@ -37,7 +37,7 @@ public class TonelliShanks implements UnaryOperator<Polynomial<Integer>> {
         IntStream.range(0, m).forEach(i -> builder.set(i, random.nextInt(p)));
         Polynomial<Integer> polynomial = builder.build();
 
-        if (polynomial.equals(field.getZero())) {
+        if (polynomial.equals(field.zero())) {
             return sampleUnit();
         }
 
@@ -47,12 +47,12 @@ public class TonelliShanks implements UnaryOperator<Polynomial<Integer>> {
     @Override
     public Polynomial<Integer> apply(Polynomial<Integer> a) {
 
-        if (field.equals(a, field.getZero())) {
-            return field.getZero();
+        if (field.equals(a, field.zero())) {
+            return field.zero();
         }
 
-        if (field.equals(a, field.getIdentity())) {
-            return field.getIdentity();
+        if (field.equals(a, field.identity())) {
+            return field.identity();
         }
 
         if (this.p == 2) {
@@ -73,12 +73,12 @@ public class TonelliShanks implements UnaryOperator<Polynomial<Integer>> {
             Polynomial<Integer> c = sampleUnit();
             z = power.apply(c, t);
             c0 = power.apply(c, 1 << (s - 1));
-        } while (c0.equals(field.getIdentity()));
+        } while (c0.equals(field.identity()));
 
         Polynomial<Integer> ω = power.apply(a, (t - 1) / 2);
         Polynomial<Integer> a0 = power.apply(field.multiply(ω, ω, a), 1 << (s - 1));
 
-        if (field.equals(a0, field.negate(field.getIdentity()))) {
+        if (field.equals(a0, field.negate(field.identity()))) {
             throw new IllegalArgumentException("Input is not a square.");
         }
 
@@ -87,12 +87,12 @@ public class TonelliShanks implements UnaryOperator<Polynomial<Integer>> {
         Polynomial<Integer> b = field.multiply(x, ω);
 
         Polynomial<Integer> bPower = b;
-        while (!field.equals(b, field.getIdentity())) {
+        while (!field.equals(b, field.identity())) {
             int k = 0;
             do {
                 k = k + 1;
                 bPower = field.multiply(bPower, bPower);
-            } while (!field.equals(bPower, field.getIdentity()));
+            } while (!field.equals(bPower, field.identity()));
 
             if (k == v) {
                 // Try again

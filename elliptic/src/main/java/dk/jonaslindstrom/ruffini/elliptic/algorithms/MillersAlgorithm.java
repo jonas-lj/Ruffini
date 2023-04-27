@@ -41,7 +41,7 @@ public class MillersAlgorithm<E> implements
         List<Boolean> mBits = toBits(m);
 
         AffinePoint<E> T = P;
-        E f = field.getIdentity();
+        E f = field.identity();
 
         // Miller's algorithm in its general form
         for (int i = mBits.size() - 2; i >= 0; i--) {
@@ -62,9 +62,9 @@ public class MillersAlgorithm<E> implements
 
             // Vertical slope
             MultivariatePolynomial.Builder<E> builder = new MultivariatePolynomial.Builder<>(2, field);
-            builder.add(field.getIdentity(), 1, 0);
+            builder.add(field.identity(), 1, 0);
             builder.add(field.negate(p.x()), 0, 0);
-            return new Fraction<>(builder.build(), polynomialRing.getIdentity());
+            return new Fraction<>(builder.build(), polynomialRing.identity());
 
         } else {
 
@@ -84,14 +84,14 @@ public class MillersAlgorithm<E> implements
 
             // y - λ x - λ px - py
             MultivariatePolynomial.Builder<E> builder = new MultivariatePolynomial.Builder<>(2, field);
-            builder.add(field.getIdentity(), 0, 1);
+            builder.add(field.identity(), 0, 1);
             builder.add(field.negate(λ), 1, 0);
             builder.add(field.subtract(field.multiply(λ, p.x()), p.y()), 0, 0);
             MultivariatePolynomial<E> numerator = builder.build();
 
             // x + px + qx - λ^2
             builder = new MultivariatePolynomial.Builder<>(2, field);
-            builder.add(field.getIdentity(), 1, 0);
+            builder.add(field.identity(), 1, 0);
             builder.add(field.subtract(field.add(p.x(), q.x()), field.multiply(λ, λ)), 0, 0);
             MultivariatePolynomial<E> denominator = builder.build();
 

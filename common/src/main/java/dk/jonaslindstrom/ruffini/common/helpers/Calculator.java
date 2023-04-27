@@ -37,7 +37,7 @@ public class Calculator<E> {
     }
 
     public final E sum(Collection<E> terms) {
-        E result = group.getZero();
+        E result = group.zero();
         for (E term : terms) {
             result = group.add(result, term);
         }
@@ -50,7 +50,7 @@ public class Calculator<E> {
     }
 
     public final E mul(Collection<E> factors) {
-        E result = ring.getIdentity();
+        E result = ring.identity();
         for (E factor : factors) {
             result = ring.multiply(result, factor);
         }
@@ -59,7 +59,7 @@ public class Calculator<E> {
 
     @SafeVarargs
     public final E mul(int n, E... factors) {
-        E result = ring.getZero();
+        E result = ring.zero();
         E a = mul(factors);
         for (int i = 0; i < n; i++) {
             result = ring.add(result, a);

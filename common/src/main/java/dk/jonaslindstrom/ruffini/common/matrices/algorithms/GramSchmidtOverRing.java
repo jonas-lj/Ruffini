@@ -31,12 +31,12 @@ public class GramSchmidtOverRing<E> implements UnaryOperator<List<Vector<E>>> {
     }
 
     private E gcd(E a, E b) {
-        return euclideanAlgorithm.extendedGcd(a, b).getFirst();
+        return euclideanAlgorithm.gcd(a, b).gcd();
     }
 
     private Vector<E> normalize(Vector<E> v) {
         E g = v.stream().reduce(this::gcd).get();
-        return v.map(e -> ring.divisionWithRemainder(e, g).first);
+        return v.map(e -> ring.divide(e, g).first);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class GramSchmidtOverRing<E> implements UnaryOperator<List<Vector<E>>> {
 
         DotProduct<E> dot = new DotProduct<>(ring);
 
-        E product = ring.getIdentity();
+        E product = ring.identity();
         while (!V.isEmpty()) {
             Vector<E> v = V.poll();
             Vector<E> w = scale(product, v);

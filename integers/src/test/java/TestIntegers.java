@@ -13,8 +13,8 @@ public class TestIntegers {
         Integer x = 3;
         Integer y = 5;
 
-        Assert.assertEquals(Integer.valueOf(0), integers.getZero());
-        Assert.assertEquals(Integer.valueOf(1), integers.getIdentity());
+        Assert.assertEquals(Integer.valueOf(0), integers.zero());
+        Assert.assertEquals(Integer.valueOf(1), integers.identity());
         Assert.assertEquals(Integer.valueOf(x + y), integers.add(x, y));
         Assert.assertEquals(Integer.valueOf(x * y), integers.multiply(x, y));
         Assert.assertEquals(Integer.valueOf(-x), integers.negate(x));
@@ -26,11 +26,12 @@ public class TestIntegers {
         BigInteger x = BigInteger.valueOf(3);
         BigInteger y = BigInteger.valueOf(5);
 
-        Assert.assertEquals(BigInteger.valueOf(0), integers.getZero());
-        Assert.assertEquals(BigInteger.valueOf(1), integers.getIdentity());
+        Assert.assertEquals(BigInteger.valueOf(0), integers.zero());
+        Assert.assertEquals(BigInteger.valueOf(1), integers.identity());
         Assert.assertEquals(x.add(y), integers.add(x, y));
         Assert.assertEquals(x.multiply(y), integers.multiply(x, y));
         Assert.assertEquals(x.negate(), integers.negate(x));
     }
+
 
 }

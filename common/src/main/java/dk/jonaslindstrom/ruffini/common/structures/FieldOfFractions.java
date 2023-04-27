@@ -16,9 +16,9 @@ public class FieldOfFractions<E> implements Field<Fraction<E>> {
     }
 
     public Fraction<E> reduce(E n, E d) {
-        E gcd = euclideanAlgorithm.extendedGcd(n, d).getFirst();
-        return new Fraction<>(baseRing.divisionWithRemainder(n, gcd).getFirst(),
-                baseRing.divisionWithRemainder(d, gcd).getFirst());
+        E gcd = euclideanAlgorithm.gcd(n, d).gcd();
+        return new Fraction<>(baseRing.divide(n, gcd).getFirst(),
+                baseRing.divide(d, gcd).getFirst());
     }
 
     @Override
@@ -34,8 +34,8 @@ public class FieldOfFractions<E> implements Field<Fraction<E>> {
     }
 
     @Override
-    public Fraction<E> getIdentity() {
-        return reduce(baseRing.getIdentity(), baseRing.getIdentity());
+    public Fraction<E> identity() {
+        return reduce(baseRing.identity(), baseRing.identity());
     }
 
     @Override
@@ -57,8 +57,8 @@ public class FieldOfFractions<E> implements Field<Fraction<E>> {
     }
 
     @Override
-    public Fraction<E> getZero() {
-        return reduce(baseRing.getZero(), baseRing.getIdentity());
+    public Fraction<E> zero() {
+        return reduce(baseRing.zero(), baseRing.identity());
     }
 
     @Override

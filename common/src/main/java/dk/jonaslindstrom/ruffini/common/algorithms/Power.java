@@ -26,7 +26,7 @@ public class Power<E> {
         }
 
         if (e.equals(BigInteger.ZERO)) {
-            return monoid.getIdentity();
+            return monoid.identity();
         } else if (e.equals(BigInteger.ONE)) {
             return a;
         }
@@ -50,7 +50,7 @@ public class Power<E> {
         }
 
         if (e == 0) {
-            return monoid.getIdentity();
+            return monoid.identity();
         } else if (e == 1) {
             return a;
         }

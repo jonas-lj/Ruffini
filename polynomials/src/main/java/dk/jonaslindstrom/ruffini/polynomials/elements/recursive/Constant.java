@@ -80,7 +80,7 @@ class Constant<S> extends Polynomial<S> {
         } else {
             throw new IllegalArgumentException();
         }
-        return new Pair<>(new Constant<>(result), new Constant<>(ring.getZero()));
+        return new Pair<>(new Constant<>(result), new Constant<>(ring.zero()));
     }
 
     protected Polynomial<S> replace(UnaryOperator<S> operation) {

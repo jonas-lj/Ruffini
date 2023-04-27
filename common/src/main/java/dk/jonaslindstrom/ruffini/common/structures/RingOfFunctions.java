@@ -13,8 +13,8 @@ public class RingOfFunctions<S, R> implements Ring<Function<S, R>> {
     }
 
     @Override
-    public Function<S, R> getIdentity() {
-        return s -> ring.getIdentity();
+    public Function<S, R> identity() {
+        return s -> ring.identity();
     }
 
     @Override
@@ -43,8 +43,8 @@ public class RingOfFunctions<S, R> implements Ring<Function<S, R>> {
     }
 
     @Override
-    public Function<S, R> getZero() {
-        return s -> ring.getZero();
+    public Function<S, R> zero() {
+        return s -> ring.zero();
     }
 
 }
