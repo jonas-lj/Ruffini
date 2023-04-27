@@ -64,7 +64,7 @@ public interface EuclideanDomain<E> extends Ring<E> {
     BigInteger norm(E a);
 
     default boolean divides(E a, E b) {
-        return isZero(divide(a, b).second);
+        return isZero(divide(b, a).second);
     }
 
 }

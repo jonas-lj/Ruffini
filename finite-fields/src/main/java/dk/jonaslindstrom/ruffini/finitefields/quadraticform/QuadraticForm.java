@@ -6,6 +6,7 @@ import dk.jonaslindstrom.ruffini.common.algorithms.EuclideanAlgorithm;
 import dk.jonaslindstrom.ruffini.common.util.Pair;
 
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiFunction;
 
@@ -141,7 +142,7 @@ public class QuadraticForm<E, R extends EuclideanDomain<E> & OrderedSet<E>>
         }
 
         E d1, x2, y2;
-        if (ring.divides(d, s)) {
+        if (ring.isZero(s) || ring.divides(d, s)) {
             x2 = ring.zero();
             y2 = ring.negate(ring.identity());
             d1 = d;
@@ -152,7 +153,7 @@ public class QuadraticForm<E, R extends EuclideanDomain<E> & OrderedSet<E>>
             y2 = ring.negate(duv.y());
         }
 
-        E g = euclideanAlgorithm.gcd(d1, c1, c2, n).gcd();
+        E g = euclideanAlgorithm.gcd(d1, c1, c2, ring.abs(n, ordering)).gcd();
         E v1 = ring.divideExact(ring.multiply(g, a1), d1);
         E v2 = ring.divideExact(a2, d1);
         E r = ring.subtract(ring.multiply(y1, y2, n), ring.mod(ring.multiply(x2, c2), v1));
@@ -163,4 +164,18 @@ public class QuadraticForm<E, R extends EuclideanDomain<E> & OrderedSet<E>>
         return new QuadraticForm<>(ring, a3, b3, c3).reduce();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        QuadraticForm<?, ?> that = (QuadraticForm<?, ?>) o;
+
+        if (!Objects.equals(a, that.a)) return false;
+        if (!Objects.equals(b, that.b)) return false;
+        if (!Objects.equals(ring, that.ring)) return false;
+        if (!Objects.equals(ordering, that.ordering)) return false;
+        if (!Objects.equals(c, that.c)) return false;
+        return Objects.equals(discriminant, that.discriminant);
+    }
 }

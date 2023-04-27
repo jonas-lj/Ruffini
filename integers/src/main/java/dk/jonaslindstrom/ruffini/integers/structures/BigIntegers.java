@@ -56,6 +56,10 @@ public class BigIntegers implements EuclideanDomain<BigInteger>, OrderedSet<BigI
 
     @Override
     public Pair<BigInteger, BigInteger> divide(BigInteger a, BigInteger b) {
+        if (b.signum() < 0) {
+            Pair<BigInteger, BigInteger> qr = divide(a, b.negate());
+            return new Pair<>(qr.getFirst().negate(), qr.getSecond());
+        }
         BigInteger r = a.mod(b);
         BigInteger q = a.subtract(r).divide(b);
         return new Pair<>(q, r);
