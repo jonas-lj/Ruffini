@@ -21,7 +21,9 @@ public interface EuclideanDomain<E> extends Ring<E> {
         return divide(a, integer(b));
     }
 
-    /** Compute  <i>a/b</i> and throw and exception if the division is not exact. */
+    /**
+     * Compute  <i>a/b</i> and throw and exception if the division is not exact.
+     */
     default E divideExact(E a, E b) {
         Pair<E, E> q = divide(a, b);
         if (!isZero(q.second)) {
@@ -30,7 +32,9 @@ public interface EuclideanDomain<E> extends Ring<E> {
         return q.first;
     }
 
-    /** Compute <i>a/b</i> and throw and exception if the division is not exact. */
+    /**
+     * Compute <i>a/b</i> and throw and exception if the division is not exact.
+     */
     default E divideExact(E a, int b) {
         return divideExact(a, integer(b));
     }
@@ -43,7 +47,9 @@ public interface EuclideanDomain<E> extends Ring<E> {
         return divide(a, m).second;
     }
 
-    /** Return <i>a</i> if <i>a &ge; 0</i> according to the given ordering, otherwise return <i>-a</i>. */
+    /**
+     * Return <i>a</i> if <i>a &ge; 0</i> according to the given ordering, otherwise return <i>-a</i>.
+     */
     default E abs(E a, Comparator<E> ordering) {
         if (ordering.compare(a, zero()) < 0) {
             return negate(a);

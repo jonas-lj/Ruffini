@@ -1,7 +1,6 @@
 package dk.jonaslindstrom.ruffini.integers.algorithms;
 
 import dk.jonaslindstrom.ruffini.common.algorithms.EuclideanAlgorithm;
-import dk.jonaslindstrom.ruffini.common.util.Pair;
 import dk.jonaslindstrom.ruffini.integers.structures.BigIntegers;
 
 import java.math.BigInteger;
@@ -17,7 +16,9 @@ public class CongruenceSolver {
         this.m = m;
     }
 
-    /** Solve p_i x = q_i (mod m) for x assuming gcd(m, p_1, ..., p_r) = 1 and p_i q_j = q_j p_i (mod m) for all i,j. */
+    /**
+     * Solve p_i x = q_i (mod m) for x assuming gcd(m, p_1, ..., p_r) = 1 and p_i q_j = q_j p_i (mod m) for all i,j.
+     */
     public BigInteger solve(List<BigInteger> p, List<BigInteger> q) {
         if (p.size() != q.size()) {
             throw new IllegalArgumentException("p and q must have the same size.");

@@ -58,7 +58,7 @@ public class EuclideanAlgorithm<E> {
         return new ExtendedResult<>(result.gcd, bezoutCoefficients);
     }
 
-    public ExtendedResult<E> gcd(E ... inputs) {
+    public ExtendedResult<E> gcd(E... inputs) {
         return gcd(List.of(inputs));
     }
 

@@ -16,6 +16,16 @@ public class QuadraticForm<E, R extends EuclideanDomain<E> & OrderedSet<E>>
     private final E b;
     private final R ring;
     private final Comparator<E> ordering;
+    private final E c;
+    private Optional<E> discriminant = Optional.empty();
+
+    public QuadraticForm(R ring, E a, E b, E c) {
+        this.ring = ring;
+        this.a = a;
+        this.b = b;
+        this.c = c;
+        this.ordering = ring.getOrdering();
+    }
 
     public E getA() {
         return a;
@@ -27,17 +37,6 @@ public class QuadraticForm<E, R extends EuclideanDomain<E> & OrderedSet<E>>
 
     public E getC() {
         return c;
-    }
-
-    private final E c;
-    private Optional<E> discriminant = Optional.empty();
-
-    public QuadraticForm(R ring, E a, E b, E c) {
-        this.ring = ring;
-        this.a = a;
-        this.b = b;
-        this.c = c;
-        this.ordering = ring.getOrdering();
     }
 
     @Override
