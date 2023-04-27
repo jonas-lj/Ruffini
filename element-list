@@ -18,6 +18,7 @@ dk.jonaslindstrom.ruffini.elliptic.structures
 dk.jonaslindstrom.ruffini.elliptic.structures.bls12381
 dk.jonaslindstrom.ruffini.finitefields
 dk.jonaslindstrom.ruffini.finitefields.algorithms
+dk.jonaslindstrom.ruffini.finitefields.quadraticform
 dk.jonaslindstrom.ruffini.integers
 dk.jonaslindstrom.ruffini.integers.algorithms
 dk.jonaslindstrom.ruffini.integers.algorithms.factorize
