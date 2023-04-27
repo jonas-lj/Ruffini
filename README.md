@@ -123,7 +123,7 @@ public class GramSchmidt<V, S, F extends Field<S>> implements Function<List<V>, 
 }
 ```
 
-The library also contains some concrete instantiations of algebraic structures such as prime fields, finite fields and
+The library also contains some concrete instantiations of algebraic structures such as prime fields, finite fields, class groups and
 certain elliptic curve constructions (Curve25519 and BLS12-381).
 
 ## Demos
