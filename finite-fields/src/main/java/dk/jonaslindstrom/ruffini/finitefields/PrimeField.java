@@ -16,7 +16,7 @@ public class PrimeField extends IntegersModuloN implements Field<Integer> {
     @Override
     public Integer invert(Integer a) {
         EuclideanAlgorithm.Result<Integer> gcd = new EuclideanAlgorithm<>(Integers.getInstance())
-                .gcd(a, super.mod);
+                .applyExtended(a, super.mod);
         if (gcd.gcd() != 1) {
             throw new NotInvertibleException(super.mod);
         }

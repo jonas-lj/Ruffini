@@ -127,7 +127,7 @@ public class AlgorithmsTests {
         for (int i = 0; i < tests; i++) {
             BigInteger a = new BigInteger(16, random);
             BigInteger b = new BigInteger(16, random);
-            EuclideanAlgorithm.Result<BigInteger> gcd = new EuclideanAlgorithm<>(integers).gcd(a, b);
+            EuclideanAlgorithm.Result<BigInteger> gcd = new EuclideanAlgorithm<>(integers).applyExtended(a, b);
             Assert.assertEquals(a.gcd(b), gcd.gcd());
             Assert.assertEquals(gcd.gcd(), gcd.x().multiply(a).add(gcd.y().multiply(b)));
         }
@@ -136,7 +136,7 @@ public class AlgorithmsTests {
             BigInteger a = new BigInteger(16, random);
             BigInteger b = new BigInteger(16, random);
             BigInteger c = new BigInteger(16, random);
-            EuclideanAlgorithm.ExtendedResult<BigInteger> gcd = new EuclideanAlgorithm<>(integers).gcd(a, b, c);
+            EuclideanAlgorithm.ExtendedResult<BigInteger> gcd = new EuclideanAlgorithm<>(integers).applyExtended(a, b, c);
             Assert.assertEquals(a.gcd(b).gcd(c), gcd.gcd());
             Assert.assertEquals(gcd.gcd(), gcd.bezout().get(0).multiply(a).add(gcd.bezout().get(1).multiply(b)).add(gcd.bezout().get(2).multiply(c)));
         }

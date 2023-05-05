@@ -31,7 +31,7 @@ public class GramSchmidtOverRing<E> implements UnaryOperator<List<Vector<E>>> {
     }
 
     private E gcd(E a, E b) {
-        return euclideanAlgorithm.gcd(a, b).gcd();
+        return euclideanAlgorithm.applyExtended(a, b).gcd();
     }
 
     private Vector<E> normalize(Vector<E> v) {

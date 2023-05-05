@@ -24,7 +24,7 @@ public class ChineseRemainderTheorem<E> implements BiFunction<Vector<E>, Vector<
             return a.get(0);
         }
 
-        EuclideanAlgorithm.Result<E> bezout = euclideanAlgorithm.gcd(m.get(0), m.get(1));
+        EuclideanAlgorithm.Result<E> bezout = euclideanAlgorithm.applyExtended(m.get(0), m.get(1));
 
         Calculator<E> c = new Calculator<>(domain);
 

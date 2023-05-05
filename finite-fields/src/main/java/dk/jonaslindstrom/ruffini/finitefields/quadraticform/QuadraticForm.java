@@ -112,9 +112,7 @@ public class QuadraticForm<E, R extends EuclideanDomain<E> & OrderedSet<E>>
 
         E a1 = this.a;
         E a2 = other.a;
-        E b1 = this.b;
         E b2 = other.b;
-        E c1 = this.c;
         E c2 = other.c;
 
         if (ordering.compare(a1, a2) > 0) {
@@ -126,9 +124,9 @@ public class QuadraticForm<E, R extends EuclideanDomain<E> & OrderedSet<E>>
             throw new IllegalArgumentException("Discriminants must be equal.");
         }
 
-        EuclideanAlgorithm<E> euclideanAlgorithm = new EuclideanAlgorithm<>(ring);
+        EuclideanAlgorithm<E> gcd = new EuclideanAlgorithm<>(ring);
 
-        E s = ring.divideExact(ring.add(b1, b2), 2);
+        E s = ring.divideExact(ring.add(this.b, b2), 2);
         E n = ring.subtract(b2, s);
 
         E d, y1;
@@ -136,7 +134,7 @@ public class QuadraticForm<E, R extends EuclideanDomain<E> & OrderedSet<E>>
             d = a1;
             y1 = ring.zero();
         } else {
-            EuclideanAlgorithm.Result<E> duv = euclideanAlgorithm.gcd(a1, a2);
+            EuclideanAlgorithm.Result<E> duv = gcd.applyExtended(a1, a2);
             d = duv.gcd();
             y1 = duv.y();
         }
@@ -147,13 +145,13 @@ public class QuadraticForm<E, R extends EuclideanDomain<E> & OrderedSet<E>>
             y2 = ring.negate(ring.identity());
             d1 = d;
         } else {
-            EuclideanAlgorithm.Result<E> duv = euclideanAlgorithm.gcd(s, d);
+            EuclideanAlgorithm.Result<E> duv = gcd.applyExtended(s, d);
             d1 = duv.gcd();
             x2 = duv.x();
             y2 = ring.negate(duv.y());
         }
 
-        E g = euclideanAlgorithm.gcd(d1, c1, c2, ring.abs(n, ordering)).gcd();
+        E g = gcd.applyExtended(d1, this.c, c2, ring.abs(n, ordering)).gcd();
         E v1 = ring.divideExact(ring.multiply(g, a1), d1);
         E v2 = ring.divideExact(a2, d1);
         E r = ring.subtract(ring.multiply(y1, y2, n), ring.mod(ring.multiply(x2, c2), v1));

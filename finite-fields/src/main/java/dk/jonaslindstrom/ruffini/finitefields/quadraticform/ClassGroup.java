@@ -6,7 +6,7 @@ import dk.jonaslindstrom.ruffini.integers.structures.BigIntegers;
 import java.math.BigInteger;
 
 /**
- * This implements the ideal class group for a negative discrimant.
+ * This implements the ideal class group for a negative discriminant.
  */
 public class ClassGroup implements Group<QuadraticForm<BigInteger, BigIntegers>> {
 

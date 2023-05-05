@@ -30,7 +30,7 @@ public class BigFiniteField extends QuotientRing<Polynomial<BigInteger>>
     @Override
     public Polynomial<BigInteger> invert(Polynomial<BigInteger> a) {
         return new EuclideanAlgorithm<>((PolynomialRing<BigInteger>) super.ring)
-                .gcd(a, mod).x();
+                .applyExtended(a, mod).x();
     }
 
     @Override

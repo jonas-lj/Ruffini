@@ -29,7 +29,7 @@ public class CongruenceSolver {
         List<BigInteger> inputs = new ArrayList<>();
         inputs.add(m);
         inputs.addAll(p);
-        EuclideanAlgorithm.ExtendedResult<BigInteger> xgcd = euclideanAlgorithm.gcd(inputs);
+        EuclideanAlgorithm.ExtendedResult<BigInteger> xgcd = euclideanAlgorithm.applyExtended(inputs);
         if (!xgcd.gcd().equals(BigInteger.ONE)) {
             throw new IllegalArgumentException("m and p_1, ..., p_r are not pairwise co-prime.");
         }

@@ -22,7 +22,7 @@ public class AlgebraicFieldExtension<E, F extends Field<E>> extends QuotientRing
     @Override
     public Polynomial<E> invert(Polynomial<E> a) {
         EuclideanAlgorithm.Result<Polynomial<E>> r =
-                new EuclideanAlgorithm<>((PolynomialRing<E>) super.ring).gcd(a, super.mod);
+                new EuclideanAlgorithm<>((PolynomialRing<E>) super.ring).applyExtended(a, super.mod);
         assert (r.gcd().degree() == 0);
         return r.x().scale(field.invert(r.gcd().getCoefficient(0)), field);
     }

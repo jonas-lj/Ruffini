@@ -17,7 +17,7 @@ public class BigPrimeField extends BigIntegersModuloN implements Field<BigIntege
     @Override
     public BigInteger invert(BigInteger a) {
         EuclideanAlgorithm.Result<BigInteger> xgcd =
-                new EuclideanAlgorithm<>(BigIntegers.getInstance()).gcd(a, super.getModulus());
+                new EuclideanAlgorithm<>(BigIntegers.getInstance()).applyExtended(a, super.getModulus());
         if (!xgcd.gcd().equals(BigInteger.ONE)) {
             throw new NotInvertibleException(a);
         }
