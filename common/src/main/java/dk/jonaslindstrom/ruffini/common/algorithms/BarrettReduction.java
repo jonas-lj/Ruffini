@@ -3,6 +3,11 @@ package dk.jonaslindstrom.ruffini.common.algorithms;
 import java.math.BigInteger;
 import java.util.function.UnaryOperator;
 
+/**
+ * Barrett reduction is a fast method for computing <i>x mod m</i> for large <i>x</i> and <i>m</i>.
+ * <p>
+ * The algorithm is described in <a href="https://en.wikipedia.org/wiki/Barrett_reduction">Wikipedia</a>.
+ */
 public class BarrettReduction implements UnaryOperator<BigInteger> {
 
     private final BigInteger m;

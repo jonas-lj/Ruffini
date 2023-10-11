@@ -22,6 +22,14 @@ public class MathUtils {
         return n;
     }
 
+    public static boolean isPowerOfTwo(int n) {
+        return n != 0 && ((n & (n - 1)) == 0);
+    }
+
+    public static int floorLog2(int n) {
+        return 31 - Integer.numberOfLeadingZeros(n);
+    }
+
     public static List<Integer> binaryExpansion(BigInteger x) {
         List<Integer> expansion = new ArrayList<>();
         while (!x.equals(BigInteger.ZERO)) {

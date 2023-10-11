@@ -2,6 +2,11 @@ package dk.jonaslindstrom.ruffini.common.abstractions;
 
 import dk.jonaslindstrom.ruffini.common.algorithms.Power;
 
+/**
+ * A monoid is a set with an associative operation.
+ *
+ * @param <E> Element type.
+ */
 public interface Monoid<E> extends Semigroup<E> {
 
     /**

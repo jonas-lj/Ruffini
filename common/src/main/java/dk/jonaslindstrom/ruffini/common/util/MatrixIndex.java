@@ -1,13 +1,6 @@
 package dk.jonaslindstrom.ruffini.common.util;
 
-public class MatrixIndex {
-
-    public final int i, j;
-
-    public MatrixIndex(int i, int j) {
-        this.i = i;
-        this.j = j;
-    }
+public record MatrixIndex(int i, int j) {
 
     public static MatrixIndex of(int i, int j) {
         return new MatrixIndex(i, j);

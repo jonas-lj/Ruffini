@@ -5,6 +5,9 @@ import dk.jonaslindstrom.ruffini.common.matrices.elements.Matrix;
 
 import java.util.function.BinaryOperator;
 
+/**
+ * Compute the Kronecker product of two matrices.
+ */
 public class KroneckerProduct<E> implements BinaryOperator<Matrix<E>> {
 
     private final Ring<E> ring;

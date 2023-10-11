@@ -1,5 +1,10 @@
 package dk.jonaslindstrom.ruffini.common.abstractions;
 
+/**
+ * A commutative monoid is a set with an associative and commutative addition operation.
+ *
+ * @param <E> Element type.
+ */
 public interface CommutativeMonoid<E> extends Set<E> {
 
     /**

@@ -10,6 +10,13 @@ import dk.jonaslindstrom.ruffini.common.util.StringUtils;
 import java.util.function.BinaryOperator;
 import java.util.function.UnaryOperator;
 
+/**
+ * This class represents the general linear group <i>GL(n, F)</i> of invertible <i>n × n</i> matrices over a
+ * field <i>F</i>.
+ *
+ * @param <E> Element type.
+ * @param <F> Field type.
+ */
 public class GeneralLinearGroup<E, F extends Field<E>> implements Group<Matrix<E>> {
 
     private final F field;

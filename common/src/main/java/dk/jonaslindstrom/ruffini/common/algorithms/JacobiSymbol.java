@@ -2,6 +2,9 @@ package dk.jonaslindstrom.ruffini.common.algorithms;
 
 import java.util.function.IntBinaryOperator;
 
+/**
+ * Compute the Jacobi symbol of a number <i>a</i> modulo an odd number <i>n</i>.
+ */
 public class JacobiSymbol implements IntBinaryOperator {
 
     @Override

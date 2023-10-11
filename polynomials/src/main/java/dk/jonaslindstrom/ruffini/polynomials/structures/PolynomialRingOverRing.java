@@ -37,6 +37,10 @@ public class PolynomialRingOverRing<E> implements Ring<Polynomial<E>> {
         return result.build();
     }
 
+    public Polynomial<E> multiply(E a, Polynomial<E> b) {
+        return b.mapCoefficients(x -> ring.multiply(a, x));
+    }
+
     @Override
     public Polynomial<E> identity() {
         return Polynomial.constant(ring.identity());

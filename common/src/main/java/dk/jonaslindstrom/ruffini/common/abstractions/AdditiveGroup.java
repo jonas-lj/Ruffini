@@ -1,9 +1,16 @@
 package dk.jonaslindstrom.ruffini.common.abstractions;
 
 import dk.jonaslindstrom.ruffini.common.algorithms.Multiply;
+import dk.jonaslindstrom.ruffini.common.algorithms.Sum;
 
 import java.math.BigInteger;
+import java.util.List;
 
+/**
+ * An additive group is like a {@link Group} but where the operation is commutative and is called <code>add</code>.
+ *
+ * @param <E> Element type.
+ */
 public interface AdditiveGroup<E> extends CommutativeMonoid<E> {
 
     /**
@@ -42,5 +49,10 @@ public interface AdditiveGroup<E> extends CommutativeMonoid<E> {
      */
     default E doubling(E e) {
         return add(e, e);
+    }
+
+    /** Returns the sum of a list of elements. */
+    default E sum(List<E> terms) {
+        return new Sum<>(this).apply(terms);
     }
 }

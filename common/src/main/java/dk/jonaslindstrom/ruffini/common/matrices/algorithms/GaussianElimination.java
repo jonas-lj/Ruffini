@@ -7,6 +7,11 @@ import dk.jonaslindstrom.ruffini.common.matrices.elements.MutableMatrix;
 import java.util.function.UnaryOperator;
 import java.util.stream.IntStream;
 
+/**
+ * Perform Gaussian elimination on a matrix.
+ *
+ * @param <E> Element type.
+ */
 public class GaussianElimination<E> implements UnaryOperator<Matrix<E>> {
 
     private final Field<E> field;

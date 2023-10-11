@@ -4,6 +4,7 @@ import dk.jonaslindstrom.ruffini.common.abstractions.Ring;
 import dk.jonaslindstrom.ruffini.common.algorithms.Power;
 import dk.jonaslindstrom.ruffini.common.vector.ConstructiveVector;
 import dk.jonaslindstrom.ruffini.common.vector.Vector;
+import dk.jonaslindstrom.ruffini.polynomials.algorithms.BatchPolynomialEvaluation;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -93,6 +94,13 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
         return result;
     }
 
+    /**
+     * Evaluate this polynomial for all inputs in the given list.
+     */
+    public List<E> batchApply(List<E> input, Ring<E> ring) {
+        return new BatchPolynomialEvaluation<>(ring).apply(this, input);
+    }
+
     public int degree() {
         return terms.lastKey();
     }
@@ -165,6 +173,10 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
 
     public String toString(String variable) {
         return toString(variable, E::toString);
+    }
+
+    public E getConstant() {
+        return getCoefficient(0);
     }
 
     public static class Builder<S> {

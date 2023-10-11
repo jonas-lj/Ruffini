@@ -5,6 +5,11 @@ import dk.jonaslindstrom.ruffini.common.matrices.elements.Matrix;
 
 import java.util.function.Function;
 
+/**
+ * Calculate the determinant of a matrix.
+ *
+ * @param <E> Element type.
+ */
 public class Determinant<E> implements Function<Matrix<E>, E> {
 
     private final Ring<E> ring;

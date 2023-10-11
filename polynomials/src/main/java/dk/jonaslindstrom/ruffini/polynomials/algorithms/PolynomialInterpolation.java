@@ -24,8 +24,8 @@ public class PolynomialInterpolation<E> implements Function<List<Pair<E, E>>, Po
         int n = points.size();
 
         Power<E> power = new Power<>(field);
-        Matrix<E> frobeniusMatrix = Matrix.of(n, n, (i, j) -> power.apply(points.get(i).first, j));
-        Matrix<E> inverse = new MatrixInversion<>(field).apply(frobeniusMatrix);
+        Matrix<E> vandermondeMatrix = Matrix.of(n, n, (i, j) -> power.apply(points.get(i).first, j));
+        Matrix<E> inverse = new MatrixInversion<>(field).apply(vandermondeMatrix);
         Vector<E> a = inverse.apply(Vector.of(n, i -> points.get(i).second), field);
 
         Polynomial.Builder<E> builder = new Polynomial.Builder<>(field);

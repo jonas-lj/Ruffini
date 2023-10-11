@@ -7,6 +7,11 @@ import dk.jonaslindstrom.ruffini.common.vector.Vector;
 
 import java.util.function.BiFunction;
 
+/**
+ * Compute the dot product of two vectors over a ring.
+ *
+ * @param <E>
+ */
 public class DotProduct<E> implements BiFunction<Vector<E>, Vector<E>, E> {
 
     private final Ring<E> ring;

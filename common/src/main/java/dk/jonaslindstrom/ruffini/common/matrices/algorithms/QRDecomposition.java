@@ -12,6 +12,12 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * Compute the QR decomposition of a matrix.
+ *
+ * @param <E> Element type.
+ * @param <F> Field type.
+ */
 public class QRDecomposition<E, F extends Field<E>> implements
         Function<Matrix<E>, Pair<Matrix<E>, Matrix<E>>> {
 

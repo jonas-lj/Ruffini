@@ -9,7 +9,7 @@ import dk.jonaslindstrom.ruffini.common.util.StringUtils;
 import java.util.function.BinaryOperator;
 
 /**
- * This class represents a ring of matrices over a base ring.
+ * This class represents a ring of <i>n × n</i> matrices over a base ring.
  */
 public class MatrixRing<E> implements Ring<Matrix<E>> {
 
@@ -18,9 +18,9 @@ public class MatrixRing<E> implements Ring<Matrix<E>> {
     private final BinaryOperator<Matrix<E>> multiplication;
     private final BinaryOperator<Matrix<E>> addition;
 
-    public MatrixRing(Ring<E> baseRing, int dimension) {
+    public MatrixRing(Ring<E> baseRing, int n) {
         this.baseRing = baseRing;
-        this.dimension = dimension;
+        this.dimension = n;
         this.multiplication = new StrassenMultiplication<>(baseRing);
         this.addition = new MatrixAddition<>(baseRing);
     }

@@ -10,6 +10,13 @@ import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+/**
+ * Gram-Schmidt orthogonalization.
+ *
+ * @param <V> Vector type.
+ * @param <S> Scalar type.
+ * @param <F> Field type.
+ */
 public class GramSchmidt<V, S, F extends Field<S>> implements Function<List<V>, List<V>> {
 
     private final VectorSpace<V, S, F> vectorSpace;

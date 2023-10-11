@@ -8,6 +8,8 @@ import java.util.function.IntFunction;
 /**
  * This function computes the canonical embedding of the integers into any ring by mapping an
  * integer <i>n</i> to the identity element added to itself <i>n</i> times.
+ *
+ * @param <E> Element type.
  */
 public class IntegerRingEmbedding<E> implements IntFunction<E> {
 

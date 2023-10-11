@@ -1,5 +1,10 @@
 package dk.jonaslindstrom.ruffini.common.abstractions;
 
+/**
+ * A set is a collection of elements.
+ *
+ * @param <E> Element type.
+ */
 public interface Set<E> {
 
     /**

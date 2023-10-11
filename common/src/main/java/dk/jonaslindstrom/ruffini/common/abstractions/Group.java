@@ -1,5 +1,10 @@
 package dk.jonaslindstrom.ruffini.common.abstractions;
 
+/**
+ * A group is a set with an operation and an inverse operation.
+ *
+ * @param <E> Element type.
+ */
 public interface Group<E> extends Monoid<E> {
 
     /**

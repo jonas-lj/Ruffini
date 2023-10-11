@@ -5,6 +5,11 @@ import dk.jonaslindstrom.ruffini.common.util.Pair;
 import java.math.BigInteger;
 import java.util.Comparator;
 
+/**
+ * A Euclidean domain is a ring with Euclidean division.
+ *
+ * @param <E> Element type.
+ */
 public interface EuclideanDomain<E> extends Ring<E> {
 
     /**

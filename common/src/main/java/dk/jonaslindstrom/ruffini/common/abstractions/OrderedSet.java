@@ -2,6 +2,11 @@ package dk.jonaslindstrom.ruffini.common.abstractions;
 
 import java.util.Comparator;
 
+/**
+ * A set with an ordering.
+ *
+ * @param <E> Element type.
+ */
 public interface OrderedSet<E> extends Set<E> {
 
     Comparator<E> getOrdering();

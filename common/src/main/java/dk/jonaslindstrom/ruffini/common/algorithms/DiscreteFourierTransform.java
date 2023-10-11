@@ -10,6 +10,8 @@ import java.util.stream.IntStream;
 
 /**
  * Compute the Discrete Fourier Transform over a ring.
+ *
+ * @param <E> Element type.
  */
 public class DiscreteFourierTransform<E> implements UnaryOperator<Vector<E>> {
 

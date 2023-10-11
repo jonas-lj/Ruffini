@@ -12,6 +12,11 @@ import java.util.List;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
+/**
+ * Gram-Schmidt orthogonalization over a ring.
+ *
+ * @param <E> Element type.
+ */
 public class GramSchmidtOverRing<E> implements UnaryOperator<List<Vector<E>>> {
 
     private final EuclideanDomain<E> ring;

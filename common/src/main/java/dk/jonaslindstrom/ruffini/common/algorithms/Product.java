@@ -6,6 +6,11 @@ import java.util.List;
 import java.util.function.IntFunction;
 import java.util.stream.IntStream;
 
+/**
+ * Compute the product of a list of elements over a monoid.
+ *
+ * @param <E> Element type.
+ */
 public class Product<E> {
 
     private final Monoid<E> group;

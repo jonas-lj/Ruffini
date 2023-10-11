@@ -2,6 +2,9 @@ package dk.jonaslindstrom.ruffini.common.algorithms;
 
 import java.math.BigInteger;
 
+/**
+ * Compute the Legendre symbol of a number <i>a</i> modulo a prime <i>p</i>.
+ */
 public class BigLegendreSymbol {
 
     private final BigInteger p;

@@ -10,6 +10,11 @@ import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * A concrete instantiation of a {@link Matrix} using {@link ArrayList}s.
+ *
+ * @param <E> Element type.
+ */
 class ConcreteMatrix<E> extends BaseMatrix<E> {
 
     protected final ArrayList<ArrayList<E>> rows;
