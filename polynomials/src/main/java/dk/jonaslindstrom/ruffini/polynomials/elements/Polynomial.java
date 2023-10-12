@@ -18,6 +18,10 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
 
     private final SortedMap<Integer, E> terms;
 
+    public Polynomial(Polynomial<E> p) {
+        this(p.terms);
+    }
+
     private Polynomial(SortedMap<Integer, E> terms) {
         this.terms = Collections.unmodifiableSortedMap(terms);
     }

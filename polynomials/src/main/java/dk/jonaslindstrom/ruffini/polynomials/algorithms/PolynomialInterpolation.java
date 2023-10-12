@@ -9,6 +9,7 @@ import dk.jonaslindstrom.ruffini.polynomials.structures.PolynomialRing;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 public class PolynomialInterpolation<E> implements BiFunction<List<E>, List<E>, Polynomial<E>> {
 

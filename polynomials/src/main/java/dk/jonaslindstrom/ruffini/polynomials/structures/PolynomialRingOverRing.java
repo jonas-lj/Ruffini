@@ -131,6 +131,10 @@ public class PolynomialRingOverRing<E> implements Ring<Polynomial<E>> {
 
         int divisorDegree = b.degree();
 
+        if (divisorDegree > a.degree()) {
+            return new Pair<>(zero(), a);
+        }
+
         while (!equals(remainder, zero())) {
 
             int remainderDegree = remainder.degree();

@@ -2,6 +2,7 @@ import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Streams;
 import dk.jonaslindstrom.ruffini.common.helpers.PerformanceLoggingField;
 import dk.jonaslindstrom.ruffini.common.util.TestUtils;
+import dk.jonaslindstrom.ruffini.polynomials.algorithms.BatchPolynomialEvaluationFixed;
 import dk.jonaslindstrom.ruffini.polynomials.algorithms.LagrangePolynomial;
 import dk.jonaslindstrom.ruffini.polynomials.algorithms.PolynomialInterpolation;
 import dk.jonaslindstrom.ruffini.polynomials.elements.Polynomial;
@@ -13,20 +14,26 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 public class PolynomialTests {
 
     @Test
     public void testBatchEvaluation() {
-        PerformanceLoggingField<Integer> field = new PerformanceLoggingField<>(new TestUtils.TestField(23));
+        PerformanceLoggingField<Integer> field = new PerformanceLoggingField<>(new TestUtils.TestField(51));
         PolynomialRing<Integer> polynomialRing = new PolynomialRing<>(field);
 
-        Polynomial<Integer> p = Polynomial.of(5, 12, 1, 7, 5);
-        List<Integer> inputs = Arrays.asList(0, 1, 2, 3);
-        List<Integer> results = p.batchApply(inputs, polynomialRing);
-        System.out.println(field);
-        field.reset();
+        int n = 16;
 
+        Polynomial<Integer> p = Polynomial.of(5, 12, 1, 7, 5, 5, 12, 1, 7, 5);
+        List<Integer> inputs = IntStream.range(0, n).boxed().toList();
+        BatchPolynomialEvaluationFixed<Integer> batchEvaluation = new BatchPolynomialEvaluationFixed<>(polynomialRing, inputs);
+
+        field.reset();
+        List<Integer> results = batchEvaluation.apply(p);
+        System.out.println(field);
+
+        field.reset();
         List<Integer> expected = inputs.stream().mapToInt(x -> p.apply(x, field)).boxed().toList();
         System.out.println();
         System.out.println(field);

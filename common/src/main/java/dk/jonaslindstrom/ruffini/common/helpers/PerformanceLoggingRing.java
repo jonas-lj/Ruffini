@@ -2,6 +2,8 @@ package dk.jonaslindstrom.ruffini.common.helpers;
 
 import dk.jonaslindstrom.ruffini.common.abstractions.Ring;
 
+import java.util.Objects;
+
 /**
  * Wrapper for the ring class which logs the number of operations performed in this ring.
  */
@@ -24,9 +26,9 @@ public class PerformanceLoggingRing<E> implements Ring<E> {
 
     @Override
     public E add(E a, E b) {
-        if (isZero(a)) {
+        if (Objects.isNull(a) || isZero(a)) {
             return b;
-        } else if (isZero(b)) {
+        } else if (Objects.isNull(b) || isZero(b)) {
             return a;
         }
         synchronized (this) {
@@ -47,7 +49,11 @@ public class PerformanceLoggingRing<E> implements Ring<E> {
 
     @Override
     public E multiply(E a, E b) {
-        if (isIdentity(a)) {
+        if (Objects.isNull(a) || isZero(a)) {
+            return zero();
+        } else if (Objects.isNull(b) || isZero(b)) {
+            return zero();
+        } else if (isIdentity(a)) {
             return b;
         } else if (isIdentity(b)) {
             return a;

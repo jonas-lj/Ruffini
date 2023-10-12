@@ -1,7 +1,10 @@
 package dk.jonaslindstrom.ruffini.polynomials.algorithms;
 
+import dk.jonaslindstrom.ruffini.common.util.Pair;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 
 import static dk.jonaslindstrom.ruffini.common.util.MathUtils.floorLog2;
@@ -26,6 +29,10 @@ public class BinaryTree<L> {
 
     public List<L> evaluate(L value, BinaryOperator<L> operator) {
         return root.evaluateFromRoot(value, operator);
+    }
+
+    public L evaluateFromLeafs(List<L> values, BiFunction<Pair<L, L>, Pair<L, L>, L> operator) {
+        return root.evaluateFromLeafs(0, values, operator);
     }
 
     public L getRootLabel() {
@@ -66,6 +73,15 @@ public class BinaryTree<L> {
             results.addAll(left.evaluateFromRoot(value, operator));
             results.addAll(right.evaluateFromRoot(value, operator));
             return results;
+        }
+
+        private L evaluateFromLeafs(int index, List<L> leafs, BiFunction<Pair<L, L>, Pair<L, L>, L> operator) {
+            if (isLeaf()) {
+                return leafs.get(index);
+            }
+            Pair<L, L> leftOp = Pair.of(this.left.label, this.left.evaluateFromLeafs(2 * index, leafs, operator));
+            Pair<L, L> rightOp = Pair.of(this.right.label, this.right.evaluateFromLeafs(2 * index + 1, leafs, operator));
+            return operator.apply(leftOp, rightOp);
         }
     }
 }
