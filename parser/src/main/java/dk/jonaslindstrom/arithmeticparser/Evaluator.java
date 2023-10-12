@@ -16,9 +16,9 @@ import java.util.function.Function;
  */
 public class Evaluator<NumberT> {
 
-    private Map<String, BinaryOperator<NumberT>> operators;
-    private Map<String, MultiOperator<NumberT>> functions;
-    private NumberParser<NumberT> parser;
+    private final Map<String, BinaryOperator<NumberT>> operators;
+    private final Map<String, MultiOperator<NumberT>> functions;
+    private final NumberParser<NumberT> parser;
 
     public Evaluator(Map<String, MultiOperator<NumberT>> functions,
                      Map<String, BinaryOperator<NumberT>> operators, NumberParser<NumberT> parser) {
@@ -77,9 +77,7 @@ public class Evaluator<NumberT> {
             Evaluator<Double> eval = Evaluator.getDefault(functions);
 
             return eval.evaluate(parsed, variables);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (EvaluationException e) {
+        } catch (ParseException | EvaluationException e) {
             e.printStackTrace();
         }
         return null;
@@ -104,34 +102,28 @@ public class Evaluator<NumberT> {
 
         for (Token token : expression) {
             switch (token.getType()) {
-                case FUNCTION:
+                case FUNCTION -> {
                     if (!functions.containsKey(token.getRepresentation())) {
                         throw new EvaluationException("Unkown function: " + token);
                     }
                     MultiOperator<NumberT> function = functions.get(token.getRepresentation());
-
                     if (stack.size() < function.getArguments()) {
                         throw new EvaluationException(
                                 "Invalid expression - not enough inputs for function: " + token);
                     }
-
                     LinkedList<NumberT> inputs = new LinkedList<>();
                     for (int i = 0; i < function.getArguments(); i++) {
                         inputs.addFirst(stack.pop());
                     }
                     NumberT output = function.apply(inputs);
                     stack.push(output);
-                    break;
-
-                case LEFT_PARANTHESIS:
-                    throw new EvaluationException("Expression should not contain paranthesis");
-
-                case NUMBER:
+                }
+                case LEFT_PARANTHESIS -> throw new EvaluationException("Expression should not contain paranthesis");
+                case NUMBER -> {
                     NumberT value = parser.parse(token.getRepresentation());
                     stack.push(value);
-                    break;
-
-                case OPERATOR:
+                }
+                case OPERATOR -> {
                     if (stack.size() < 2) {
                         throw new EvaluationException(
                                 "Invalid expression - not enough inputs for operator: " + token);
@@ -144,18 +136,15 @@ public class Evaluator<NumberT> {
                     BinaryOperator<NumberT> operator = operators.get(token.getRepresentation());
                     NumberT c = operator.apply(a, b);
                     stack.push(c);
-                    break;
-
-                case VARIABLE:
+                }
+                case VARIABLE -> {
                     if (!variables.containsKey(token.getRepresentation())) {
                         throw new EvaluationException("No such variable: " + token);
                     }
                     NumberT variableValue = variables.get(token.getRepresentation());
                     stack.push(variableValue);
-                    break;
-
-                default:
-                    throw new EvaluationException("Unknown token: " + token);
+                }
+                default -> throw new EvaluationException("Unknown token: " + token);
             }
 
         }
@@ -164,7 +153,6 @@ public class Evaluator<NumberT> {
             throw new EvaluationException(
                     "Invalid expression. Expected exactly one output but had " + stack);
         }
-        NumberT result = stack.pop();
-        return result;
+        return stack.pop();
     }
 }

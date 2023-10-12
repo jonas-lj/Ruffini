@@ -1,37 +1,61 @@
 package dk.jonaslindstrom.ruffini.polynomials.algorithms;
 
+import com.google.common.collect.Streams;
 import dk.jonaslindstrom.ruffini.common.abstractions.Field;
-import dk.jonaslindstrom.ruffini.common.algorithms.Power;
-import dk.jonaslindstrom.ruffini.common.matrices.algorithms.MatrixInversion;
-import dk.jonaslindstrom.ruffini.common.matrices.elements.Matrix;
+import dk.jonaslindstrom.ruffini.common.util.ArrayUtils;
 import dk.jonaslindstrom.ruffini.common.util.Pair;
-import dk.jonaslindstrom.ruffini.common.vector.Vector;
 import dk.jonaslindstrom.ruffini.polynomials.elements.Polynomial;
+import dk.jonaslindstrom.ruffini.polynomials.structures.PolynomialRing;
 
+import java.lang.reflect.Array;
 import java.util.List;
-import java.util.function.Function;
+import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
-public class PolynomialInterpolation<E> implements Function<List<Pair<E, E>>, Polynomial<E>> {
+public class PolynomialInterpolation<E> implements BiFunction<List<E>, List<E>, Polynomial<E>> {
 
-    private final Field<E> field;
+    private final PolynomialRing<E> polynomialRing;
 
     public PolynomialInterpolation(Field<E> field) {
-        this.field = field;
+        this.polynomialRing = new PolynomialRing<>(field);
     }
 
     @Override
-    public Polynomial<E> apply(List<Pair<E, E>> points) {
-        int n = points.size();
-
-        Power<E> power = new Power<>(field);
-        Matrix<E> vandermondeMatrix = Matrix.of(n, n, (i, j) -> power.apply(points.get(i).first, j));
-        Matrix<E> inverse = new MatrixInversion<>(field).apply(vandermondeMatrix);
-        Vector<E> a = inverse.apply(Vector.of(n, i -> points.get(i).second), field);
-
-        Polynomial.Builder<E> builder = new Polynomial.Builder<>(field);
-        for (int i = 0; i < a.size(); i++) {
-            builder.set(i, a.get(i));
+    public Polynomial<E> apply(List<E> x, List<E> y) {
+        int n = x.size();
+        if (n != y.size()) {
+            throw new IllegalArgumentException("x and y must have the same size");
         }
-        return builder.build();
+
+        Field<E> field = this.polynomialRing.getBaseField();
+        Polynomial<E> ľ = new InterpolationTree().apply(x, ArrayUtils.populate(n, i -> field.identity()));
+        List<E> evaluations = new BatchPolynomialEvaluation<>(field).apply(ľ, x);
+        List<E> l = ArrayUtils.populate(n, i -> field.divide(y.get(i), evaluations.get(i)));
+        return new InterpolationTree().apply(x, l);
+    }
+
+    private class InterpolationTree implements BiFunction<List<E>, List<E>, Polynomial<E>> {
+
+        @Override
+        public Polynomial<E> apply(List<E> x, List<E> y) {
+            if (x.size() != y.size()) {
+                throw new IllegalArgumentException("x and y must have the same size");
+            }
+            BinaryTree<Pair<Polynomial<E>, Polynomial<E>>> binaryTree =
+                    new BinaryTree<>(ArrayUtils.populate(x.size(), i -> {
+                        Polynomial<E> s = Polynomial.of(
+                                polynomialRing.getRing().negate(x.get(i)),
+                                polynomialRing.getRing().identity());
+                        Polynomial<E> l = Polynomial.constant(y.get(i));
+                        return new Pair<>(s, l);
+                    }), (a, b) -> {
+                        Polynomial<E> s = polynomialRing.multiply(a.first, b.first);
+                        Polynomial<E> l = polynomialRing.add(
+                                polynomialRing.multiply(b.first, a.second),
+                                polynomialRing.multiply(a.first, b.second));
+                        return new Pair<>(s, l);
+                    });
+            return binaryTree.getRootLabel().second;
+        }
     }
 }

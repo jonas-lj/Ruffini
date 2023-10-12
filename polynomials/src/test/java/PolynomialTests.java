@@ -1,15 +1,11 @@
-import dk.jonaslindstrom.ruffini.common.util.Pair;
 import dk.jonaslindstrom.ruffini.common.util.TestUtils;
-import dk.jonaslindstrom.ruffini.polynomials.algorithms.FastPolynomialInterpolation;
 import dk.jonaslindstrom.ruffini.polynomials.algorithms.PolynomialInterpolation;
 import dk.jonaslindstrom.ruffini.polynomials.elements.Polynomial;
-import dk.jonaslindstrom.ruffini.polynomials.structures.PolynomialRing;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public class PolynomialTests {
 
@@ -30,16 +26,13 @@ public class PolynomialTests {
     public void testInterpolation() {
         TestUtils.TestField field = new TestUtils.TestField(13);
 
-        List<Pair<Integer, Integer>> points = List.of(
-                Pair.of(1,1),
-                Pair.of(2,2),
-                Pair.of(3,1),
-                Pair.of(4,5));
+        List<Integer> x = List.of(1, 2, 3, 4);
+        List<Integer> y = List.of(1, 2, 1, 4);
 
-        Polynomial<Integer> p = new FastPolynomialInterpolation<>(field).apply(points);
+        Polynomial<Integer> p = new PolynomialInterpolation<>(field).apply(x, y);
 
-        for (Pair<Integer, Integer> point : points) {
-            Assert.assertEquals(point.second, p.apply(point.first, field));
+        for (int i = 0; i < x.size(); i++) {
+            Assert.assertEquals(y.get(i), p.apply(x.get(i), field));
         }
 
     }
