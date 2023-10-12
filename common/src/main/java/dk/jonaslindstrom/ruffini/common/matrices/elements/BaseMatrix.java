@@ -9,6 +9,7 @@ import dk.jonaslindstrom.ruffini.common.vector.Vector;
 import java.util.Objects;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
+import java.util.function.IntFunction;
 import java.util.stream.IntStream;
 
 /**
@@ -118,5 +119,4 @@ public abstract class BaseMatrix<E> implements Matrix<E> {
     public MutableMatrix<E> mutable() {
         return new MutableMatrix<>(this);
     }
-
 }

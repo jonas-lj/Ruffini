@@ -8,7 +8,7 @@ import dk.jonaslindstrom.ruffini.common.abstractions.Ring;
 public class PerformanceLoggingRing<E> implements Ring<E> {
 
     private final Ring<E> ring;
-    private int multiplications, additions, negations, equalities;
+    protected int multiplications, additions, negations, equalities;
 
     public PerformanceLoggingRing(Ring<E> ring) {
         this.ring = ring;
@@ -24,6 +24,11 @@ public class PerformanceLoggingRing<E> implements Ring<E> {
 
     @Override
     public E add(E a, E b) {
+        if (isZero(a)) {
+            return b;
+        } else if (isZero(b)) {
+            return a;
+        }
         synchronized (this) {
             additions++;
         }
@@ -42,6 +47,11 @@ public class PerformanceLoggingRing<E> implements Ring<E> {
 
     @Override
     public E multiply(E a, E b) {
+        if (isIdentity(a)) {
+            return b;
+        } else if (isIdentity(b)) {
+            return a;
+        }
         synchronized (this) {
             multiplications++;
         }

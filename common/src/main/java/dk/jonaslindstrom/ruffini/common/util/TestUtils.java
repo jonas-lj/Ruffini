@@ -12,18 +12,22 @@ public class TestUtils {
     public static class TestField implements Field<Integer> {
         private final Integer modulus;
 
+        private Integer reduce(int a) {
+            return Math.floorMod(a, modulus);
+        }
+
         public TestField(Integer modulus) {
             this.modulus = modulus;
         }
 
         @Override
         public Integer negate(Integer a) {
-            return Math.floorMod(modulus - a, modulus);
+            return reduce(-a);
         }
 
         @Override
         public Integer add(Integer a, Integer b) {
-            return Math.floorMod(a + b, modulus);
+            return reduce(a + b);
         }
 
         @Override
@@ -33,7 +37,7 @@ public class TestUtils {
 
         @Override
         public Integer invert(Integer a) {
-            return Math.floorMod(new EuclideanAlgorithm<>(new TestIntegers()).applyExtended(a, modulus).x(), modulus);
+            return reduce(new EuclideanAlgorithm<>(new TestIntegers()).applyExtended(a, modulus).x());
         }
 
         @Override
@@ -43,7 +47,7 @@ public class TestUtils {
 
         @Override
         public Integer multiply(Integer a, Integer b) {
-            return Math.floorMod(a * b, modulus);
+            return reduce(a * b);
         }
 
         @Override
@@ -53,7 +57,7 @@ public class TestUtils {
 
         @Override
         public boolean equals(Integer a, Integer b) {
-            return Objects.equals(Math.floorMod(a, modulus), Math.floorMod(b, modulus));
+            return Objects.equals(reduce(a), reduce(b));
         }
     }
 

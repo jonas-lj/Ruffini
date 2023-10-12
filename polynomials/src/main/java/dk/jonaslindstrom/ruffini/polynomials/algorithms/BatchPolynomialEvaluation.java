@@ -20,8 +20,8 @@ public class BatchPolynomialEvaluation<E> implements BiFunction<Polynomial<E>, L
 
     private final PolynomialRingOverRing<E> polynomialRing;
 
-    public BatchPolynomialEvaluation(Ring<E> ring) {
-        this.polynomialRing = new PolynomialRingOverRing<>(ring);
+    public BatchPolynomialEvaluation(PolynomialRingOverRing<E> polynomialRing) {
+        this.polynomialRing = polynomialRing;
     }
 
     @Override

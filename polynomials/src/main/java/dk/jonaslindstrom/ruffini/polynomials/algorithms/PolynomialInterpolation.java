@@ -6,6 +6,7 @@ import dk.jonaslindstrom.ruffini.common.util.Pair;
 import dk.jonaslindstrom.ruffini.polynomials.elements.Polynomial;
 import dk.jonaslindstrom.ruffini.polynomials.structures.PolynomialRing;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.function.BiFunction;
 
@@ -13,8 +14,8 @@ public class PolynomialInterpolation<E> implements BiFunction<List<E>, List<E>, 
 
     private final PolynomialRing<E> polynomialRing;
 
-    public PolynomialInterpolation(Field<E> field) {
-        this.polynomialRing = new PolynomialRing<>(field);
+    public PolynomialInterpolation(PolynomialRing<E> polynomialRing) {
+        this.polynomialRing = polynomialRing;
     }
 
     @Override
@@ -24,34 +25,30 @@ public class PolynomialInterpolation<E> implements BiFunction<List<E>, List<E>, 
             throw new IllegalArgumentException("x and y must have the same size");
         }
         Field<E> field = this.polynomialRing.getBaseField();
-        Polynomial<E> ľ = new InterpolationTree().apply(x, ArrayUtils.populate(n, i -> field.identity()));
-        List<E> evaluations = new BatchPolynomialEvaluation<>(field).apply(ľ, x);
+        Polynomial<E> ľ = interpolationTree(x, Collections.nCopies(n, field.identity()));
+        List<E> evaluations = new BatchPolynomialEvaluation<>(this.polynomialRing).apply(ľ, x);
         List<E> l = ArrayUtils.populate(n, i -> field.divide(y.get(i), evaluations.get(i)));
-        return new InterpolationTree().apply(x, l);
+        return interpolationTree(x, l);
     }
 
-    private class InterpolationTree implements BiFunction<List<E>, List<E>, Polynomial<E>> {
-
-        @Override
-        public Polynomial<E> apply(List<E> x, List<E> y) {
-            if (x.size() != y.size()) {
-                throw new IllegalArgumentException("x and y must have the same size");
-            }
-            BinaryTree<Pair<Polynomial<E>, Polynomial<E>>> binaryTree =
-                    new BinaryTree<>(ArrayUtils.populate(x.size(), i -> {
-                        Polynomial<E> s = Polynomial.of(
-                                polynomialRing.getRing().negate(x.get(i)),
-                                polynomialRing.getRing().identity());
-                        Polynomial<E> l = Polynomial.constant(y.get(i));
-                        return new Pair<>(s, l);
-                    }), (a, b) -> {
-                        Polynomial<E> s = polynomialRing.multiply(a.first, b.first);
-                        Polynomial<E> l = polynomialRing.add(
-                                polynomialRing.multiply(b.first, a.second),
-                                polynomialRing.multiply(a.first, b.second));
-                        return new Pair<>(s, l);
-                    });
-            return binaryTree.getRootLabel().second;
+    private Polynomial<E> interpolationTree(List<E> x, List<E> y) {
+        if (x.size() != y.size()) {
+            throw new IllegalArgumentException("x and y must have the same size");
         }
+        BinaryTree<Pair<Polynomial<E>, Polynomial<E>>> binaryTree =
+                new BinaryTree<>(ArrayUtils.populate(x.size(), i -> {
+                    Polynomial<E> s = Polynomial.of(
+                            polynomialRing.getRing().negate(x.get(i)),
+                            polynomialRing.getRing().identity());
+                    Polynomial<E> l = Polynomial.constant(y.get(i));
+                    return Pair.of(s, l);
+                }), (a, b) -> {
+                    Polynomial<E> s = polynomialRing.multiply(a.first, b.first);
+                    Polynomial<E> l = polynomialRing.add(
+                            polynomialRing.multiply(b.first, a.second),
+                            polynomialRing.multiply(a.first, b.second));
+                    return Pair.of(s, l);
+                });
+        return binaryTree.getRootLabel().second;
     }
 }

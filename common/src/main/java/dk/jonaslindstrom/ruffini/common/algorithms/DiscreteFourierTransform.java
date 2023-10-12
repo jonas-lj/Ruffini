@@ -27,7 +27,7 @@ public class DiscreteFourierTransform<E> implements UnaryOperator<Vector<E>> {
 
     @Override
     public Vector<E> apply(Vector<E> x) {
-        return new FDFT<>(ring, a, n).apply(x);
+        return new FDFT<>(ring, a, n).apply(x.pad(n, ring.zero()));
     }
 
     private static class DFT<F> implements UnaryOperator<Vector<F>> {

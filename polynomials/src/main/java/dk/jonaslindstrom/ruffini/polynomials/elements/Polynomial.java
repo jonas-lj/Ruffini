@@ -5,6 +5,8 @@ import dk.jonaslindstrom.ruffini.common.algorithms.Power;
 import dk.jonaslindstrom.ruffini.common.vector.ConstructiveVector;
 import dk.jonaslindstrom.ruffini.common.vector.Vector;
 import dk.jonaslindstrom.ruffini.polynomials.algorithms.BatchPolynomialEvaluation;
+import dk.jonaslindstrom.ruffini.polynomials.structures.PolynomialRing;
+import dk.jonaslindstrom.ruffini.polynomials.structures.PolynomialRingOverRing;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -30,6 +32,12 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
 
     public Polynomial(Collection<Integer> nonZero, IntFunction<E> populator) {
         this(nonZero.stream().collect(Collectors.toMap(Integer::valueOf, populator::apply)));
+    }
+
+    public Polynomial(Vector<E> coefficients, Ring<E> ring) {
+        this(IntStream.range(0, coefficients.size()).boxed()
+                .filter(i -> !ring.isZero(coefficients.get(i)))
+                .collect(Collectors.toMap(i -> i, coefficients::get)));
     }
 
     public static <T> Polynomial<T> constant(T constant) {
@@ -97,7 +105,7 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
     /**
      * Evaluate this polynomial for all inputs in the given list.
      */
-    public List<E> batchApply(List<E> input, Ring<E> ring) {
+    public List<E> batchApply(List<E> input, PolynomialRingOverRing<E> ring) {
         return new BatchPolynomialEvaluation<>(ring).apply(this, input);
     }
 
@@ -125,6 +133,12 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
                 return zero;
             }
         });
+    }
+
+    public Polynomial<E> differentiate(Ring<E> ring) {
+        Map<Integer, E> newTerms = terms.keySet().stream().filter(i -> i > 0)
+                .collect(Collectors.toMap(i -> i - 1, i -> ring.multiply(i, terms.get(i))));
+        return new Polynomial<>(newTerms);
     }
 
     @Override
@@ -173,6 +187,20 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
 
     public String toString(String variable) {
         return toString(variable, E::toString);
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Polynomial<?> that = (Polynomial<?>) o;
+        return Objects.equals(terms, that.terms);
+    }
+
+    @Override
+    public int hashCode() {
+        return terms != null ? terms.hashCode() : 0;
     }
 
     public E getConstant() {

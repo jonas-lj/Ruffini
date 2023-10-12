@@ -13,7 +13,7 @@ import java.math.BigInteger;
 public class PolynomialRing<E> extends PolynomialRingOverRing<E>
         implements EuclideanDomain<Polynomial<E>> {
 
-    private final Field<E> field;
+    protected final Field<E> field;
 
     public PolynomialRing(Field<E> field) {
         super(field);
