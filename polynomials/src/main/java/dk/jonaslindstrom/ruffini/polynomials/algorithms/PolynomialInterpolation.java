@@ -1,16 +1,13 @@
 package dk.jonaslindstrom.ruffini.polynomials.algorithms;
 
-import com.google.common.collect.Streams;
 import dk.jonaslindstrom.ruffini.common.abstractions.Field;
 import dk.jonaslindstrom.ruffini.common.util.ArrayUtils;
 import dk.jonaslindstrom.ruffini.common.util.Pair;
 import dk.jonaslindstrom.ruffini.polynomials.elements.Polynomial;
 import dk.jonaslindstrom.ruffini.polynomials.structures.PolynomialRing;
 
-import java.lang.reflect.Array;
 import java.util.List;
 import java.util.function.BiFunction;
-import java.util.stream.Collectors;
 
 public class PolynomialInterpolation<E> implements BiFunction<List<E>, List<E>, Polynomial<E>> {
 
@@ -23,10 +20,9 @@ public class PolynomialInterpolation<E> implements BiFunction<List<E>, List<E>, 
     @Override
     public Polynomial<E> apply(List<E> x, List<E> y) {
         int n = x.size();
-        if (n != y.size()) {
+        if (y.size() != n) {
             throw new IllegalArgumentException("x and y must have the same size");
         }
-
         Field<E> field = this.polynomialRing.getBaseField();
         Polynomial<E> ľ = new InterpolationTree().apply(x, ArrayUtils.populate(n, i -> field.identity()));
         List<E> evaluations = new BatchPolynomialEvaluation<>(field).apply(ľ, x);
