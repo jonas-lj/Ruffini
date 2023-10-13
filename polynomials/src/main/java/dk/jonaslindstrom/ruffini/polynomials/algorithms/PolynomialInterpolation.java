@@ -12,13 +12,13 @@ import java.util.function.Function;
 public class PolynomialInterpolation<E> implements Function<List<E>, Polynomial<E>> {
 
     private final PolynomialRing<E> polynomialRing;
-    private final SubproductTree<E> tree;
+    private final BinaryTree.SubproductTree<E> tree;
     private final List<E> x;
 
     public PolynomialInterpolation(PolynomialRing<E> polynomialRing, List<E> x) {
         this.polynomialRing = polynomialRing;
         this.x = x;
-        this.tree = new SubproductTree<>(x, polynomialRing);
+        this.tree = new BinaryTree.SubproductTree<>(x, polynomialRing);
     }
 
     @Override

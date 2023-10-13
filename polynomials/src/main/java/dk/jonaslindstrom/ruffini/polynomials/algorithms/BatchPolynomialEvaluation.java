@@ -16,10 +16,10 @@ import java.util.function.Function;
  */
 public class BatchPolynomialEvaluation<E> implements Function<Polynomial<E>, List<E>> {
 
-    private final SubproductTree<E> tree;
+    private final BinaryTree.SubproductTree<E> tree;
 
     public BatchPolynomialEvaluation(PolynomialRingOverRing<E> polynomialRing, List<E> inputs) {
-        this.tree = new SubproductTree<>(inputs, polynomialRing);
+        this.tree = new BinaryTree.SubproductTree<>(inputs, polynomialRing);
     }
 
     @Override
