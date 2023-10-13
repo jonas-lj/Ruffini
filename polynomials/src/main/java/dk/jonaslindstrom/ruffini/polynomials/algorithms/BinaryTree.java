@@ -61,7 +61,7 @@ public class BinaryTree<L> {
         }
 
         private boolean isLeaf() {
-            return left == null && right == null;
+            return left == null || right == null;
         }
 
         private List<L> evaluateFromRoot(L parent, BinaryOperator<L> operator) {

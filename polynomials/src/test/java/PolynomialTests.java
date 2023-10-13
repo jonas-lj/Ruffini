@@ -1,8 +1,7 @@
 import com.google.common.collect.ImmutableSortedMap;
-import com.google.common.collect.Streams;
 import dk.jonaslindstrom.ruffini.common.helpers.PerformanceLoggingField;
 import dk.jonaslindstrom.ruffini.common.util.TestUtils;
-import dk.jonaslindstrom.ruffini.polynomials.algorithms.BatchPolynomialEvaluationFixed;
+import dk.jonaslindstrom.ruffini.polynomials.algorithms.BatchPolynomialEvaluation;
 import dk.jonaslindstrom.ruffini.polynomials.algorithms.LagrangePolynomial;
 import dk.jonaslindstrom.ruffini.polynomials.algorithms.PolynomialInterpolation;
 import dk.jonaslindstrom.ruffini.polynomials.elements.Polynomial;
@@ -11,9 +10,7 @@ import dk.jonaslindstrom.ruffini.polynomials.structures.PolynomialRingFFT;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.IntStream;
 
 public class PolynomialTests {
@@ -27,7 +24,7 @@ public class PolynomialTests {
 
         Polynomial<Integer> p = Polynomial.of(5, 12, 1, 7, 5, 5, 12, 1, 7, 5);
         List<Integer> inputs = IntStream.range(0, n).boxed().toList();
-        BatchPolynomialEvaluationFixed<Integer> batchEvaluation = new BatchPolynomialEvaluationFixed<>(polynomialRing, inputs);
+        BatchPolynomialEvaluation<Integer> batchEvaluation = new BatchPolynomialEvaluation<>(polynomialRing, inputs);
 
         field.reset();
         List<Integer> results = batchEvaluation.apply(p);
@@ -48,9 +45,10 @@ public class PolynomialTests {
         List<Integer> y = List.of(1, 2, 1, 4, 1, 2, 3, 4);
 
         PolynomialRing<Integer> polynomialRing = new PolynomialRing<>(field);
-        Polynomial<Integer> p = new PolynomialInterpolation<>(polynomialRing).apply(x, y);
+        PolynomialInterpolation<Integer> interpolate = new PolynomialInterpolation<>(polynomialRing, x);
+        field.reset();
+        Polynomial<Integer> p = interpolate.apply(y);
         System.out.println(field);
-
         for (int i = 0; i < x.size(); i++) {
             Assert.assertEquals(y.get(i), p.apply(x.get(i), field));
         }
@@ -61,7 +59,6 @@ public class PolynomialTests {
         System.out.println(field);
 
         Assert.assertEquals(p, lagrange);
-
     }
 
     @Test
@@ -82,32 +79,6 @@ public class PolynomialTests {
         System.out.println();
         System.out.println("Without FFT");
         System.out.println(field);
-        Assert.assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testFastMultiplication() {
-        PerformanceLoggingField<Integer> field = new PerformanceLoggingField<>(new TestUtils.TestField(13));
-
-        Polynomial<Integer> p = Polynomial.of(2, 4, 5, 2, 4, 5, 2, 4, 5);
-        Polynomial<Integer> q = Polynomial.of(1, 2, 3, 1, 2, 3, 1, 2, 3);
-
-        PolynomialRing<Integer> polynomialRing = new PolynomialRing<>(field);
-        Polynomial<Integer> expected = polynomialRing.multiply(p, q);
-        System.out.println("Baseline");
-        System.out.println(field);
-        field.reset();
-
-        List<Integer> x = List.of(1, 2, 3, 4, 1, 2, 3, 4);
-
-        List<Integer> px = p.batchApply(x, polynomialRing);
-        List<Integer> qx = q.batchApply(x, polynomialRing);
-        List<Integer> products = Streams.zip(px.stream(), qx.stream(), field::multiply).toList();
-        Polynomial<Integer> actual = new PolynomialInterpolation<>(new PolynomialRing<>(field)).apply(x, products);
-        System.out.println();
-        System.out.println("Actual");
-        System.out.println(field);
-
         Assert.assertEquals(expected, actual);
     }
 

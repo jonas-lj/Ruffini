@@ -5,7 +5,6 @@ import dk.jonaslindstrom.ruffini.common.algorithms.Power;
 import dk.jonaslindstrom.ruffini.common.vector.ConstructiveVector;
 import dk.jonaslindstrom.ruffini.common.vector.Vector;
 import dk.jonaslindstrom.ruffini.polynomials.algorithms.BatchPolynomialEvaluation;
-import dk.jonaslindstrom.ruffini.polynomials.structures.PolynomialRing;
 import dk.jonaslindstrom.ruffini.polynomials.structures.PolynomialRingOverRing;
 
 import java.util.*;
@@ -110,7 +109,7 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
      * Evaluate this polynomial for all inputs in the given list.
      */
     public List<E> batchApply(List<E> input, PolynomialRingOverRing<E> ring) {
-        return new BatchPolynomialEvaluation<>(ring).apply(this, input);
+        return new BatchPolynomialEvaluation<>(ring, input).apply(this);
     }
 
     public int degree() {

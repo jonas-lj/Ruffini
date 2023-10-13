@@ -1,12 +1,10 @@
 package dk.jonaslindstrom.ruffini.polynomials.algorithms;
 
-import dk.jonaslindstrom.ruffini.common.abstractions.Ring;
 import dk.jonaslindstrom.ruffini.polynomials.elements.Polynomial;
 import dk.jonaslindstrom.ruffini.polynomials.structures.PolynomialRingOverRing;
 
 import java.util.List;
-import java.util.function.BiFunction;
-import java.util.stream.Collectors;
+import java.util.function.Function;
 
 /**
  * Batch polynomial evaluation using a recursive remaindering algorithm. The algorithm was originally
@@ -16,20 +14,17 @@ import java.util.stream.Collectors;
  * <i>n</i> is the number of inputs and <i>M(x)</i> is the complexity of multiplying two polynomials of
  * degree <i>x</i>.
  */
-public class BatchPolynomialEvaluation<E> implements BiFunction<Polynomial<E>, List<E>, List<E>> {
+public class BatchPolynomialEvaluation<E> implements Function<Polynomial<E>, List<E>> {
 
-    private final PolynomialRingOverRing<E> polynomialRing;
+    private final SubproductTree<E> tree;
 
-    public BatchPolynomialEvaluation(PolynomialRingOverRing<E> polynomialRing) {
-        this.polynomialRing = polynomialRing;
+    public BatchPolynomialEvaluation(PolynomialRingOverRing<E> polynomialRing, List<E> inputs) {
+        this.tree = new SubproductTree<>(inputs, polynomialRing);
     }
 
     @Override
-    public List<E> apply(Polynomial<E> polynomial, List<E> inputs) {
-        BinaryTree<Polynomial<E>> binaryTree = new BinaryTree<>(inputs.stream().map(leaf -> Polynomial.of(
-                        polynomialRing.getRing().negate(leaf),
-                        polynomialRing.getRing().identity())).collect(Collectors.toList()),
-                polynomialRing::multiply);
-        return binaryTree.evaluate(polynomial, (a,b) -> polynomialRing.divisionWithRemainder(a, b).getSecond()).stream().map(Polynomial::getConstant).collect(Collectors.toList());
+    public List<E> apply(Polynomial<E> polynomial) {
+        return tree.evaluate(polynomial);
     }
+
 }
