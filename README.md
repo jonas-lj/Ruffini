@@ -133,14 +133,13 @@ There are a few demo applications showing some capabilities of the library in th
 
 These include an implementation of
 the [AKS primality testing algorithm](https://en.wikipedia.org/wiki/AKS_primality_test),
-computing the [optimal Ate pairing over the BLS12-381 elliptic construction](https://hackmd.io/@benjaminion/bls12-381)
-and a
+computing the [optimal Ate pairing over the BLS12-381 elliptic construction](https://hackmd.io/@benjaminion/bls12-381), a
 demonstration of arbitrary precision arithmetic with real numbers inspired
-by [the work of Hans-J Boehm](https://www.hboehm.info/new_crcalc/CRCalc.html).
+by [the work of Hans-J Boehm](https://www.hboehm.info/new_crcalc/CRCalc.html) and an implementation of the [Poseidon hash function over BN254]([https://github.com/jonas-lj/Ruffini/blob/master/demos/src/main/java/demo/poseidon/Poseidon.java](https://www.poseidon-hash.info/).
 
 <!-- CONTRIBUTING -->
 
-## Contributing
+## Contri)buting
 
 We welcome any help from the community, both if you want to help out developing new features for Ruffini or fix a bug
 you've stumbled upon. Simply open a pull request with the suggested changes.
