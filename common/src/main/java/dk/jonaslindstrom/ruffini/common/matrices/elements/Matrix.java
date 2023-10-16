@@ -222,5 +222,9 @@ public interface Matrix<E> extends BiFunction<Vector<E>, Ring<E>, Vector<E>> {
                 .flatMap(i -> IntStream.range(0, getWidth()).mapToObj(j -> get(i, j)));
     }
 
+    static <E> Matrix<E> diagonal(int n, IntFunction<E> populator, E zero) {
+        return Matrix.lazy(n, n, (i, j) -> i.equals(j) ? populator.apply(i) : zero);
+    }
+
     String toString(Function<E, String> toString);
 }

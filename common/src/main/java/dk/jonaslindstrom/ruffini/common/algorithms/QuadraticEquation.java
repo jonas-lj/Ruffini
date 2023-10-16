@@ -4,6 +4,9 @@ import dk.jonaslindstrom.ruffini.common.abstractions.Field;
 
 import java.util.function.UnaryOperator;
 
+/**
+ * Solve a quadratic equation of the form <i>ax^2 + bx + c = 0</i> over a field of characteristic != 2.
+ */
 public class QuadraticEquation<E, F extends Field<E>> {
 
     private final E a, b, c;

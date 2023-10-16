@@ -20,7 +20,7 @@ public interface Vector<E> extends Collection<E> {
     }
 
     static <F> Vector<F> of(int d, IntFunction<F> f) {
-        return of(d, f, false);
+        return of(d, f, true);
     }
 
     static <F> Vector<F> of(int d, IntFunction<F> f, boolean sequential) {
@@ -63,5 +63,10 @@ public interface Vector<E> extends Collection<E> {
     }
 
     List<E> asList();
+
+    default Vector<E> coordinateWise(Vector<E> other, BinaryOperator<E> operator) {
+        return Vector.ofList(Streams.zip(this.stream(), other.stream(), operator).collect(
+                Collectors.toList()));
+    }
 
 }

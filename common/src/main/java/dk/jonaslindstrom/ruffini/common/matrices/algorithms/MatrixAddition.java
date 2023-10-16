@@ -5,6 +5,9 @@ import dk.jonaslindstrom.ruffini.common.matrices.elements.Matrix;
 
 import java.util.function.BinaryOperator;
 
+/**
+ * Compute the sum of two matrices.
+ */
 public class MatrixAddition<E> implements BinaryOperator<Matrix<E>> {
 
     private final BinaryOperator<E> add;

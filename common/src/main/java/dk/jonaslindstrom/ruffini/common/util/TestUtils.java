@@ -1,11 +1,66 @@
 package dk.jonaslindstrom.ruffini.common.util;
 
 import dk.jonaslindstrom.ruffini.common.abstractions.EuclideanDomain;
+import dk.jonaslindstrom.ruffini.common.abstractions.Field;
+import dk.jonaslindstrom.ruffini.common.algorithms.EuclideanAlgorithm;
 
 import java.math.BigInteger;
 import java.util.Objects;
 
 public class TestUtils {
+
+    public static class TestField implements Field<Integer> {
+        private final Integer modulus;
+
+        private Integer reduce(int a) {
+            return Math.floorMod(a, modulus);
+        }
+
+        public TestField(Integer modulus) {
+            this.modulus = modulus;
+        }
+
+        @Override
+        public Integer negate(Integer a) {
+            return reduce(-a);
+        }
+
+        @Override
+        public Integer add(Integer a, Integer b) {
+            return reduce(a + b);
+        }
+
+        @Override
+        public Integer zero() {
+            return 0;
+        }
+
+        @Override
+        public Integer invert(Integer a) {
+            return reduce(new EuclideanAlgorithm<>(new TestIntegers()).applyExtended(a, modulus).x());
+        }
+
+        @Override
+        public Integer identity() {
+            return 1;
+        }
+
+        @Override
+        public Integer multiply(Integer a, Integer b) {
+            return reduce(a * b);
+        }
+
+        @Override
+        public String toString(Integer a) {
+            return a.toString();
+        }
+
+        @Override
+        public boolean equals(Integer a, Integer b) {
+            return Objects.equals(reduce(a), reduce(b));
+        }
+    }
+
     public static class TestIntegers implements EuclideanDomain<Integer> {
 
         @Override

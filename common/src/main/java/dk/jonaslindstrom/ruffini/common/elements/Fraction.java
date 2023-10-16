@@ -1,5 +1,12 @@
 package dk.jonaslindstrom.ruffini.common.elements;
 
+/**
+ * A fraction.
+ *
+ * @param numerator
+ * @param denominator
+ * @param <E>         Element type.
+ */
 public record Fraction<E>(E numerator, E denominator) {
 
     public static Fraction<Integer> parseFraction(String string) {

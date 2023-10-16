@@ -4,6 +4,8 @@ import dk.jonaslindstrom.ruffini.common.abstractions.Ring;
 import dk.jonaslindstrom.ruffini.common.algorithms.Power;
 import dk.jonaslindstrom.ruffini.common.vector.ConstructiveVector;
 import dk.jonaslindstrom.ruffini.common.vector.Vector;
+import dk.jonaslindstrom.ruffini.polynomials.algorithms.BatchPolynomialEvaluation;
+import dk.jonaslindstrom.ruffini.polynomials.structures.PolynomialRingOverRing;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -14,6 +16,10 @@ import java.util.stream.IntStream;
 public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
 
     private final SortedMap<Integer, E> terms;
+
+    public Polynomial(Polynomial<E> p) {
+        this(p.terms);
+    }
 
     private Polynomial(SortedMap<Integer, E> terms) {
         this.terms = Collections.unmodifiableSortedMap(terms);
@@ -29,6 +35,12 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
 
     public Polynomial(Collection<Integer> nonZero, IntFunction<E> populator) {
         this(nonZero.stream().collect(Collectors.toMap(Integer::valueOf, populator::apply)));
+    }
+
+    public Polynomial(Vector<E> coefficients, Ring<E> ring) {
+        this(IntStream.range(0, coefficients.size()).boxed()
+                .filter(i -> !ring.isZero(coefficients.get(i)))
+                .collect(Collectors.toMap(i -> i, coefficients::get)));
     }
 
     public static <T> Polynomial<T> constant(T constant) {
@@ -93,6 +105,13 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
         return result;
     }
 
+    /**
+     * Evaluate this polynomial for all inputs in the given list.
+     */
+    public List<E> batchApply(List<E> input, PolynomialRingOverRing<E> ring) {
+        return new BatchPolynomialEvaluation<>(ring, input).apply(this);
+    }
+
     public int degree() {
         return terms.lastKey();
     }
@@ -119,6 +138,21 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
         });
     }
 
+    public Polynomial<E> differentiate(Ring<E> ring) {
+        Map<Integer, E> newTerms = terms.keySet().stream().filter(i -> i > 0)
+                .collect(Collectors.toMap(i -> i - 1, i -> ring.multiply(i, terms.get(i))));
+        return new Polynomial<>(newTerms);
+    }
+
+    public Polynomial<E> reverse() {
+        int n = this.degree();
+        Map<Integer, E> newMap = new HashMap<>();
+        for (int i : terms.keySet()) {
+            newMap.put(n - i, terms.get(i));
+        }
+        return new Polynomial<E>(newMap);
+    }
+
     @Override
     public String toString() {
         return toString("x");
@@ -135,7 +169,6 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
         for (Integer i : terms.keySet()) {
             boolean negative = false;
             if (!i.equals(terms.firstKey())) {
-
                 if (stringRepresentation.apply(terms.get(i)).startsWith("-")) {
                     sb.append(" - ");
                     negative = true;
@@ -165,6 +198,24 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
 
     public String toString(String variable) {
         return toString(variable, E::toString);
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Polynomial<?> that = (Polynomial<?>) o;
+        return Objects.equals(terms, that.terms);
+    }
+
+    @Override
+    public int hashCode() {
+        return terms != null ? terms.hashCode() : 0;
+    }
+
+    public E getConstant() {
+        return getCoefficient(0);
     }
 
     public static class Builder<S> {

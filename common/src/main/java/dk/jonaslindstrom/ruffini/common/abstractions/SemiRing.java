@@ -2,6 +2,12 @@ package dk.jonaslindstrom.ruffini.common.abstractions;
 
 import dk.jonaslindstrom.ruffini.common.algorithms.IntegerRingEmbedding;
 
+/**
+ * A semiring is a set with an associative and commutative addition operation and an associative
+ * multiplication operation. It is not required that each element has an additive inverse.
+ *
+ * @param <E> Element type.
+ */
 public interface SemiRing<E> extends Monoid<E>, CommutativeMonoid<E> {
 
     /**

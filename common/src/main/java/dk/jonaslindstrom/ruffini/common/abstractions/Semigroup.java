@@ -1,5 +1,10 @@
 package dk.jonaslindstrom.ruffini.common.abstractions;
 
+/**
+ * A semigroup is a set with an associative multiplication operation.
+ *
+ * @param <E> Element type.
+ */
 public interface Semigroup<E> extends Set<E> {
 
     /**

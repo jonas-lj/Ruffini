@@ -6,6 +6,11 @@ import dk.jonaslindstrom.ruffini.common.vector.Vector;
 
 import java.util.function.BiFunction;
 
+/**
+ * Compute the solution to a system of congruences using the Chinese Remainder Theorem.
+ *
+ * @param <E> Element type.
+ */
 public class ChineseRemainderTheorem<E> implements BiFunction<Vector<E>, Vector<E>, E> {
 
     private final EuclideanDomain<E> domain;

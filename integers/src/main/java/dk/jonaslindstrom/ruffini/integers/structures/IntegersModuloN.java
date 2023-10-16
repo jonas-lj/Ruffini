@@ -10,11 +10,8 @@ import dk.jonaslindstrom.ruffini.common.structures.QuotientRing;
  */
 public class IntegersModuloN extends QuotientRing<Integer> {
 
-    private final Integer n;
-
     public IntegersModuloN(Integer n) {
         super(Integers.getInstance(), n);
-        this.n = n;
     }
 
     public int getModulus() {

@@ -7,6 +7,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of the Euclidean algorithm for computing the greatest common divisor of two elements
+ * in a Euclidean domain.
+ *
+ * @param <E> Element type.
+ */
 public class EuclideanAlgorithm<E> {
 
     private final EuclideanDomain<E> ring;
@@ -26,7 +32,7 @@ public class EuclideanAlgorithm<E> {
         if (inputs == null || inputs.isEmpty()) {
             throw new IllegalArgumentException("Empty input list");
         }
-        
+
         if (inputs.size() == 1) {
             return inputs.get(0);
         }

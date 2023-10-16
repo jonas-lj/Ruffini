@@ -13,7 +13,6 @@ public class BigFiniteField extends QuotientRing<Polynomial<BigInteger>>
 
     private final String stringRepresentation;
     private final BigInteger p;
-    private final BigPrimeField baseField;
 
     /**
      * Create a finite field as a field of prime order module an irreducible polynomial.
@@ -24,7 +23,6 @@ public class BigFiniteField extends QuotientRing<Polynomial<BigInteger>>
         this.p = baseField.getModulus();
         this.stringRepresentation = String.format("GF(%s^{%s})", baseField.getModulus(),
                 mod.degree());
-        this.baseField = baseField;
     }
 
     @Override

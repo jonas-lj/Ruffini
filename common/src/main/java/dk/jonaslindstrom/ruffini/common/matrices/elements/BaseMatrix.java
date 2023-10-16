@@ -9,8 +9,13 @@ import dk.jonaslindstrom.ruffini.common.vector.Vector;
 import java.util.Objects;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
+import java.util.function.IntFunction;
 import java.util.stream.IntStream;
 
+/**
+ * This class represents a matrix of elements of type E. Operations that can be done without knowing how the entries are
+ * represented should be implemented here.
+ */
 public abstract class BaseMatrix<E> implements Matrix<E> {
 
     @Override
@@ -114,5 +119,4 @@ public abstract class BaseMatrix<E> implements Matrix<E> {
     public MutableMatrix<E> mutable() {
         return new MutableMatrix<>(this);
     }
-
 }

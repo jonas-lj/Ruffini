@@ -8,6 +8,11 @@ import java.util.function.IntFunction;
 import java.util.stream.IntStream;
 import java.util.stream.StreamSupport;
 
+/**
+ * Compute the sum of a list of elements over an additive group.
+ *
+ * @param <E> Element type.
+ */
 public class Sum<E> {
 
     private final AdditiveGroup<E> group;

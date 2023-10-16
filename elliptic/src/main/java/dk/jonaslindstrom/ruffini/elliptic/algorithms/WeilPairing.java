@@ -7,7 +7,7 @@ import dk.jonaslindstrom.ruffini.elliptic.structures.ShortWeierstrassCurveAffine
 import java.math.BigInteger;
 
 /**
- * Copmute the WeilPairing of two points on an elliptic curve.
+ * Compute the Weil pairing of two points on an elliptic curve.
  */
 public class WeilPairing<E> {
 

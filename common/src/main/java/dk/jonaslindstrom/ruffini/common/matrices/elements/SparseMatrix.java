@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * This class represents a sparse matrix by only storing the non-zero entries.
+ */
 public class SparseMatrix<E> extends MatrixView<E> {
 
     private SparseMatrix(int m, int n, Map<MatrixIndex, E> entries, E zero) {

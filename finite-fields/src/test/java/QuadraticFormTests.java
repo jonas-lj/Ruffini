@@ -81,6 +81,7 @@ public class QuadraticFormTests {
         Power<QuadraticForm<BigInteger, BigIntegers>> power = new Power<>(group);
         for (int i = 1; i < 7; i++) {
             Assert.assertNotEquals(group.identity(), power.apply(P, i));
+            System.out.println(power.apply(P, i));
         }
         Assert.assertEquals(group.identity(), power.apply(P, 7));
     }

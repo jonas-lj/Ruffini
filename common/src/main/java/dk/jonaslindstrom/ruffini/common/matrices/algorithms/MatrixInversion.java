@@ -6,6 +6,9 @@ import dk.jonaslindstrom.ruffini.common.matrices.elements.Matrix;
 
 import java.util.function.UnaryOperator;
 
+/**
+ * Compute the inverse of a matrix.
+ */
 public class MatrixInversion<E> implements UnaryOperator<Matrix<E>> {
 
     private final Field<E> field;
