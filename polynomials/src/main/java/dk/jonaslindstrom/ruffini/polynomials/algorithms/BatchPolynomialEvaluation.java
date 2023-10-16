@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.function.Function;
 
 /**
- * Batch polynomial evaluation using a recursive remaindering algorithm. The algorithm was originally
- * presented in A. Borodin, I. Munro (1971), Evaluating polynomials at many points.
+ * Batch polynomial evaluation using the Moenck–Borodin algorithm. The algorithm was originally
+ * presented in "Evaluating polynomials at many points" by A. Borodin and I. Munro (1971),
  * <p>
  * The complexity is <i>O(M(d) + M(n) log(n))</i> where <i>d</i> is the degree of the polynomial,
  * <i>n</i> is the number of inputs and <i>M(x)</i> is the complexity of multiplying two polynomials of

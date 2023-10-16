@@ -144,6 +144,15 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
         return new Polynomial<>(newTerms);
     }
 
+    public Polynomial<E> reverse() {
+        int n = this.degree();
+        Map<Integer, E> newMap = new HashMap<>();
+        for (int i : terms.keySet()) {
+            newMap.put(n - i, terms.get(i));
+        }
+        return new Polynomial<E>(newMap);
+    }
+
     @Override
     public String toString() {
         return toString("x");
@@ -160,7 +169,6 @@ public final class Polynomial<E> implements BiFunction<E, Ring<E>, E> {
         for (Integer i : terms.keySet()) {
             boolean negative = false;
             if (!i.equals(terms.firstKey())) {
-
                 if (stringRepresentation.apply(terms.get(i)).startsWith("-")) {
                     sb.append(" - ");
                     negative = true;

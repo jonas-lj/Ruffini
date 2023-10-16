@@ -9,6 +9,7 @@ import dk.jonaslindstrom.ruffini.polynomials.structures.PolynomialRingOverRing;
 import java.util.List;
 import java.util.function.BinaryOperator;
 
+/** Compute the remainder of u divided by v assuming v has 1 as leading coefficient. */
 class Remainder<E> implements BinaryOperator<Polynomial<E>> {
 
     private final PolynomialRingOverRing<E> polynomialRing;

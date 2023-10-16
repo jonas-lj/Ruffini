@@ -24,6 +24,11 @@ public class PerformanceLoggingField<E> extends PerformanceLoggingRing<E> implem
         return field.invert(a);
     }
 
+    public int getInversions() {
+        return inversions;
+    }
+
+
     public String toString() {
         return super.toString() + "\ninv   = " + inversions;
     }

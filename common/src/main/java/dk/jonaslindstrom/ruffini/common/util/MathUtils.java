@@ -1,5 +1,7 @@
 package dk.jonaslindstrom.ruffini.common.util;
 
+import dk.jonaslindstrom.ruffini.common.algorithms.Power;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +30,10 @@ public class MathUtils {
 
     public static int floorLog2(int n) {
         return 31 - Integer.numberOfLeadingZeros(n);
+    }
+
+    public static int ceilLog2(int n) {
+        return 32 - Integer.numberOfLeadingZeros(n - 1);
     }
 
     public static List<Integer> binaryExpansion(BigInteger x) {
