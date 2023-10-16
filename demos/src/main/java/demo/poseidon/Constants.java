@@ -25,22 +25,22 @@ public class Constants {
     private static Stream<String> getCStrings(int t) throws IOException {
 
         Map<Integer, String> files = new HashMap<>();
-        files.put(0, "poseidon_constants/constants00");
-        files.put(1, "poseidon_constants/constants01");
-        files.put(2, "poseidon_constants/constants02");
-        files.put(3, "poseidon_constants/constants03");
-        files.put(4, "poseidon_constants/constants04");
-        files.put(5, "poseidon_constants/constants05");
-        files.put(6, "poseidon_constants/constants06");
-        files.put(7, "poseidon_constants/constants07");
-        files.put(8, "poseidon_constants/constants08");
-        files.put(9, "poseidon_constants/constants09");
-        files.put(10, "poseidon_constants/constants10");
-        files.put(11, "poseidon_constants/constants11");
-        files.put(12, "poseidon_constants/constants12");
-        files.put(13, "poseidon_constants/constants13");
-        files.put(14, "poseidon_constants/constants14");
-        files.put(15, "poseidon_constants/constants15");
+        files.put(0, "demos/src/main/java/demo/poseidon/poseidon_constants/constants00");
+        files.put(1, "demos/src/main/java/demo/poseidon/poseidon_constants/constants01");
+        files.put(2, "demos/src/main/java/demo/poseidon/poseidon_constants/constants02");
+        files.put(3, "demos/src/main/java/demo/poseidon/poseidon_constants/constants03");
+        files.put(4, "demos/src/main/java/demo/poseidon/poseidon_constants/constants04");
+        files.put(5, "demos/src/main/java/demo/poseidon/poseidon_constants/constants05");
+        files.put(6, "demos/src/main/java/demo/poseidon/poseidon_constants/constants06");
+        files.put(7, "demos/src/main/java/demo/poseidon/poseidon_constants/constants07");
+        files.put(8, "demos/src/main/java/demo/poseidon/poseidon_constants/constants08");
+        files.put(9, "demos/src/main/java/demo/poseidon/poseidon_constants/constants09");
+        files.put(10, "demos/src/main/java/demo/poseidon/poseidon_constants/constants10");
+        files.put(11, "demos/src/main/java/demo/poseidon/poseidon_constants/constants11");
+        files.put(12, "demos/src/main/java/demo/poseidon/poseidon_constants/constants12");
+        files.put(13, "demos/src/main/java/demo/poseidon/poseidon_constants/constants13");
+        files.put(14, "demos/src/main/java/demo/poseidon/poseidon_constants/constants14");
+        files.put(15, "demos/src/main/java/demo/poseidon/poseidon_constants/constants15");
 
         if (files.containsKey(t)) {
             File file = new File(files.get(t));
@@ -64,22 +64,22 @@ public class Constants {
     private static List<String> getMatrixStrings(int i) throws IOException {
 
         Map<Integer, String> files = new HashMap<>();
-        files.put(0, "poseidon_constants/matrix00");
-        files.put(1, "poseidon_constants/matrix01");
-        files.put(2, "poseidon_constants/matrix02");
-        files.put(3, "poseidon_constants/matrix03");
-        files.put(4, "poseidon_constants/matrix04");
-        files.put(5, "poseidon_constants/matrix05");
-        files.put(6, "poseidon_constants/matrix06");
-        files.put(7, "poseidon_constants/matrix07");
-        files.put(8, "poseidon_constants/matrix08");
-        files.put(9, "poseidon_constants/matrix09");
-        files.put(10, "poseidon_constants/matrix10");
-        files.put(11, "poseidon_constants/matrix11");
-        files.put(12, "poseidon_constants/matrix12");
-        files.put(13, "poseidon_constants/matrix13");
-        files.put(14, "poseidon_constants/matrix14");
-        files.put(15, "poseidon_constants/matrix15");
+        files.put(0, "demos/src/main/java/demo/poseidon/poseidon_constants/matrix00");
+        files.put(1, "demos/src/main/java/demo/poseidon/poseidon_constants/matrix01");
+        files.put(2, "demos/src/main/java/demo/poseidon/poseidon_constants/matrix02");
+        files.put(3, "demos/src/main/java/demo/poseidon/poseidon_constants/matrix03");
+        files.put(4, "demos/src/main/java/demo/poseidon/poseidon_constants/matrix04");
+        files.put(5, "demos/src/main/java/demo/poseidon/poseidon_constants/matrix05");
+        files.put(6, "demos/src/main/java/demo/poseidon/poseidon_constants/matrix06");
+        files.put(7, "demos/src/main/java/demo/poseidon/poseidon_constants/matrix07");
+        files.put(8, "demos/src/main/java/demo/poseidon/poseidon_constants/matrix08");
+        files.put(9, "demos/src/main/java/demo/poseidon/poseidon_constants/matrix09");
+        files.put(10, "demos/src/main/java/demo/poseidon/poseidon_constants/matrix10");
+        files.put(11, "demos/src/main/java/demo/poseidon/poseidon_constants/matrix11");
+        files.put(12, "demos/src/main/java/demo/poseidon/poseidon_constants/matrix12");
+        files.put(13, "demos/src/main/java/demo/poseidon/poseidon_constants/matrix13");
+        files.put(14, "demos/src/main/java/demo/poseidon/poseidon_constants/matrix14");
+        files.put(15, "demos/src/main/java/demo/poseidon/poseidon_constants/matrix15");
 
         if (files.containsKey(i)) {
             File file = new File(files.get(i));
