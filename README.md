@@ -139,7 +139,7 @@ by [the work of Hans-J Boehm](https://www.hboehm.info/new_crcalc/CRCalc.html) an
 
 <!-- CONTRIBUTING -->
 
-## Contri)buting
+## Contributing
 
 We welcome any help from the community, both if you want to help out developing new features for Ruffini or fix a bug
 you've stumbled upon. Simply open a pull request with the suggested changes.
