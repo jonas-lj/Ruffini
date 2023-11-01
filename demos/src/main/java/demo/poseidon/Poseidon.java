@@ -21,14 +21,14 @@ public class Poseidon {
 
     public static void main(String[] arguments) {
         Map<List<BigInteger>, BigInteger> testVector = Map.of(
-//                List.of(new BigInteger("1")), new BigInteger("18586133768512220936620570745912940619677854269274689475585506675881198879027"),
-                List.of(new BigInteger("1"), new BigInteger("2")), new BigInteger("7853200120776062878684798364095072458815029376092732009249414926327459813530")
-//                Stream.of(1, 2, 0, 0, 0).map(BigInteger::valueOf).collect(Collectors.toList()), new BigInteger("1018317224307729531995786483840663576608797660851238720571059489595066344487"),
-//                Stream.of(1, 2, 0, 0, 0, 0).map(BigInteger::valueOf).collect(Collectors.toList()), new BigInteger("15336558801450556532856248569924170992202208561737609669134139141992924267169"),
-//                Stream.of(3, 4, 0, 0, 0).map(BigInteger::valueOf).collect(Collectors.toList()), new BigInteger("5811595552068139067952687508729883632420015185677766880877743348592482390548"),
-//                Stream.of(3, 4, 0, 0, 0, 0).map(BigInteger::valueOf).collect(Collectors.toList()), new BigInteger("12263118664590987767234828103155242843640892839966517009184493198782366909018"),
-//                Stream.of(1, 2, 3, 4, 5, 6).map(BigInteger::valueOf).collect(Collectors.toList()), new BigInteger("20400040500897583745843009878988256314335038853985262692600694741116813247201"),
-//                Stream.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14).map(BigInteger::valueOf).collect(Collectors.toList()), new BigInteger("8354478399926161176778659061636406690034081872658507739535256090879947077494")
+                List.of(new BigInteger("1")), new BigInteger("18586133768512220936620570745912940619677854269274689475585506675881198879027"),
+                List.of(new BigInteger("1"), new BigInteger("2")), new BigInteger("7853200120776062878684798364095072458815029376092732009249414926327459813530"),
+                Stream.of(1, 2, 0, 0, 0).map(BigInteger::valueOf).collect(Collectors.toList()), new BigInteger("1018317224307729531995786483840663576608797660851238720571059489595066344487"),
+                Stream.of(1, 2, 0, 0, 0, 0).map(BigInteger::valueOf).collect(Collectors.toList()), new BigInteger("15336558801450556532856248569924170992202208561737609669134139141992924267169"),
+                Stream.of(3, 4, 0, 0, 0).map(BigInteger::valueOf).collect(Collectors.toList()), new BigInteger("5811595552068139067952687508729883632420015185677766880877743348592482390548"),
+                Stream.of(3, 4, 0, 0, 0, 0).map(BigInteger::valueOf).collect(Collectors.toList()), new BigInteger("12263118664590987767234828103155242843640892839966517009184493198782366909018"),
+                Stream.of(1, 2, 3, 4, 5, 6).map(BigInteger::valueOf).collect(Collectors.toList()), new BigInteger("20400040500897583745843009878988256314335038853985262692600694741116813247201"),
+                Stream.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14).map(BigInteger::valueOf).collect(Collectors.toList()), new BigInteger("8354478399926161176778659061636406690034081872658507739535256090879947077494")
         );
 
         for (List<BigInteger> inputs : testVector.keySet()) {
