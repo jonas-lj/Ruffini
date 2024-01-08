@@ -55,17 +55,18 @@ public class QuadraticForm<E, R extends EuclideanDomain<E> & OrderedSet<E>>
     }
 
     public boolean isReduced() {
-        E absB = ring.abs(b, ordering);
-        if (ring.greaterThan(absB, a)) {
+        if (!isNormal()) {
             return false;
         }
+
         if (ring.greaterThan(a, c)) {
             return false;
         }
-        if (ring.equals(a, absB) || ring.equals(a, c)) {
+
+        if (ring.equals(a, c)) {
             return ring.greaterThanOrEqual(b, ring.zero());
         }
-        return false;
+        return true;
     }
 
     private boolean isNormal() {

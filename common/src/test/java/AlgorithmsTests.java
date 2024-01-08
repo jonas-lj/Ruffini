@@ -2,6 +2,7 @@ import dk.jonaslindstrom.ruffini.common.abstractions.AdditiveGroup;
 import dk.jonaslindstrom.ruffini.common.abstractions.EuclideanDomain;
 import dk.jonaslindstrom.ruffini.common.abstractions.Ring;
 import dk.jonaslindstrom.ruffini.common.algorithms.*;
+import dk.jonaslindstrom.ruffini.common.util.Pair;
 import dk.jonaslindstrom.ruffini.common.util.SamplingUtils;
 import dk.jonaslindstrom.ruffini.common.util.TestUtils;
 import dk.jonaslindstrom.ruffini.common.vector.Vector;
@@ -11,7 +12,11 @@ import org.junit.Test;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
+
+import static dk.jonaslindstrom.ruffini.common.util.SamplingUtils.generateDecreasingSequence;
+import static dk.jonaslindstrom.ruffini.common.util.SamplingUtils.sampleFactoredNumber;
 
 public class AlgorithmsTests {
 
@@ -142,4 +147,47 @@ public class AlgorithmsTests {
         }
     }
 
+    @Test
+    public void testBinaryGCD() {
+        Random random = new Random(1234);
+
+        int tests = 100;
+        for (int i = 0; i < tests; i++) {
+            BigInteger a = new BigInteger(16, random);
+            BigInteger b = new BigInteger(16, random);
+            BigInteger gcd = BinaryGCD.apply(a,b);
+            Assert.assertEquals(a.gcd(b), gcd);
+        }
+    }
+
+
+    @Test
+    public void countQuadraticResidues() {
+        int n = 1000001;
+        // 1000001 = 101 * 9901
+        int c = 0;
+        for (int i = 1; i < n; i++) {
+            int j = new JacobiSymbol().applyAsInt(i, n);
+        }
+    }
+
+    @Test
+    public void testDecreasingSequence() {
+        Random random = new Random(1234);
+        BigInteger upperBound = BigInteger.valueOf(100);
+        List<BigInteger> result = generateDecreasingSequence(upperBound, random);
+        System.out.println(result);
+    }
+
+    @Test
+    public void testSampleFactored() {
+        Random random = new Random(1234);
+        BigInteger upperBound = BigInteger.valueOf(100000);
+
+        for (int i = 0; i < 1000; i++) {
+            Optional<Pair<BigInteger, List<BigInteger>>> result = sampleFactoredNumber(upperBound, random);
+            result.ifPresent(System.out::println);
+        }
+
+    }
 }
