@@ -2,6 +2,7 @@ import com.google.common.collect.ImmutableSortedMap;
 import dk.jonaslindstrom.ruffini.common.helpers.PerformanceLoggingField;
 import dk.jonaslindstrom.ruffini.common.util.Pair;
 import dk.jonaslindstrom.ruffini.common.util.TestUtils;
+import dk.jonaslindstrom.ruffini.common.vector.Vector;
 import dk.jonaslindstrom.ruffini.polynomials.algorithms.*;
 import dk.jonaslindstrom.ruffini.polynomials.elements.Polynomial;
 import dk.jonaslindstrom.ruffini.polynomials.structures.PolynomialRing;
@@ -63,22 +64,20 @@ public class PolynomialTests {
 
     @Test
     public void testFFT() {
-        PerformanceLoggingField<Integer> field = new PerformanceLoggingField<>(new TestUtils.TestField(13));
+        PerformanceLoggingField<Integer> field = new PerformanceLoggingField<>(new TestUtils.TestField(17));
 
-        Polynomial<Integer> p = Polynomial.of(2, 4, 5);
-        Polynomial<Integer> q = Polynomial.of(1, 2, 3, 4);
-
-        PolynomialRing<Integer> polynomialRingFft = new PolynomialRingFFT<>(field, ImmutableSortedMap.of(3, 3, 2, 12, 6, 4, 4, 5));
-        Polynomial<Integer> actual = polynomialRingFft.multiply(p, q);
-        System.out.println("With FFT");
-        System.out.println(field);
-        field.reset();
+        Polynomial<Integer> p = Polynomial.of(1, 2);
+        Polynomial<Integer> q = Polynomial.of(4, 1, 2);
 
         PolynomialRing<Integer> polynomialRing = new PolynomialRing<>(field);
         Polynomial<Integer> expected = polynomialRing.multiply(p, q);
-        System.out.println();
-        System.out.println("Without FFT");
-        System.out.println(field);
+
+        PolynomialRingFFT<Integer> polynomialRingFft = new PolynomialRingFFT<>(field, 3, 16);
+        PolynomialRingFFT<Integer>.TransformedPolynomial pHat = polynomialRingFft.fromPolynomial(p);
+        PolynomialRingFFT<Integer>.TransformedPolynomial qHat = polynomialRingFft.fromPolynomial(q);
+        PolynomialRingFFT<Integer>.TransformedPolynomial actualHat = polynomialRingFft.multiply(pHat, qHat);
+        Polynomial<Integer> actual = polynomialRingFft.toPolynomial(actualHat);
+
         Assert.assertEquals(expected, actual);
     }
 
@@ -134,6 +133,34 @@ public class PolynomialTests {
         System.out.println(field);
 
         System.out.println(polynomialRing.add(result.second, polynomialRing.multiply(result.first, g)));
+
+    }
+
+    @Test
+    public void testFftDivision() {
+        PerformanceLoggingField<Integer> field = new PerformanceLoggingField<>(new TestUtils.TestField(17));
+
+        Polynomial<Integer> p = Polynomial.of(1, 2, 3, 4, 5);
+        Polynomial<Integer> q = Polynomial.of(2, 3, 4, 5, 1);
+
+        PolynomialRing<Integer> polynomialRing = new PolynomialRing<>(field);
+        Pair<Polynomial<Integer>, Polynomial<Integer>> expected = polynomialRing.divide(p, q);
+
+        PolynomialRingFFT<Integer> polynomialRingFft = new PolynomialRingFFT<>(field, 3, 16);
+
+        PolynomialRingFFT<Integer>.TransformedPolynomial pHat = polynomialRingFft.fromPolynomial(p);
+        PolynomialRingFFT<Integer>.TransformedPolynomial qHat = polynomialRingFft.fromPolynomial(q);
+
+        System.out.println(qHat);
+
+        Vector<Integer> actualCoefficients = pHat.getCoefficients().coordinateWise(qHat.getCoefficients(), field::divide);
+        PolynomialRingFFT<Integer>.TransformedPolynomial actualHat = polynomialRingFft.fromFourierCoefficients(actualCoefficients);
+        Polynomial<Integer> actual = polynomialRingFft.toPolynomial(actualHat);
+
+        System.out.println(polynomialRingFft.multiply(qHat, actualHat));
+
+        System.out.println(expected);
+        System.out.println(actual);
 
     }
 

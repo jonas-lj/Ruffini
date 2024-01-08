@@ -32,6 +32,10 @@ public class MathUtils {
         return 31 - Integer.numberOfLeadingZeros(n);
     }
 
+    public static int bigLog2(BigInteger n) {
+        return n.bitLength() - 1;
+    }
+
     public static int ceilLog2(int n) {
         return 32 - Integer.numberOfLeadingZeros(n - 1);
     }

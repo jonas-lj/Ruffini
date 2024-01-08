@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.math.BigInteger;
+import java.util.Random;
 
 public class QuadraticFormTests {
 
@@ -84,5 +85,18 @@ public class QuadraticFormTests {
             System.out.println(power.apply(P, i));
         }
         Assert.assertEquals(group.identity(), power.apply(P, 7));
+    }
+
+    @Test
+    public void testSampling() {
+        BigInteger d = BigInteger.valueOf(-49513019);
+        ClassGroup group = new ClassGroup(d);
+
+        Random random = new Random(1234);
+        for (int i = 0; i < 100; i++) {
+            System.out.println();
+            QuadraticForm<BigInteger, BigIntegers> x = group.sample(random);
+            System.out.println(x);
+        }
     }
 }
