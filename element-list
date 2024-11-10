@@ -20,7 +20,6 @@ dk.jonaslindstrom.ruffini.elliptic.structures.bls12381
 dk.jonaslindstrom.ruffini.elliptic.structures.bn254
 dk.jonaslindstrom.ruffini.finitefields
 dk.jonaslindstrom.ruffini.finitefields.algorithms
-dk.jonaslindstrom.ruffini.finitefields.quadraticform
 dk.jonaslindstrom.ruffini.integers
 dk.jonaslindstrom.ruffini.integers.algorithms
 dk.jonaslindstrom.ruffini.integers.algorithms.factorize
@@ -34,6 +33,7 @@ dk.jonaslindstrom.ruffini.polynomials.elements
 dk.jonaslindstrom.ruffini.polynomials.elements.recursive
 dk.jonaslindstrom.ruffini.polynomials.ordering
 dk.jonaslindstrom.ruffini.polynomials.structures
+dk.jonaslindstrom.ruffini.quadraticform
 dk.jonaslindstrom.ruffini.reals.algorithms
 dk.jonaslindstrom.ruffini.reals.elements
 dk.jonaslindstrom.ruffini.reals.structures
