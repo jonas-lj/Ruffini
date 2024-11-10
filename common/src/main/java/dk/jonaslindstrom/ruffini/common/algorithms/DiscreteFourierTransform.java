@@ -43,7 +43,7 @@ public class DiscreteFourierTransform<E> implements UnaryOperator<Vector<E>> {
             this.ring = ring;
             this.n = n;
             Power<F> power = new Power<>(ring);
-            this.powers = ArrayUtils.populate(n*n, j -> power.apply(a, j));
+            this.powers = ArrayUtils.populate(n * n, j -> power.apply(a, j));
         }
 
         @Override

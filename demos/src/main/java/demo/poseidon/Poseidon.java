@@ -2,7 +2,6 @@ package demo.poseidon;
 
 import dk.jonaslindstrom.ruffini.common.abstractions.Field;
 import dk.jonaslindstrom.ruffini.common.algorithms.Power;
-import dk.jonaslindstrom.ruffini.common.helpers.PerformanceLoggingField;
 import dk.jonaslindstrom.ruffini.common.matrices.elements.Matrix;
 import dk.jonaslindstrom.ruffini.common.vector.Vector;
 import dk.jonaslindstrom.ruffini.finitefields.BigPrimeField;
@@ -46,6 +45,7 @@ public class Poseidon {
         private final Field<E> field;
         private final Power<E> power;
         private ArrayList<E> state = new ArrayList<>();
+
         public PoseidonHash(Matrix<E> m,
                             List<E> c,
                             int fullRounds,

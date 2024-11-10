@@ -1,4 +1,3 @@
-import com.google.common.collect.ImmutableSortedMap;
 import dk.jonaslindstrom.ruffini.common.helpers.PerformanceLoggingField;
 import dk.jonaslindstrom.ruffini.common.util.Pair;
 import dk.jonaslindstrom.ruffini.common.util.TestUtils;
@@ -86,8 +85,8 @@ public class PolynomialTests {
         PerformanceLoggingField<Integer> field = new PerformanceLoggingField<>(new TestUtils.TestField(13));
         PolynomialRing<Integer> polynomialRing = new PolynomialRing<>(field);
 
-        Polynomial<Integer> p = Polynomial.of(2, 3, 4, 5, 6 );
-        Polynomial<Integer> q = Polynomial.of(1, 2, 3, 4, 7, 9, 1 );
+        Polynomial<Integer> p = Polynomial.of(2, 3, 4, 5, 6);
+        Polynomial<Integer> q = Polynomial.of(1, 2, 3, 4, 7, 9, 1);
 
         KaratsubaAlgorithm<Integer> karatsuba = new KaratsubaAlgorithm<>(polynomialRing);
         field.reset();
@@ -111,7 +110,7 @@ public class PolynomialTests {
         Polynomial<Integer> g = new Inversion<>(field).apply(f, 4);
 
         System.out.println(g);
-        System.out.println(polynomialRing.multiply(f,g));
+        System.out.println(polynomialRing.multiply(f, g));
     }
 
     @Test

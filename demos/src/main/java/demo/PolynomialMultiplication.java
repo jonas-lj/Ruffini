@@ -46,19 +46,25 @@ public class PolynomialMultiplication {
         PolynomialRing<BigInteger> polynomialRing = new PolynomialRing<>(field);
         field.reset();
         Polynomial<BigInteger> expected = polynomialRing.multiply(p, q);
+
+        System.out.println("Straight-forward multiplication");
+        System.out.println("===============================");
         System.out.println(field);
+
+        System.out.println();
 
         field.reset();
         Vector<BigInteger> pHatCoefficients = fdft.apply(pCoefficients);
-        System.out.println(field);
         Vector<BigInteger> qHatCoefficients = fdft.apply(qCoefficients);
-        System.out.println(field);
         Vector<BigInteger> sHatCoefficients = pHatCoefficients.coordinateWise(qHatCoefficients, field::multiply);
-        System.out.println(field);
         Vector<BigInteger> sCoefficients = ifdft.apply(sHatCoefficients);
+        System.out.println("With DFT");
+        System.out.println("========");
         System.out.println(field);
 
         Polynomial<BigInteger> actual = new Polynomial<>(sCoefficients, field);
+
+        // Check that the result is the same with and without using DFT
         System.out.println(actual.equals(expected));
 
 

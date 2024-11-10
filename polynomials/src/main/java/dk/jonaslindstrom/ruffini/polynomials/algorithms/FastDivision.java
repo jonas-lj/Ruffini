@@ -27,12 +27,12 @@ public class FastDivision<E> implements BiFunction<Polynomial<E>, Polynomial<E>,
         int m = a.degree() - b.degree();
 
         // Compute the inverse of b(x) mod x^{m+1}
-        Polynomial<E> bReverseInverse = new Inversion<>(ring.getRing()).apply(b.reverse(), m+1);
+        Polynomial<E> bReverseInverse = new Inversion<>(ring.getRing()).apply(b.reverse(), m + 1);
 
         Polynomial.Builder<E> builder = new Polynomial.Builder<>(ring.getRing());
         a.reverse().forEach((i, ai) -> {
             bReverseInverse.forEach((j, bj) -> {
-                if (i+j < m+1) {
+                if (i + j < m + 1) {
                     builder.addTo(i + j, ring.getRing().multiply(ai, bj));
                 }
             });

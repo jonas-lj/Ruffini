@@ -9,7 +9,6 @@ import dk.jonaslindstrom.ruffini.common.vector.Vector;
 import java.util.Objects;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
-import java.util.function.IntFunction;
 import java.util.stream.IntStream;
 
 /**

@@ -19,7 +19,7 @@ public class ConstructiveRealsDemo {
         System.out.println("Demo of constructive reals");
 
         // Number of bits of precision
-        int m = 512;
+        int m = 1024;
 
         ConstructiveReals ℝ = new ConstructiveReals();
         DotProduct<ConstructiveReal> dotProduct = new DotProduct<>(ℝ);

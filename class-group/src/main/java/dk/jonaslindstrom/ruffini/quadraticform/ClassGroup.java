@@ -1,10 +1,7 @@
-package dk.jonaslindstrom.ruffini.finitefields.quadraticform;
+package dk.jonaslindstrom.ruffini.quadraticform;
 
 import dk.jonaslindstrom.ruffini.common.abstractions.Group;
-import dk.jonaslindstrom.ruffini.common.algorithms.BigLegendreSymbol;
-import dk.jonaslindstrom.ruffini.common.algorithms.ChineseRemainderTheorem;
 import dk.jonaslindstrom.ruffini.common.util.SamplingUtils;
-import dk.jonaslindstrom.ruffini.common.vector.Vector;
 import dk.jonaslindstrom.ruffini.integers.algorithms.ModularSquareRoot;
 import dk.jonaslindstrom.ruffini.integers.structures.BigIntegers;
 
@@ -33,6 +30,11 @@ public class ClassGroup implements Group<QuadraticForm<BigInteger, BigIntegers>>
                         BigInteger.ONE,
                         k,
                         k.multiply(k).subtract(discriminant).divide(BigInteger.valueOf(4)));
+    }
+
+    private static int legendre(BigInteger a, BigInteger p) {
+        BigInteger l = a.modPow(p.subtract(BigInteger.ONE).divide(BigInteger.TWO), p);
+        return l.equals(BigInteger.ONE) ? 1 : -1;
     }
 
     @Override
@@ -106,10 +108,5 @@ public class ClassGroup implements Group<QuadraticForm<BigInteger, BigIntegers>>
         System.out.println("Reduced: " + result.isReduced());
         System.out.println("Discriminant: " + result.discriminant().equals(discriminant));
         return result.reduce();
-    }
-
-    private static int legendre(BigInteger a, BigInteger p) {
-        BigInteger l = a.modPow(p.subtract(BigInteger.ONE).divide(BigInteger.TWO), p);
-        return l.equals(BigInteger.ONE) ? 1 : -1;
     }
 }

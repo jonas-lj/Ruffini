@@ -33,7 +33,9 @@ public class PolynomialRingFFT<E> implements Ring<PolynomialRingFFT<E>.Transform
         return field;
     }
 
-    /** Transformation of x^m */
+    /**
+     * Transformation of x^m
+     */
     public TransformedPolynomial monomial(int m) {
         E am = field.power(root, m);
         List<E> coefficients = new ArrayList<>();

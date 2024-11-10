@@ -1,7 +1,5 @@
 package dk.jonaslindstrom.ruffini.common.util;
 
-import dk.jonaslindstrom.ruffini.common.algorithms.Power;
-
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;

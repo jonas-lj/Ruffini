@@ -34,9 +34,9 @@ public class BigElements<E> implements Ring<BigElement<E>> {
             carry = qr.first;
             limbs.add(qr.second);
         }
-         if (!ring.isZero(ring.zero())) {
-             limbs.add(carry);
-         }
+        if (!ring.isZero(ring.zero())) {
+            limbs.add(carry);
+        }
         return new BigElement<>(limbs);
     }
 

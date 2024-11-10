@@ -55,7 +55,7 @@ public class Constants {
         try {
             List<String> rows = getMatrixStrings(t);
             int n = t + 2;
-            return Matrix.of(n, n, (i,j) -> new BigInteger(rows.get(i * n + j)));
+            return Matrix.of(n, n, (i, j) -> new BigInteger(rows.get(i * n + j)));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -16,6 +16,7 @@
         <module>demos</module>
         <module>finite-fields</module>
         <module>parser</module>
+        <module>class-group</module>
     </modules>
 
     <properties>

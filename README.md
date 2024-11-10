@@ -95,30 +95,30 @@ concrete implementations of a vector space over a field.
 ```java
 public class GramSchmidt<V, S, F extends Field<S>> implements Function<List<V>, List<V>> {
 
-  private final VectorSpace<V, S, F> vectorSpace;
-  private final BiFunction<V, V, S> innerProduct;
+    private final VectorSpace<V, S, F> vectorSpace;
+    private final BiFunction<V, V, S> innerProduct;
 
-  public GramSchmidt(VectorSpace<V, S, F> V,
-      BiFunction<V, V, S> innerProduct) {
-    this.vectorSpace = V;
-    this.innerProduct = innerProduct;
-  }
-
-  @Override
-  public List<V> apply(List<V> vectors) {
-    List<V> U = new ArrayList<>();
-
-    Projection<V, S, F> proj = new Projection<>(vectorSpace, innerProduct);
-
-    for (V v : vectors) {
-      for (V u : U) {
-        V p = proj.apply(v, u);
-        v = vectorSpace.subtract(v, p);
-      }
-      U.add(v);
+    public GramSchmidt(VectorSpace<V, S, F> V,
+                       BiFunction<V, V, S> innerProduct) {
+        this.vectorSpace = V;
+        this.innerProduct = innerProduct;
     }
-    return U;
-  }
+
+    @Override
+    public List<V> apply(List<V> vectors) {
+        List<V> U = new ArrayList<>();
+
+        Projection<V, S, F> proj = new Projection<>(vectorSpace, innerProduct);
+
+        for (V v : vectors) {
+            for (V u : U) {
+                V p = proj.apply(v, u);
+                v = vectorSpace.subtract(v, p);
+            }
+            U.add(v);
+        }
+        return U;
+    }
 
 }
 ```
@@ -133,9 +133,11 @@ There are a few demo applications showing some capabilities of the library in th
 
 These include an implementation of
 the [AKS primality testing algorithm](https://en.wikipedia.org/wiki/AKS_primality_test),
-computing the [optimal Ate pairing over the BLS12-381 elliptic construction](https://hackmd.io/@benjaminion/bls12-381), a
+computing the [optimal Ate pairing over the BLS12-381 elliptic construction](https://hackmd.io/@benjaminion/bls12-381),
+a
 demonstration of arbitrary precision arithmetic with real numbers inspired
-by [the work of Hans-J Boehm](https://www.hboehm.info/new_crcalc/CRCalc.html) and an implementation of the [Poseidon hash function over BN254](https://www.poseidon-hash.info/).
+by [the work of Hans-J Boehm](https://www.hboehm.info/new_crcalc/CRCalc.html) and an implementation of
+the [Poseidon hash function over BN254](https://www.poseidon-hash.info/).
 
 <!-- CONTRIBUTING -->
 

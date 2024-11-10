@@ -12,12 +12,12 @@ public class TestUtils {
     public static class TestField implements Field<Integer> {
         private final Integer modulus;
 
-        private Integer reduce(int a) {
-            return Math.floorMod(a, modulus);
-        }
-
         public TestField(Integer modulus) {
             this.modulus = modulus;
+        }
+
+        private Integer reduce(int a) {
+            return Math.floorMod(a, modulus);
         }
 
         @Override

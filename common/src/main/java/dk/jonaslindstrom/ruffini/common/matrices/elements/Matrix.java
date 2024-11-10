@@ -148,6 +148,10 @@ public interface Matrix<E> extends BiFunction<Vector<E>, Ring<E>, Vector<E>> {
         return Matrix.lazy(vector.size(), 1, (i, j) -> vector.get(i));
     }
 
+    static <E> Matrix<E> diagonal(int n, IntFunction<E> populator, E zero) {
+        return Matrix.lazy(n, n, (i, j) -> i.equals(j) ? populator.apply(i) : zero);
+    }
+
     Vector<E> getColumn(int j);
 
     Vector<E> getRow(int i);
@@ -220,10 +224,6 @@ public interface Matrix<E> extends BiFunction<Vector<E>, Ring<E>, Vector<E>> {
     default Stream<E> stream() {
         return IntStream.range(0, getHeight()).boxed()
                 .flatMap(i -> IntStream.range(0, getWidth()).mapToObj(j -> get(i, j)));
-    }
-
-    static <E> Matrix<E> diagonal(int n, IntFunction<E> populator, E zero) {
-        return Matrix.lazy(n, n, (i, j) -> i.equals(j) ? populator.apply(i) : zero);
     }
 
     String toString(Function<E, String> toString);

@@ -9,7 +9,7 @@ import dk.jonaslindstrom.ruffini.integers.structures.Integers;
 import java.util.Random;
 
 /**
- * Compute the product of two 8x8 matrices using the traditional algorithm and Strassens algorithm
+ * Compute the product of two 8x8 matrices using the traditional algorithm and Strassen's algorithm
  * and compare the number of operations used for each.
  */
 public class StrassenDemo {

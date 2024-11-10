@@ -1,4 +1,4 @@
-package dk.jonaslindstrom.ruffini.finitefields.quadraticform;
+package dk.jonaslindstrom.ruffini.quadraticform;
 
 import dk.jonaslindstrom.ruffini.common.abstractions.EuclideanDomain;
 import dk.jonaslindstrom.ruffini.common.abstractions.OrderedSet;

@@ -155,7 +155,7 @@ public class AlgorithmsTests {
         for (int i = 0; i < tests; i++) {
             BigInteger a = new BigInteger(16, random);
             BigInteger b = new BigInteger(16, random);
-            BigInteger gcd = BinaryGCD.apply(a,b);
+            BigInteger gcd = BinaryGCD.apply(a, b);
             Assert.assertEquals(a.gcd(b), gcd);
         }
     }

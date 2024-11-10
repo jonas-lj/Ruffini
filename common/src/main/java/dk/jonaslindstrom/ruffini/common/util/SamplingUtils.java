@@ -1,15 +1,10 @@
 package dk.jonaslindstrom.ruffini.common.util;
 
-import org.checkerframework.checker.units.qual.A;
-
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.stream.Collectors;
-
-import static dk.jonaslindstrom.ruffini.common.util.MathUtils.bigLog2;
 
 public class SamplingUtils {
 

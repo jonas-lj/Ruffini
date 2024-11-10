@@ -51,7 +51,9 @@ public interface AdditiveGroup<E> extends CommutativeMonoid<E> {
         return add(e, e);
     }
 
-    /** Returns the sum of a list of elements. */
+    /**
+     * Returns the sum of a list of elements.
+     */
     default E sum(List<E> terms) {
         return new Sum<>(this).apply(terms);
     }

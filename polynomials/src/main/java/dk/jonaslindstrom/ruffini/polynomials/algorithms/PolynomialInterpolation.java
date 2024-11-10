@@ -39,7 +39,7 @@ public class PolynomialInterpolation<E> implements Function<List<E>, Polynomial<
         }
         return this.tree.evaluateFromLeafs(y.stream().map(Polynomial::constant).toList(),
                 (a, b) -> polynomialRing.add(
-                            polynomialRing.multiply(b.first, a.second),
-                            polynomialRing.multiply(a.first, b.second)));
+                        polynomialRing.multiply(b.first, a.second),
+                        polynomialRing.multiply(a.first, b.second)));
     }
 }

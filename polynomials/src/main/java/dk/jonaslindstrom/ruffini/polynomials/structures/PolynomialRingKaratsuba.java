@@ -1,15 +1,10 @@
 package dk.jonaslindstrom.ruffini.polynomials.structures;
 
 import dk.jonaslindstrom.ruffini.common.abstractions.Field;
-import dk.jonaslindstrom.ruffini.common.algorithms.DiscreteFourierTransform;
-import dk.jonaslindstrom.ruffini.common.algorithms.InverseDiscreteFourierTransform;
 import dk.jonaslindstrom.ruffini.common.util.Pair;
-import dk.jonaslindstrom.ruffini.common.vector.Vector;
 import dk.jonaslindstrom.ruffini.polynomials.algorithms.FastDivision;
 import dk.jonaslindstrom.ruffini.polynomials.algorithms.KaratsubaAlgorithm;
 import dk.jonaslindstrom.ruffini.polynomials.elements.Polynomial;
-
-import java.util.SortedMap;
 
 /**
  * This class implements the ring of polynomials <i>K[x]</i> over a field <i>K</i>.
